@@ -5,10 +5,9 @@ import javax.ejb.MessageDriven;
 import javax.jms.MessageListener;
 
 import org.rmt2.config.BusinessServerConstants;
+import org.rmt2.handlers.AbstractMessageDrivenBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.api.messaging.jms.handler.AbstractMessageDrivenBean;
 
 /**
  * Message-Driven Bean implementation class for: AddressBookBean
