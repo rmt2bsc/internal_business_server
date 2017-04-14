@@ -1,6 +1,5 @@
 package org.rmt2.handlers;
 
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.jms.Destination;
@@ -8,6 +7,7 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
 
+import org.rmt2.constants.ApiHeaderNames;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -133,16 +133,20 @@ public abstract class AbstractMessageDrivenBean {
         logger.info(requestMsg);
 
         // Get header data: application, module, and transaction
-        String query = JmsConstants.HEADER_BASE_XPATH_QUERY;
-        List<String> results = RMT2XmlUtility.getElementValue(
-                JmsConstants.HEADER_NODE_APPLICATION, query, requestMsg);
-        String app = results.get(0);
-        results = RMT2XmlUtility.getElementValue(
-                JmsConstants.HEADER_NODE_MODULE, query, requestMsg);
-        String module = results.get(0);
-        results = RMT2XmlUtility.getElementValue(
-                JmsConstants.HEADER_NODE_TRANSACTION, query, requestMsg);
-        String trans = results.get(0);
+        // String query = JmsConstants.HEADER_BASE_XPATH_QUERY;
+        // List<String> results = RMT2XmlUtility.getElementValue(
+        // JmsConstants.HEADER_NODE_APPLICATION, query, requestMsg);
+        // String app = results.get(0);
+        // results = RMT2XmlUtility.getElementValue(
+        // JmsConstants.HEADER_NODE_MODULE, query, requestMsg);
+        // String module = results.get(0);
+        // results = RMT2XmlUtility.getElementValue(
+        // JmsConstants.HEADER_NODE_TRANSACTION, query, requestMsg);
+        // String trans = results.get(0);
+
+        String app = RMT2XmlUtility.getElementValue(ApiHeaderNames.APPLICATION, requestMsg);
+        String module = RMT2XmlUtility.getElementValue(ApiHeaderNames.MODULE, requestMsg);
+        String trans = RMT2XmlUtility.getElementValue(ApiHeaderNames.TRANSACTION, requestMsg);
 
         // Create handler mapping key name
         String commandKey = this.createCommandKey(app, module, trans);
@@ -151,12 +155,12 @@ public abstract class AbstractMessageDrivenBean {
         ResourceBundle rb = this.getApplicationMappings(app);
 
         // Instantiate Handler class
-        MessageHandlerCommand handler = this.getCommandHandlerInstance(
+        MessageHandlerCommand apiHandler = this.getApiHandlerInstance(
                 commandKey, rb);
 
         // Invoke handler.
         try {
-            MessageHandlerResults response = handler.processMessage(
+            MessageHandlerResults response = apiHandler.processMessage(
                     commandKey.toString(), requestMsg);
             if (response != null && response.getPayload() != null) {
                 responseMsg = response.getPayload().toString();
@@ -227,7 +231,7 @@ public abstract class AbstractMessageDrivenBean {
      *            lookup the transaction details.
      * @return an instance of {@link MessageHandlerCommand}
      */
-    private MessageHandlerCommand getCommandHandlerInstance(String commandKey,
+    private MessageHandlerCommand getApiHandlerInstance(String commandKey,
             ResourceBundle config) {
         // Get handler class from mapping file
         String handlerClassName = config.getString(commandKey + ".handler");
