@@ -28,8 +28,7 @@ import com.api.messaging.webservice.WebServiceConstants;
  *
  */
 public abstract class AbstractContactMsgHandler extends AbstractMessageHandler {
-    private static final Logger logger = LoggerFactory
-            .getLogger(AbstractContactMsgHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(AbstractContactMsgHandler.class);
 
     protected ObjectFactory f;
     protected BusinessContactDto dto;
@@ -42,8 +41,7 @@ public abstract class AbstractContactMsgHandler extends AbstractMessageHandler {
     public AbstractContactMsgHandler() {
         super();
         this.f = new ObjectFactory();
-        logger.info(AbstractContactMsgHandler.class.getName()
-                + " was instantiated successfully");
+        logger.info(AbstractContactMsgHandler.class.getName() + " was instantiated successfully");
     }
 
     /*
@@ -54,16 +52,15 @@ public abstract class AbstractContactMsgHandler extends AbstractMessageHandler {
      * .lang.String, java.io.Serializable)
      */
     @Override
-    public MessageHandlerResults processMessage(String command,
-            Serializable payload) throws MessageHandlerCommandException {
+    public MessageHandlerResults processMessage(String command, Serializable payload)
+            throws MessageHandlerCommandException {
         super.processMessage(command, payload);
 
         MessageHandlerResults results = null;
 
         // Unmarshall XML String
         String data = this.getPayloadAsString();
-        AddressBookRequest req = (AddressBookRequest) this.jaxb
-                .unMarshalMessage(data);
+        AddressBookRequest req = (AddressBookRequest) this.jaxb.unMarshalMessage(data);
 
         try {
             this.validateProfile(req);
@@ -72,8 +69,7 @@ public abstract class AbstractContactMsgHandler extends AbstractMessageHandler {
 
         } catch (Exception e) {
             ReplyStatusType rs = null;
-            rs = this.createReplyStatus(1,
-                    WebServiceConstants.RETURN_STATUS_ERROR, e.getMessage());
+            rs = this.createReplyStatus(1, WebServiceConstants.RETURN_STATUS_ERROR, e.getMessage());
             AddressBookResponse resp = f.createAddressBookResponse();
             resp.setReplyStatus(rs);
             resp.setProfile(req.getProfile());
@@ -89,8 +85,7 @@ public abstract class AbstractContactMsgHandler extends AbstractMessageHandler {
      */
     protected void validdateRequest(AddressBookRequest req) {
         if (req == null) {
-            throw new InvalidRequestException(
-                    "AddressBook message request element is invalid");
+            throw new InvalidRequestException("AddressBook message request element is invalid");
         }
     }
 
@@ -100,8 +95,7 @@ public abstract class AbstractContactMsgHandler extends AbstractMessageHandler {
     protected void validateProfile(AddressBookRequest req) {
         this.validdateRequest(req);
         if (req.getProfile() == null || req.getProfile().getValue() == null) {
-            if (req.getCriteria() == null
-                    || req.getCriteria().getValue() == null) {
+            if (req.getCriteria() == null || req.getCriteria().getValue() == null) {
                 throw new InvalidRequestProfileException(
                         "AddressBook message request profile and criteria elements are invalid or null");
             }

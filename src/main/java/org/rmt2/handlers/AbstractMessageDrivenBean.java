@@ -31,8 +31,7 @@ import com.util.RMT2Utility;
  * with a ReplyTo Destination.
  */
 public abstract class AbstractMessageDrivenBean {
-    private static Logger logger = LoggerFactory
-            .getLogger(AbstractMessageDrivenBean.class);
+    private static Logger logger = LoggerFactory.getLogger(AbstractMessageDrivenBean.class);
 
     protected ResourceBundle mappings;
 
@@ -67,8 +66,7 @@ public abstract class AbstractMessageDrivenBean {
         try {
             dest = message.getJMSDestination();
         } catch (JMSException e) {
-            throw new MessageHandlerException(
-                    "Error obttaining message destination object", e);
+            throw new MessageHandlerException("Error obttaining message destination object", e);
         }
         String destName;
         this.jms = JmsClientManager.getInstance();
@@ -86,8 +84,7 @@ public abstract class AbstractMessageDrivenBean {
                 this.jms.send(message.getJMSReplyTo(), replyMsg);
             }
         } catch (JMSException e) {
-            throw new MessageHandlerException(
-                    "Error occurred evaluating the JMS Reply To destination", e);
+            throw new MessageHandlerException("Error occurred evaluating the JMS Reply To destination", e);
         } catch (Exception e) {
             throw new MessageHandlerException(
                     "Error occurred sending the response message to its JMS ReplyTo destinationevaluating the JMS Reply To destination",
@@ -125,8 +122,7 @@ public abstract class AbstractMessageDrivenBean {
             try {
                 requestMsg = ((TextMessage) message).getText();
             } catch (JMSException e) {
-                throw new MessageHandlerException(
-                        "Error occurred fetching JMS TextMessage content", e);
+                throw new MessageHandlerException("Error occurred fetching JMS TextMessage content", e);
             }
         }
         logger.info("MDB request message: ");
@@ -155,13 +151,11 @@ public abstract class AbstractMessageDrivenBean {
         ResourceBundle rb = this.getApplicationMappings(app);
 
         // Instantiate Handler class
-        MessageHandlerCommand apiHandler = this.getApiHandlerInstance(
-                commandKey, rb);
+        MessageHandlerCommand apiHandler = this.getApiHandlerInstance(commandKey, rb);
 
         // Invoke handler.
         try {
-            MessageHandlerResults response = apiHandler.processMessage(
-                    commandKey.toString(), requestMsg);
+            MessageHandlerResults response = apiHandler.processMessage(commandKey.toString(), requestMsg);
             if (response != null && response.getPayload() != null) {
                 responseMsg = response.getPayload().toString();
                 logger.info("MDB response message: ");
@@ -169,9 +163,7 @@ public abstract class AbstractMessageDrivenBean {
             }
             return response;
         } catch (MessageHandlerCommandException e) {
-            throw new RMT2RuntimeException(
-                    "Error executing message handler for command, "
-                            + commandKey.toString(), e);
+            throw new RMT2RuntimeException("Error executing message handler for command, " + commandKey.toString(), e);
         }
     }
 
@@ -194,11 +186,9 @@ public abstract class AbstractMessageDrivenBean {
      * @return the command key in the format of
      *         <i>application.module.transaction</i>.
      */
-    private String createCommandKey(String app, String module,
-            String transaction) {
+    private String createCommandKey(String app, String module, String transaction) {
         StringBuilder commandKey = new StringBuilder();
-        commandKey.append(app).append(".").append(module).append(".")
-                .append(transaction);
+        commandKey.append(app).append(".").append(module).append(".").append(transaction);
         return commandKey.toString();
     }
 
@@ -211,9 +201,7 @@ public abstract class AbstractMessageDrivenBean {
      * @return
      */
     private ResourceBundle getApplicationMappings(String app) {
-        String mappingConfig = System
-                .getProperty(JmsConstants.MSG_HANDLER_MAPPINGS_KEY)
-                + "."
+        String mappingConfig = System.getProperty(JmsConstants.MSG_HANDLER_MAPPINGS_KEY) + "."
                 + JmsConstants.HANDLER_MAPPING_CONFIG + "_" + app;
         ResourceBundle rb = RMT2File.loadAppConfigProperties(mappingConfig);
         return rb;
@@ -231,14 +219,12 @@ public abstract class AbstractMessageDrivenBean {
      *            lookup the transaction details.
      * @return an instance of {@link MessageHandlerCommand}
      */
-    private MessageHandlerCommand getApiHandlerInstance(String commandKey,
-            ResourceBundle config) {
+    private MessageHandlerCommand getApiHandlerInstance(String commandKey, ResourceBundle config) {
         // Get handler class from mapping file
         String handlerClassName = config.getString(commandKey + ".handler");
 
         // Instantiate Handler class
-        MessageHandlerCommand handler = (MessageHandlerCommand) RMT2Utility
-                .getClassInstance(handlerClassName);
+        MessageHandlerCommand handler = (MessageHandlerCommand) RMT2Utility.getClassInstance(handlerClassName);
         return handler;
     }
 }

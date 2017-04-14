@@ -32,8 +32,7 @@ import com.api.messaging.webservice.WebServiceConstants;
  *
  */
 public class BusinessContactMsgHandler extends AbstractContactMsgHandler {
-    private static final Logger logger = LoggerFactory
-            .getLogger(BusinessContactMsgHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(BusinessContactMsgHandler.class);
 
     private static final String TRANS_ADD = "contacts.business.AddBusiness";
     private static final String TRANS_UPDATE = "contacts.business.UpdateBusiness";
@@ -45,8 +44,7 @@ public class BusinessContactMsgHandler extends AbstractContactMsgHandler {
      */
     public BusinessContactMsgHandler() {
         super();
-        logger.info(BusinessContactMsgHandler.class.getName()
-                + " was instantiated successfully");
+        logger.info(BusinessContactMsgHandler.class.getName() + " was instantiated successfully");
     }
 
     /*
@@ -57,8 +55,8 @@ public class BusinessContactMsgHandler extends AbstractContactMsgHandler {
      * .lang.String, java.io.Serializable)
      */
     @Override
-    public MessageHandlerResults processMessage(String command,
-            Serializable payload) throws MessageHandlerCommandException {
+    public MessageHandlerResults processMessage(String command, Serializable payload)
+            throws MessageHandlerCommandException {
         MessageHandlerResults r = super.processMessage(command, payload);
 
         if (r != null) {
@@ -99,8 +97,7 @@ public class BusinessContactMsgHandler extends AbstractContactMsgHandler {
      * 
      */
     protected void validateBusinessContacts(AddressBookRequest req) {
-        List<BusinessType> contacts = req.getProfile().getValue()
-                .getBusinessContacts();
+        List<BusinessType> contacts = req.getProfile().getValue().getBusinessContacts();
         if (contacts == null) {
             throw new InvalidRequestBusinessContactsException(
                     "AddressBook message request business contact(s) element is invalid or null");
@@ -110,8 +107,7 @@ public class BusinessContactMsgHandler extends AbstractContactMsgHandler {
                     "AddressBook message request's Business Contacts element is valid, but does not contain a business contact record");
         }
         if (contacts.size() > 1) {
-            throw new TooManyContactsException(
-                    "Too many contacts were available for update operation");
+            throw new TooManyContactsException("Too many contacts were available for update operation");
         }
     }
 
@@ -120,8 +116,7 @@ public class BusinessContactMsgHandler extends AbstractContactMsgHandler {
      * @param req
      * @return
      */
-    protected BusinessContactCriteria getBusinessContactCriteria(
-            AddressBookRequest req) {
+    protected BusinessContactCriteria getBusinessContactCriteria(AddressBookRequest req) {
         this.validateBusinessContactCriteria(req);
         return req.getCriteria().getValue().getBusinessCriteria();
     }
@@ -154,29 +149,24 @@ public class BusinessContactMsgHandler extends AbstractContactMsgHandler {
 
         try {
             contact = this.getBusinessContactCriteria(obj);
-            dto = JaxbAddressBookFactory
-                    .createBusinessContactDtoInstance(contact);
+            dto = JaxbAddressBookFactory.createBusinessContactDtoInstance(contact);
             ContactsApiFactory cf = new ContactsApiFactory();
             ContactsApi api = cf.createApi();
             List<ContactDto> dtoList = api.getContact(dto);
             if (dtoList == null) {
                 rs.setMessage("Businsess contact records not found!");
                 ContactDetailGroup cdg = f.createContactDetailGroup();
-                JAXBElement<ContactDetailGroup> detailGrp = f
-                        .createAddressBookRequestProfile(cdg);
+                JAXBElement<ContactDetailGroup> detailGrp = f.createAddressBookRequestProfile(cdg);
                 response.setProfile(detailGrp);
             }
             else {
                 ContactsJaxbFactory cjf = new ContactsJaxbFactory();
-                List<BusinessType> jaxbList = cjf
-                        .createBusinessTypeInstance(dtoList);
+                List<BusinessType> jaxbList = cjf.createBusinessTypeInstance(dtoList);
                 ContactDetailGroup cdg = f.createContactDetailGroup();
                 cdg.getBusinessContacts().addAll(jaxbList);
-                JAXBElement<ContactDetailGroup> detailGrp = f
-                        .createAddressBookRequestProfile(cdg);
+                JAXBElement<ContactDetailGroup> detailGrp = f.createAddressBookRequestProfile(cdg);
                 response.setProfile(detailGrp);
-                rs.setMessage(dtoList.size()
-                        + " Businsess contact records found");
+                rs.setMessage(dtoList.size() + " Businsess contact records found");
             }
             response.setHeader(obj.getHeader());
             // Set reply status
@@ -186,8 +176,7 @@ public class BusinessContactMsgHandler extends AbstractContactMsgHandler {
         } catch (Exception e) {
             rs.setReturnCode(BigInteger.valueOf(1));
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
-            rs.setMessage("Failure to retrieve business contact(s): "
-                    + e.getMessage());
+            rs.setMessage("Failure to retrieve business contact(s): " + e.getMessage());
             response.setReplyStatus(rs);
         }
 
@@ -211,8 +200,7 @@ public class BusinessContactMsgHandler extends AbstractContactMsgHandler {
         ContactsApi api = null;
         try {
             contact = this.getBusinessContacts(this.request).get(0);
-            dto = JaxbAddressBookFactory
-                    .createBusinessContactDtoInstance(contact);
+            dto = JaxbAddressBookFactory.createBusinessContactDtoInstance(contact);
             ContactsApiFactory cf = new ContactsApiFactory();
             api = cf.createApi();
             int key = api.updateContact(dto);
@@ -227,8 +215,7 @@ public class BusinessContactMsgHandler extends AbstractContactMsgHandler {
         } catch (Exception e) {
             rs.setReturnCode(BigInteger.valueOf(1));
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
-            rs.setMessage("Failure to create business contact: "
-                    + e.getMessage());
+            rs.setMessage("Failure to create business contact: " + e.getMessage());
             response.setReplyStatus(rs);
         } finally {
 
@@ -250,8 +237,7 @@ public class BusinessContactMsgHandler extends AbstractContactMsgHandler {
 
         try {
             contact = this.getBusinessContacts(this.request).get(0);
-            dto = JaxbAddressBookFactory
-                    .createBusinessContactDtoInstance(contact);
+            dto = JaxbAddressBookFactory.createBusinessContactDtoInstance(contact);
 
             // Call generic operation to update business contact.
             this.updateContact(dto);
@@ -265,8 +251,7 @@ public class BusinessContactMsgHandler extends AbstractContactMsgHandler {
         } catch (Exception e) {
             rs.setReturnCode(BigInteger.valueOf(1));
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
-            rs.setMessage("Failure to update business contact: "
-                    + e.getMessage());
+            rs.setMessage("Failure to update business contact: " + e.getMessage());
             response.setReplyStatus(rs);
         }
         response.setProfile(obj.getProfile());
@@ -286,8 +271,7 @@ public class BusinessContactMsgHandler extends AbstractContactMsgHandler {
 
         try {
             contact = this.getBusinessContacts(this.request).get(0);
-            dto = JaxbAddressBookFactory
-                    .createBusinessContactDtoInstance(contact);
+            dto = JaxbAddressBookFactory.createBusinessContactDtoInstance(contact);
             ContactsApiFactory cf = new ContactsApiFactory();
             ContactsApi api = cf.createApi();
             int rc = api.deleteContact(dto);
@@ -301,8 +285,7 @@ public class BusinessContactMsgHandler extends AbstractContactMsgHandler {
         } catch (Exception e) {
             rs.setReturnCode(BigInteger.valueOf(1));
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
-            rs.setMessage("Failure to delete business contact: "
-                    + e.getMessage());
+            rs.setMessage("Failure to delete business contact: " + e.getMessage());
             response.setReplyStatus(rs);
         }
         response.setProfile(obj.getProfile());

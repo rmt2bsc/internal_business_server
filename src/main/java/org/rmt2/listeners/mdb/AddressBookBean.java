@@ -14,16 +14,12 @@ import org.slf4j.LoggerFactory;
  */
 @MessageDriven(
         activationConfig = {
-                @ActivationConfigProperty(
-                        propertyName = "destination",
+                @ActivationConfigProperty(propertyName = "destination",
                         propertyValue = BusinessServerConstants.JMS_DEST_CONTACT_QUEUE),
-                @ActivationConfigProperty(propertyName = "destinationType",
-                        propertyValue = "javax.jms.Queue") },
+                @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue") },
         mappedName = BusinessServerConstants.JMS_DEST_CONTACT_QUEUE)
-public class AddressBookBean extends AbstractMessageDrivenBean implements
-        MessageListener {
-    private static Logger logger = LoggerFactory
-            .getLogger(AddressBookBean.class);
+public class AddressBookBean extends AbstractMessageDrivenBean implements MessageListener {
+    private static Logger logger = LoggerFactory.getLogger(AddressBookBean.class);
 
     // /*
     // * (non-Javadoc)

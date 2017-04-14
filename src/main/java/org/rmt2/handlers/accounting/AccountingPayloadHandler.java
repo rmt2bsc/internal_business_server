@@ -22,16 +22,14 @@ import com.api.messaging.jms.handler.MessageHandlerCommandException;
  *
  */
 public class AccountingPayloadHandler extends AbstractMessageHandler {
-    private static final Logger logger = LoggerFactory
-            .getLogger(AccountingPayloadHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(AccountingPayloadHandler.class);
 
     /**
      * @param payload
      */
     public AccountingPayloadHandler() {
         super();
-        logger.info(AccountingPayloadHandler.class.getName()
-                + " was instantiated successfully");
+        logger.info(AccountingPayloadHandler.class.getName() + " was instantiated successfully");
     }
 
     /*
@@ -42,15 +40,14 @@ public class AccountingPayloadHandler extends AbstractMessageHandler {
      * .lang.String, java.io.Serializable)
      */
     @Override
-    public MessageHandlerResults processMessage(String command,
-            Serializable payload) throws MessageHandlerCommandException {
+    public MessageHandlerResults processMessage(String command, Serializable payload)
+            throws MessageHandlerCommandException {
         super.processMessage(command, payload);
         String data = this.getPayloadAsString();
 
         List<AccountDto> list = this.getAccount("Accounts Payable");
         MessageHandlerResults r = new MessageHandlerResults();
-        r.setPayload("GL Account description ==================> "
-                + list.get(0).getAcctDescription());
+        r.setPayload("GL Account description ==================> " + list.get(0).getAcctDescription());
         return r;
     }
 

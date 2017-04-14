@@ -21,11 +21,9 @@ import com.api.xml.jaxb.JaxbUtil;
  * @author Roy Terrell
  * 
  */
-public abstract class AbstractMessageHandler extends RMT2Base implements
-        MessageHandlerCommand {
+public abstract class AbstractMessageHandler extends RMT2Base implements MessageHandlerCommand {
 
-    private static final Logger logger = Logger
-            .getLogger(AbstractMessageHandler.class);
+    private static final Logger logger = Logger.getLogger(AbstractMessageHandler.class);
 
     protected Serializable payload;
 
@@ -42,8 +40,7 @@ public abstract class AbstractMessageHandler extends RMT2Base implements
      * 
      */
     public AbstractMessageHandler() {
-        this.jaxb = SystemConfigurator
-                .getJaxb(ConfigConstants.JAXB_CONTEXNAME_DEFAULT);
+        this.jaxb = SystemConfigurator.getJaxb(ConfigConstants.JAXB_CONTEXNAME_DEFAULT);
         this.f = new ObjectFactory();
         this.cf = new ContactsApiFactory();
         this.api = cf.createApi();
@@ -58,8 +55,8 @@ public abstract class AbstractMessageHandler extends RMT2Base implements
      * .lang.String, java.io.Serializable)
      */
     @Override
-    public MessageHandlerResults processMessage(String command,
-            Serializable payload) throws MessageHandlerCommandException {
+    public MessageHandlerResults processMessage(String command, Serializable payload)
+            throws MessageHandlerCommandException {
         this.payload = payload;
         if (this.payload instanceof Serializable) {
             logger.info("Payload is identified as a valid Serializable");
@@ -83,8 +80,7 @@ public abstract class AbstractMessageHandler extends RMT2Base implements
      * @param message
      * @return
      */
-    protected ReplyStatusType createReplyStatus(int returnCode,
-            String statusCode, String message) {
+    protected ReplyStatusType createReplyStatus(int returnCode, String statusCode, String message) {
         ReplyStatusType rs = this.f.createReplyStatusType();
         rs.setReturnCode(BigInteger.valueOf(returnCode));
         rs.setReturnStatus(statusCode);
