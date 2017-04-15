@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Message-Driven Bean implementation class for: MediaBean
+ * Message-Driven Bean implementation class for Media system
  */
 @MessageDriven(
         activationConfig = {
@@ -22,6 +22,7 @@ public class MediaBean extends AbstractMessageDrivenBean implements MessageListe
     private static Logger logger = LoggerFactory.getLogger(MediaBean.class);
 
     public MediaBean() {
+        super();
         logger.info(MediaBean.class.getSimpleName() + " was created successfully");
     }
 }

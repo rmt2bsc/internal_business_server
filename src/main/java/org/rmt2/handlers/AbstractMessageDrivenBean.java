@@ -127,19 +127,6 @@ public abstract class AbstractMessageDrivenBean {
         }
         logger.info("MDB request message: ");
         logger.info(requestMsg);
-
-        // Get header data: application, module, and transaction
-        // String query = JmsConstants.HEADER_BASE_XPATH_QUERY;
-        // List<String> results = RMT2XmlUtility.getElementValue(
-        // JmsConstants.HEADER_NODE_APPLICATION, query, requestMsg);
-        // String app = results.get(0);
-        // results = RMT2XmlUtility.getElementValue(
-        // JmsConstants.HEADER_NODE_MODULE, query, requestMsg);
-        // String module = results.get(0);
-        // results = RMT2XmlUtility.getElementValue(
-        // JmsConstants.HEADER_NODE_TRANSACTION, query, requestMsg);
-        // String trans = results.get(0);
-
         String app = RMT2XmlUtility.getElementValue(ApiHeaderNames.APPLICATION, requestMsg);
         String module = RMT2XmlUtility.getElementValue(ApiHeaderNames.MODULE, requestMsg);
         String trans = RMT2XmlUtility.getElementValue(ApiHeaderNames.TRANSACTION, requestMsg);

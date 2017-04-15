@@ -1,4 +1,4 @@
-package org.rmt2.handlers.addressbook.contacts;
+package org.rmt2.handlers.addressbook.profile;
 
 import com.RMT2RuntimeException;
 
@@ -6,21 +6,21 @@ import com.RMT2RuntimeException;
  * @author appdev
  *
  */
-public class TooManyContactsException extends RMT2RuntimeException {
+public class InvalidRequestPersonProfileException extends RMT2RuntimeException {
 
     private static final long serialVersionUID = 5215472098798504260L;
 
     /**
      * 
      */
-    public TooManyContactsException() {
+    public InvalidRequestPersonProfileException() {
         super();
     }
 
     /**
      * @param msg
      */
-    public TooManyContactsException(String msg) {
+    public InvalidRequestPersonProfileException(String msg) {
         super(msg);
     }
 
@@ -28,14 +28,14 @@ public class TooManyContactsException extends RMT2RuntimeException {
      * @param msg
      * @param e
      */
-    public TooManyContactsException(String msg, Throwable e) {
+    public InvalidRequestPersonProfileException(String msg, Throwable e) {
         super(msg, e);
     }
 
     /**
      * @param e
      */
-    public TooManyContactsException(Throwable e) {
+    public InvalidRequestPersonProfileException(Throwable e) {
         super(e);
     }
 

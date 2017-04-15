@@ -10,7 +10,7 @@
     -->
 
     <!-- JDBC Datasource resources -->
-	<Resource name="jdbc/authentication"
+<!-- 	<Resource name="jdbc/authentication"
 	          auth="Container"
 					  type="javax.sql.DataSource"
 					  driverClassName="com.sybase.jdbc3.jdbc.SybDriver"
@@ -53,7 +53,7 @@
 					  url="jdbc:sybase:Tds:localhost:2638?ServiceName=projecttracker"   
 					  username="project_user"
 					  password="hoover"
-					  maxActive="10" maxIdle="5" maxWait="10000"/>			  			  
+					  maxActive="10" maxIdle="5" maxWait="10000"/>	 -->		  			  
 
 <!-- Retired SQL Server JDBC Datasources
 	<Resource name="jdbc/contacts"

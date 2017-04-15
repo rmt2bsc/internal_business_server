@@ -1,4 +1,4 @@
-package org.rmt2.handlers.addressbook.contacts;
+package org.rmt2.handlers.addressbook.profile;
 
 import com.RMT2RuntimeException;
 
@@ -6,21 +6,21 @@ import com.RMT2RuntimeException;
  * @author appdev
  *
  */
-public class NoContactsAvailableException extends RMT2RuntimeException {
+public class NoContactProfilesAvailableException extends RMT2RuntimeException {
 
     private static final long serialVersionUID = 5215472098798504260L;
 
     /**
      * 
      */
-    public NoContactsAvailableException() {
+    public NoContactProfilesAvailableException() {
         super();
     }
 
     /**
      * @param msg
      */
-    public NoContactsAvailableException(String msg) {
+    public NoContactProfilesAvailableException(String msg) {
         super(msg);
     }
 
@@ -28,14 +28,14 @@ public class NoContactsAvailableException extends RMT2RuntimeException {
      * @param msg
      * @param e
      */
-    public NoContactsAvailableException(String msg, Throwable e) {
+    public NoContactProfilesAvailableException(String msg, Throwable e) {
         super(msg, e);
     }
 
     /**
      * @param e
      */
-    public NoContactsAvailableException(Throwable e) {
+    public NoContactProfilesAvailableException(Throwable e) {
         super(e);
     }
 

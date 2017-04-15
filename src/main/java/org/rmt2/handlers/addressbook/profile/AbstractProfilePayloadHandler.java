@@ -1,7 +1,6 @@
-package org.rmt2.handlers.addressbook.contacts;
+package org.rmt2.handlers.addressbook.profile;
 
 import java.io.Serializable;
-import java.util.List;
 
 import org.dao.contacts.ContactUpdateDaoException;
 import org.dto.BusinessContactDto;
@@ -10,11 +9,9 @@ import org.modules.contacts.ContactsApi;
 import org.modules.contacts.ContactsApiFactory;
 import org.rmt2.handlers.AbstractMessageHandler;
 import org.rmt2.handlers.InvalidRequestException;
-import org.rmt2.handlers.InvalidRequestProfileException;
 import org.rmt2.jaxb.AddressBookRequest;
 import org.rmt2.jaxb.AddressBookResponse;
 import org.rmt2.jaxb.ObjectFactory;
-import org.rmt2.jaxb.PersonType;
 import org.rmt2.jaxb.ReplyStatusType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +24,8 @@ import com.api.messaging.webservice.WebServiceConstants;
  * @author appdev
  *
  */
-public abstract class AbstractContactMsgHandler extends AbstractMessageHandler {
-    private static final Logger logger = LoggerFactory.getLogger(AbstractContactMsgHandler.class);
+public abstract class AbstractProfilePayloadHandler extends AbstractMessageHandler {
+    private static final Logger logger = LoggerFactory.getLogger(AbstractProfilePayloadHandler.class);
 
     protected ObjectFactory f;
     protected BusinessContactDto dto;
@@ -38,10 +35,10 @@ public abstract class AbstractContactMsgHandler extends AbstractMessageHandler {
     /**
      * @param payload
      */
-    public AbstractContactMsgHandler() {
+    public AbstractProfilePayloadHandler() {
         super();
         this.f = new ObjectFactory();
-        logger.info(AbstractContactMsgHandler.class.getName() + " was instantiated successfully");
+        logger.info(AbstractProfilePayloadHandler.class.getName() + " was instantiated successfully");
     }
 
     /*
@@ -63,7 +60,7 @@ public abstract class AbstractContactMsgHandler extends AbstractMessageHandler {
         AddressBookRequest req = (AddressBookRequest) this.jaxb.unMarshalMessage(data);
 
         try {
-            this.validateProfile(req);
+            // this.validateProfile(req);
             this.request = req;
             this.response = f.createAddressBookResponse();
 
@@ -92,25 +89,26 @@ public abstract class AbstractContactMsgHandler extends AbstractMessageHandler {
     /**
      * 
      */
-    protected void validateProfile(AddressBookRequest req) {
-        this.validdateRequest(req);
-        if (req.getProfile() == null || req.getProfile().getValue() == null) {
-            if (req.getCriteria() == null || req.getCriteria().getValue() == null) {
-                throw new InvalidRequestProfileException(
-                        "AddressBook message request profile and criteria elements are invalid or null");
-            }
-        }
-    }
-
-    /**
-     * 
-     */
-    protected void validatePersonContacts(AddressBookRequest req) {
-        if (req.getProfile().getValue().getPersonContacts() != null) {
-            throw new InvalidRequestPersonContactsException(
-                    "AddressBook message request person contact(s) element is invalid");
-        }
-    }
+    // protected void validateProfile(AddressBookRequest req) {
+    // this.validdateRequest(req);
+    // if (req.getProfile() == null || req.getProfile().getValue() == null) {
+    // if (req.getCriteria() == null || req.getCriteria().getValue() == null) {
+    // throw new InvalidRequestProfileException(
+    // "AddressBook message request profile and criteria elements are invalid or
+    // null");
+    // }
+    // }
+    // }
+    //
+    // /**
+    // *
+    // */
+    // protected void validatePersonContacts(AddressBookRequest req) {
+    // if (req.getProfile().getValue().getPersonContacts() != null) {
+    // throw new InvalidRequestPersonContactsException(
+    // "AddressBook message request person contact(s) element is invalid");
+    // }
+    // }
 
     /**
      * Returns the list of person contacts from the profile element.
@@ -125,10 +123,10 @@ public abstract class AbstractContactMsgHandler extends AbstractMessageHandler {
      * @throws InvalidRequestProfileException
      * @throws InvalidRequestPersonContactsException
      */
-    protected List<PersonType> getPersonContacts(AddressBookRequest req) {
-        this.validatePersonContacts(req);
-        return req.getProfile().getValue().getPersonContacts();
-    }
+    // protected List<PersonType> getPersonContacts(AddressBookRequest req) {
+    // this.validatePersonContacts(req);
+    // return req.getProfile().getValue().getPersonContacts();
+    // }
 
     /**
      * Updates a given contact by invoking the ContactsApi.

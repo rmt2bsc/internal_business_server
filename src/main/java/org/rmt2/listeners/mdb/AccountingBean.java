@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Message-Driven Bean implementation class for: AccountingBean
+ * Message-Driven Bean implementation class for the Accounting system
  */
 @MessageDriven(
         activationConfig = {
@@ -22,6 +22,7 @@ public class AccountingBean extends AbstractMessageDrivenBean implements Message
     private static Logger logger = LoggerFactory.getLogger(AccountingBean.class);
 
     public AccountingBean() {
+        super();
         logger.info(AccountingBean.class.getSimpleName() + " was created successfully");
     }
 }

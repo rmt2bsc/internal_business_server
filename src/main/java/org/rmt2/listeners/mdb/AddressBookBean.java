@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Message-Driven Bean implementation class for: AddressBookBean
+ * Message-Driven Bean implementation class for the AddressBook system
  */
 @MessageDriven(
         activationConfig = {
@@ -22,6 +22,7 @@ public class AddressBookBean extends AbstractMessageDrivenBean implements Messag
     private static Logger logger = LoggerFactory.getLogger(AddressBookBean.class);
 
     public AddressBookBean() {
+        super();
         logger.info(AddressBookBean.class.getSimpleName() + " was created successfully");
     }
 }
