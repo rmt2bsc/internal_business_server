@@ -114,6 +114,7 @@ public class BusinessProfilePayloadHandler extends AbstractProfilePayloadHandler
                 // JAXBElement<ContactDetailGroup> detailGrp =
                 // f.createAddressBookRequestProfile(cdg);
                 // response.setProfile(detailGrp);
+                response.setProfile(cdg);
                 rs.setMessage(dtoList.size() + " Businsess contact records found");
             }
             response.setHeader(obj.getHeader());
