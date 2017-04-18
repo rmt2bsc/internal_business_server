@@ -43,7 +43,7 @@
 	       <TemplatePath>\\source\\dotcom5\\aviall\\resources\\templates\\</TemplatePath> 
 	   </EmailConfig>
 	   <ConsumerMsgHandlerMappingsKey>msg_handler_reg_pkg</ConsumerMsgHandlerMappingsKey>
-	   <ConsumerMsgHandlerMappingsLocation>org.rmt2.config.transactions</ConsumerMsgHandlerMappingsLocation>
+	   <ConsumerMsgHandlerMappingsLocation>config.transactions</ConsumerMsgHandlerMappingsLocation>
 	</SystemProperties>
 	
 	<!-- ******************************************************************** -->
