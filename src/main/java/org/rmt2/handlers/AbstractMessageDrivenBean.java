@@ -59,7 +59,6 @@ public abstract class AbstractMessageDrivenBean {
      */
     public void onMessage(Message message) {
         logger.info("Entering onMessage() method");
-        String msg = null;
 
         // Identify the Destination this message came from
         Destination dest;

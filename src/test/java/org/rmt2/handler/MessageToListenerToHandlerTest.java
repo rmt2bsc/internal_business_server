@@ -1,4 +1,4 @@
-package testcases.messaging;
+package org.rmt2.handler;
 
 import javax.jms.Connection;
 import javax.jms.Destination;
