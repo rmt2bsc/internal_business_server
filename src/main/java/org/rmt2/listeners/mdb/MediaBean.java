@@ -10,19 +10,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Message-Driven Bean implementation class for the Accounting system
+ * Message-Driven Bean implementation class for Media system
  */
 @MessageDriven(
         activationConfig = {
                 @ActivationConfigProperty(propertyName = "destination",
-                        propertyValue = BusinessServerConstants.JMS_DEST_ACCOUNTING_QUEUE),
+                        propertyValue = BusinessServerConstants.JMS_DEST_MEDIA_QUEUE),
                 @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue") },
-        mappedName = BusinessServerConstants.JMS_DEST_ACCOUNTING_QUEUE)
-public class AccountingBean extends AbstractMessageDrivenBean implements MessageListener {
-    private static Logger logger = LoggerFactory.getLogger(AccountingBean.class);
+        mappedName = BusinessServerConstants.JMS_DEST_MEDIA_QUEUE)
+public class MediaBean extends AbstractMessageDrivenBean implements MessageListener {
+    private static Logger logger = LoggerFactory.getLogger(MediaBean.class);
 
-    public AccountingBean() {
+    public MediaBean() {
         super();
-        logger.info(AccountingBean.class.getSimpleName() + " was created successfully");
+        logger.info(MediaBean.class.getSimpleName() + " was created successfully");
     }
 }
