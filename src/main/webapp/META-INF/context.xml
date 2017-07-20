@@ -60,6 +60,16 @@
 					  password="hoover"
 					  maxActive="10" maxIdle="5" maxWait="10000"/>		  			  
 
+  <Resource name="jdbc/mime"
+	          auth="Container"
+					  type="javax.sql.DataSource"
+					  factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+					  driverClassName="com.sybase.jdbc3.jdbc.SybDriver"
+					  url="jdbc:sybase:Tds:localhost:2638?ServiceName=mime"   
+					  username="mime_user"
+					  password="hoover"
+					  maxActive="10" maxIdle="5" maxWait="10000"/>		 
+					   			  
 <!-- Retired SQL Server JDBC Datasources
 	<Resource name="jdbc/contacts"
 	          auth="Container"
