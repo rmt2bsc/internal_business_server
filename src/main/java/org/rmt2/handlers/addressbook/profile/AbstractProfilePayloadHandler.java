@@ -6,6 +6,7 @@ import org.dao.contacts.ContactUpdateDaoException;
 import org.dto.BusinessContactDto;
 import org.dto.ContactDto;
 import org.modules.contacts.ContactsApi;
+import org.modules.contacts.ContactsApiException;
 import org.modules.contacts.ContactsApiFactory;
 import org.rmt2.handlers.AbstractMessageHandler;
 import org.rmt2.handlers.InvalidRequestException;
@@ -145,8 +146,8 @@ public abstract class AbstractProfilePayloadHandler extends AbstractMessageHandl
             ContactsApi api = cf.createApi();
             api.updateContact(contactDto);
             return;
-        } catch (ContactUpdateDaoException e) {
-            throw e;
+        } catch (ContactsApiException e) {
+            throw new ContactUpdateDaoException(e);
         }
     }
 }
