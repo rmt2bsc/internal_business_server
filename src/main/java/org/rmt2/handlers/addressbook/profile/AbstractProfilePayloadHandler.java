@@ -2,10 +2,10 @@ package org.rmt2.handlers.addressbook.profile;
 
 import java.io.Serializable;
 
-import org.dao.contacts.ContactUpdateDaoException;
 import org.dto.BusinessContactDto;
 import org.dto.ContactDto;
 import org.modules.contacts.ContactsApi;
+import org.modules.contacts.ContactsApiException;
 import org.modules.contacts.ContactsApiFactory;
 import org.rmt2.handlers.AbstractMessageHandler;
 import org.rmt2.handlers.InvalidRequestException;
@@ -139,14 +139,10 @@ public abstract class AbstractProfilePayloadHandler extends AbstractMessageHandl
      *            business, or common.
      * @throws ContactUpdateDaoException
      */
-    protected void updateContact(ContactDto contactDto) {
-        try {
-            ContactsApiFactory cf = new ContactsApiFactory();
-            ContactsApi api = cf.createApi();
-            api.updateContact(contactDto);
-            return;
-        } catch (ContactUpdateDaoException e) {
-            throw e;
-        }
+    protected void updateContact(ContactDto contactDto) throws ContactsApiException {
+        ContactsApiFactory cf = new ContactsApiFactory();
+        ContactsApi api = cf.createApi();
+        api.updateContact(contactDto);
+        return;
     }
 }
