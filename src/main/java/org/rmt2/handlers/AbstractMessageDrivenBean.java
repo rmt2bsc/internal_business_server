@@ -115,37 +115,37 @@ public abstract class AbstractMessageDrivenBean {
      */
     protected MessageHandlerResults processMessage(Message message) {
         // For now, accept only TextMessage types
-        String requestMsg = null;
-        String responseMsg = null;
+        String requestPayload = null;
+        String responsePayload = null;
         if (message instanceof TextMessage) {
             try {
-                requestMsg = ((TextMessage) message).getText();
+                requestPayload = ((TextMessage) message).getText();
             } catch (JMSException e) {
                 throw new MessageHandlerException("Error occurred fetching JMS TextMessage content", e);
             }
         }
         logger.info("MDB request message: ");
-        logger.info(requestMsg);
-        String app = RMT2XmlUtility.getElementValue(ApiHeaderNames.APPLICATION, requestMsg);
-        String module = RMT2XmlUtility.getElementValue(ApiHeaderNames.MODULE, requestMsg);
-        String trans = RMT2XmlUtility.getElementValue(ApiHeaderNames.TRANSACTION, requestMsg);
+        logger.info(requestPayload);
+        String app = RMT2XmlUtility.getElementValue(ApiHeaderNames.APPLICATION, requestPayload);
+        String module = RMT2XmlUtility.getElementValue(ApiHeaderNames.MODULE, requestPayload);
+        String trans = RMT2XmlUtility.getElementValue(ApiHeaderNames.TRANSACTION, requestPayload);
 
         // Create handler mapping key name
         String commandKey = this.createCommandKey(app, module, trans);
 
         // Load handler mappings based on application name.
-        ResourceBundle rb = this.getApplicationMappings(app);
+        ResourceBundle handlerMapping = this.getApplicationMappings(app);
 
         // Instantiate Handler class
-        MessageHandlerCommand apiHandler = this.getApiHandlerInstance(commandKey, rb);
+        MessageHandlerCommand apiHandler = this.getApiHandlerInstance(commandKey, handlerMapping);
 
         // Invoke handler.
         try {
-            MessageHandlerResults response = apiHandler.processMessage(commandKey.toString(), requestMsg);
+            MessageHandlerResults response = apiHandler.processMessage(commandKey.toString(), requestPayload);
             if (response != null && response.getPayload() != null) {
-                responseMsg = response.getPayload().toString();
+                responsePayload = response.getPayload().toString();
                 logger.info("MDB response message: ");
-                logger.info(responseMsg);
+                logger.info(responsePayload);
             }
             return response;
         } catch (MessageHandlerCommandException e) {
