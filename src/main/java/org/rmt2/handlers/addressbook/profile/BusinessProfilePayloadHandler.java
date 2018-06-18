@@ -102,7 +102,6 @@ public class BusinessProfilePayloadHandler extends
         MessageHandlerResults results = new MessageHandlerResults();
         ObjectFactory f = new ObjectFactory();
         ReplyStatusType rs = f.createReplyStatusType();
-//        AddressBookResponse response = f.createAddressBookResponse();
         BusinessContactDto dto = null;
         BusinessContactCriteria contact = null;
         ContactDetailGroup cdg = f.createContactDetailGroup();
@@ -115,32 +114,21 @@ public class BusinessProfilePayloadHandler extends
             List<ContactDto> dtoList = api.getContact(dto);
             if (dtoList == null) {
                 rs.setMessage("Businsess contact records not found!");
-//                ContactDetailGroup cdg = f.createContactDetailGroup();
-                // JAXBElement<ContactDetailGroup> detailGrp =
-                // f.createAddressBookRequestProfile(cdg);
-                // response.setProfile(detailGrp);
             }
             else {
                 ContactsJaxbFactory cjf = new ContactsJaxbFactory();
                 List<BusinessType> jaxbList = cjf.createBusinessTypeInstance(dtoList);
-//                ContactDetailGroup cdg = f.createContactDetailGroup();
                 cdg.getBusinessContacts().addAll(jaxbList);
-                // JAXBElement<ContactDetailGroup> detailGrp =
-                // f.createAddressBookRequestProfile(cdg);
-                // response.setProfile(detailGrp);
-//                response.setProfile(cdg);
                 rs.setMessage(dtoList.size() + " Businsess contact records found");
             }
             this.responseObj.setHeader(obj.getHeader());
             // Set reply status
             rs.setReturnCode(BigInteger.valueOf(0));
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
-//            response.setReplyStatus(rs);
         } catch (Exception e) {
             rs.setReturnCode(BigInteger.valueOf(1));
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
             rs.setMessage("Failure to retrieve business contact(s): " + e.getMessage());
-//            response.setReplyStatus(rs);
         }
         String xml = this.buildResponse(cdg, rs);
         results.setPayload(xml);
