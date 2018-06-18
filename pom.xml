@@ -8,7 +8,7 @@
 	<name>internal-api-server</name>
 	<description>Server that hosts the various business domain API's</description>
 	<properties>
-		<ExternalDependencyLibPath>lib</ExternalDependencyLibPath>
+		<SystemDependencyPath>lib</SystemDependencyPath>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -82,7 +82,7 @@
 			        <failOnMissingWebXml>true</failOnMissingWebXml>
 			        <webResources>
 			            <resource>
-			               <directory>${basedir}/${ExternalDependencyLibPath}</directory>
+			               <directory>${basedir}/${SystemDependencyPath}</directory>
 			               <targetPath>WEB-INF/lib</targetPath>
 			            </resource>
 			        </webResources>
