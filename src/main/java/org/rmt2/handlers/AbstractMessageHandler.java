@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.math.BigInteger;
 
 import org.apache.log4j.Logger;
-import org.modules.contacts.ContactsApi;
-import org.modules.contacts.ContactsApiFactory;
 import org.rmt2.jaxb.ObjectFactory;
 import org.rmt2.jaxb.ReplyStatusType;
 
@@ -15,13 +13,18 @@ import com.api.config.SystemConfigurator;
 import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.jms.handler.MessageHandlerCommand;
 import com.api.messaging.jms.handler.MessageHandlerCommandException;
+import com.api.messaging.webservice.WebServiceConstants;
 import com.api.xml.jaxb.JaxbUtil;
 
 /**
- * @author Roy Terrell
  * 
+ * @author roy.terrell
+ *
+ * @param <T1> The request type to process
+ * @param <T2> The response type to process
+ * @param <P> The Payload type to process
  */
-public abstract class AbstractMessageHandler extends RMT2Base implements MessageHandlerCommand {
+public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base implements MessageHandlerCommand<T1, T2, P> {
 
     private static final Logger logger = Logger.getLogger(AbstractMessageHandler.class);
 
@@ -29,21 +32,18 @@ public abstract class AbstractMessageHandler extends RMT2Base implements Message
 
     protected JaxbUtil jaxb;
 
-    protected ObjectFactory f;
+    protected ObjectFactory jaxbObjFactory;
 
-    protected ContactsApiFactory cf;
-    protected ContactsApi api;
-
-    // protected ReplyStatusType rs;
+    protected T1 requestObj;
+    
+    protected T2 responseObj;
 
     /**
      * 
      */
     public AbstractMessageHandler() {
         this.jaxb = SystemConfigurator.getJaxb(ConfigConstants.JAXB_CONTEXNAME_DEFAULT);
-        this.f = new ObjectFactory();
-        this.cf = new ContactsApiFactory();
-        this.api = cf.createApi();
+        this.jaxbObjFactory = new ObjectFactory();
         return;
     }
 
@@ -55,14 +55,43 @@ public abstract class AbstractMessageHandler extends RMT2Base implements Message
      * .lang.String, java.io.Serializable)
      */
     @Override
-    public MessageHandlerResults processMessage(String command, Serializable payload)
-            throws MessageHandlerCommandException {
+    public MessageHandlerResults processMessage(String command, Serializable payload) throws MessageHandlerCommandException {
         this.payload = payload;
         if (this.payload instanceof Serializable) {
             logger.info("Payload is identified as a valid Serializable");
         }
-        return null;
+        
+        MessageHandlerResults results = null;
+
+        // Unmarshall XML String
+        String data = this.getPayloadAsString();
+        this.requestObj = (T1) this.jaxb.unMarshalMessage(data);
+        
+        try {
+            this.validdateRequest(this.requestObj);
+        } catch (Exception e) {
+            ReplyStatusType rs = this.createReplyStatus(1, WebServiceConstants.RETURN_STATUS_ERROR, e.getMessage());
+            String xml = this.buildResponse(null,rs);
+            results = new MessageHandlerResults();
+            results.setPayload(xml);
+        }
+        
+        return results;
     }
+    
+    /**
+     * 
+     * @param req
+     */
+    protected abstract void validdateRequest(T1 req) throws InvalidRequestException;
+    
+    /**
+     * 
+     * @param payload
+     * @param replyStatus
+     * @return
+     */
+    protected abstract String buildResponse(P payload, ReplyStatusType replyStatus);
 
     /**
      * Return payload as a String.
@@ -81,7 +110,7 @@ public abstract class AbstractMessageHandler extends RMT2Base implements Message
      * @return
      */
     protected ReplyStatusType createReplyStatus(int returnCode, String statusCode, String message) {
-        ReplyStatusType rs = this.f.createReplyStatusType();
+        ReplyStatusType rs = this.jaxbObjFactory.createReplyStatusType();
         rs.setReturnCode(BigInteger.valueOf(returnCode));
         rs.setReturnStatus(statusCode);
         rs.setMessage(message);
