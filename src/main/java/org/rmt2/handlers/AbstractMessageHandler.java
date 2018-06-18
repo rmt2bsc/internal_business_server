@@ -64,16 +64,16 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
         MessageHandlerResults results = null;
 
         // Unmarshall XML String
-        String data = this.getPayloadAsString();
-        this.requestObj = (T1) this.jaxb.unMarshalMessage(data);
+        String reqXml = this.getPayloadAsString();
+        this.requestObj = (T1) this.jaxb.unMarshalMessage(reqXml);
         
         try {
             this.validdateRequest(this.requestObj);
         } catch (Exception e) {
             ReplyStatusType rs = this.createReplyStatus(1, WebServiceConstants.RETURN_STATUS_ERROR, e.getMessage());
-            String xml = this.buildResponse(null,rs);
+            String respXml = this.buildResponse(null,rs);
             results = new MessageHandlerResults();
-            results.setPayload(xml);
+            results.setPayload(respXml);
         }
         
         return results;

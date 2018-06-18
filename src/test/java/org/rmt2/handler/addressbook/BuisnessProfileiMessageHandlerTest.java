@@ -1,6 +1,6 @@
 package org.rmt2.handler.addressbook;
 
-import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
@@ -26,6 +26,7 @@ import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.handlers.addressbook.profile.BusinessProfilePayloadHandler;
 
 import com.api.messaging.jms.JmsClientManager;
+import com.util.RMT2File;
 
 /**
  * @author appdev
@@ -33,14 +34,12 @@ import com.api.messaging.jms.JmsClientManager;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ BusinessProfilePayloadHandler.class, JmsClientManager.class })
-public class BuisnessProfileiMessageHandlerTest extends
-        BaseMockMessageDrivenBeanTest {
+public class BuisnessProfileiMessageHandlerTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "Test-AddressBook-Queue";
     private ContactsApiFactory mockContactsApiFactory;
     private ContactsApi mockApi;
-    private String mockSingleProfileRequest;
-    private List<ContactDto> mockSinglePRofileResponse;
+    private List<ContactDto> mockSingleContactDtoResponse;
 
 
 
@@ -68,8 +67,7 @@ public class BuisnessProfileiMessageHandlerTest extends
             e.printStackTrace();
         }
         when(this.mockContactsApiFactory.createApi()).thenReturn(this.mockApi);
-        this.mockSingleProfileRequest = this.createSingleProfileRequestData();
-        this.mockSinglePRofileResponse = this.createcreateSingleProfileResponseData();
+        this.mockSingleContactDtoResponse = this.createMockSingleContactDtoResponseData();
         return;
     }
 
@@ -83,30 +81,8 @@ public class BuisnessProfileiMessageHandlerTest extends
         return;
     }
 
-    private String createSingleProfileRequestData() {
-        StringBuilder r = new StringBuilder();
-        r.append("<AddressBookRequest>");
-        r.append("  <header>");
-        r.append("    <routing>JMS: addressbook-p2p-dest</routing>");
-        r.append("    <application>addressbook</application>");
-        r.append("    <module>profile</module>");
-        r.append("    <transaction>GET_BUSINESS_CONTACT</transaction>");
-        r.append("    <delivery_mode>SYNC</delivery_mode>");
-        r.append("    <message_mode>REQUEST</message_mode>");
-        r.append("    <delivery_date>2017-04-16 02:01:12</delivery_date>");
-        r.append("</header>");
-        r.append("<criteria>");
-        r.append("    <business_criteria>");
-        r.append("        <contact_id>1351</contact_id>");
-        r.append("       <entity_type xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:nil=\"true\"/>");
-        r.append("        <service_type xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:nil=\"true\"/>");
-        r.append("    </business_criteria>");
-        r.append(" </criteria>");
-        r.append("</AddressBookRequest>");
-        return r.toString();
-    }
 
-    private List<ContactDto> createcreateSingleProfileResponseData() {
+    private List<ContactDto> createMockSingleContactDtoResponseData() {
         Business bus = new Business();
         Address addr = new Address();
 
@@ -126,9 +102,10 @@ public class BuisnessProfileiMessageHandlerTest extends
 
     @Test
     public void fetchSingleBusinessContact() {
-        this.setupMocks(DESTINATION, this.mockSingleProfileRequest);
+        String request  = RMT2File.getFileContentsAsString("BusinessContactSimpleSearchRequest.xml");
+        this.setupMocks(DESTINATION, request);
         try {
-            when(this.mockApi.getContact(any(ContactDto.class))).thenReturn(this.mockSinglePRofileResponse);
+            when(this.mockApi.getContact(isA(ContactDto.class))).thenReturn(this.mockSingleContactDtoResponse);
         } catch (ContactsApiException e) {
 
         }
