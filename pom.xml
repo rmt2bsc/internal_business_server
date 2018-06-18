@@ -8,7 +8,7 @@
 	<name>internal-api-server</name>
 	<description>Server that hosts the various business domain API's</description>
 	<properties>
-		<JConnectLibPath>lib</JConnectLibPath>
+		<ExternalDependencyLibPath>lib</ExternalDependencyLibPath>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -36,13 +36,6 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.8.0</version>
-		</dependency>
-		<dependency>
-			<groupId>jdbc.driver.lib</groupId>
-			<artifactId>sybase-jconnect</artifactId>
-			<version>3.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/${JConnectLibPath}/jconn3.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -78,6 +71,22 @@
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
+			</plugin>
+
+      <!-- plugin is responsible for copying all non-maven external jars to WEB-INF/lib directory (jconn3.jar) -->			
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-war-plugin</artifactId>
+			    <version>3.2.0</version>
+			    <configuration>
+			        <failOnMissingWebXml>true</failOnMissingWebXml>
+			        <webResources>
+			            <resource>
+			               <directory>${basedir}/${ExternalDependencyLibPath}</directory>
+			               <targetPath>WEB-INF/lib</targetPath>
+			            </resource>
+			        </webResources>
+			    </configuration>
 			</plugin>
 		</plugins>
 		<extensions>
