@@ -30,7 +30,7 @@ import com.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ BusinessProfilePayloadHandler.class, JmsClientManager.class })
-public class BuisnessProfileiMessageHandlerTest extends BaseMockMessageDrivenBeanTest {
+public class BuisnessProfileMessageHandlerTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "Test-AddressBook-Queue";
     private ContactsApiFactory mockContactsApiFactory;
@@ -40,7 +40,7 @@ public class BuisnessProfileiMessageHandlerTest extends BaseMockMessageDrivenBea
     /**
      * 
      */
-    public BuisnessProfileiMessageHandlerTest() {
+    public BuisnessProfileMessageHandlerTest() {
         // TODO Auto-generated constructor stub
     }
 
