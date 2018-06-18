@@ -4,14 +4,9 @@ import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.dao.mapping.orm.rmt2.Address;
-import org.dao.mapping.orm.rmt2.Business;
-import org.dto.BusinessContactDto;
 import org.dto.ContactDto;
-import org.dto.adapter.orm.Rmt2AddressBookDtoFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +18,7 @@ import org.modules.contacts.ContactsApiFactory;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
+import org.rmt2.ContactMockData;
 import org.rmt2.handlers.addressbook.profile.BusinessProfilePayloadHandler;
 
 import com.api.messaging.jms.JmsClientManager;
@@ -39,8 +35,6 @@ public class BuisnessProfileiMessageHandlerTest extends BaseMockMessageDrivenBea
     private static final String DESTINATION = "Test-AddressBook-Queue";
     private ContactsApiFactory mockContactsApiFactory;
     private ContactsApi mockApi;
-    private List<ContactDto> mockSingleContactDtoResponse;
-
 
 
     /**
@@ -67,7 +61,6 @@ public class BuisnessProfileiMessageHandlerTest extends BaseMockMessageDrivenBea
             e.printStackTrace();
         }
         when(this.mockContactsApiFactory.createApi()).thenReturn(this.mockApi);
-        this.mockSingleContactDtoResponse = this.createMockSingleContactDtoResponseData();
         return;
     }
 
@@ -81,31 +74,13 @@ public class BuisnessProfileiMessageHandlerTest extends BaseMockMessageDrivenBea
         return;
     }
 
-
-    private List<ContactDto> createMockSingleContactDtoResponseData() {
-        Business bus = new Business();
-        Address addr = new Address();
-
-        bus.setBusinessId(1351);
-        bus.setLongname("Ticket Master");
-
-        addr.setAddrId(2258);
-        addr.setBusinessId(1351);
-        addr.setPhoneMain("2143738000");
-
-        BusinessContactDto busDto = Rmt2AddressBookDtoFactory.getBusinessInstance(bus, addr);
-
-        List<ContactDto> list = new ArrayList<ContactDto>();
-        list.add(busDto);
-        return list;
-    }
-
     @Test
     public void fetchSingleBusinessContact() {
         String request  = RMT2File.getFileContentsAsString("BusinessContactSimpleSearchRequest.xml");
+        List<ContactDto> mockSingleContactDtoResponse = ContactMockData.createMockSingleContactDtoResponseData();
         this.setupMocks(DESTINATION, request);
         try {
-            when(this.mockApi.getContact(isA(ContactDto.class))).thenReturn(this.mockSingleContactDtoResponse);
+            when(this.mockApi.getContact(isA(ContactDto.class))).thenReturn(mockSingleContactDtoResponse);
         } catch (ContactsApiException e) {
 
         }
