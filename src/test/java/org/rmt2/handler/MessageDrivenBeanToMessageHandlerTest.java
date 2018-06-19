@@ -20,7 +20,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.ContactMockData;
-import org.rmt2.handlers.addressbook.profile.BusinessProfilePayloadHandler;
+import org.rmt2.handlers.addressbook.profile.BusinessContactApiHandler;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.util.RMT2File;
@@ -32,7 +32,7 @@ import com.util.RMT2File;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ BusinessProfilePayloadHandler.class, JmsClientManager.class })
+@PrepareForTest({ BusinessContactApiHandler.class, JmsClientManager.class })
 public class MessageDrivenBeanToMessageHandlerTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "Test-AddressBook-Queue";
@@ -44,7 +44,6 @@ public class MessageDrivenBeanToMessageHandlerTest extends BaseMockMessageDriven
      * 
      */
     public MessageDrivenBeanToMessageHandlerTest() {
-        // TODO Auto-generated constructor stub
     }
 
     /*
@@ -92,6 +91,7 @@ public class MessageDrivenBeanToMessageHandlerTest extends BaseMockMessageDriven
             this.startTest();    
         }
         catch (Exception e) {
+            e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
         }
         
