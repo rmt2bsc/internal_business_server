@@ -3,8 +3,6 @@ package org.rmt2;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dao.mapping.orm.rmt2.Address;
-import org.dao.mapping.orm.rmt2.Business;
 import org.dao.mapping.orm.rmt2.VwBusinessAddress;
 import org.dao.mapping.orm.rmt2.Zipcode;
 import org.dto.BusinessContactDto;
@@ -22,19 +20,25 @@ public class ContactMockData {
      * @return
      */
     public static final List<ContactDto> createMockSingleContactDtoResponseData() {
-        Business bus = new Business();
-        Address addr = new Address();
-
-        bus.setBusinessId(1351);
-        bus.setLongname("Ticket Master");
-
-        addr.setAddrId(2258);
-        addr.setBusinessId(1351);
-        addr.setPhoneMain("2143738000");
-
-        BusinessContactDto busDto = Rmt2AddressBookDtoFactory.getBusinessInstance(bus, addr);
-
         List<ContactDto> list = new ArrayList<ContactDto>();
+        VwBusinessAddress bus = new VwBusinessAddress();
+        bus.setBusinessId(1351);
+        bus.setBusLongname("Business Name 1");
+        bus.setBusContactFirstname("john");
+        bus.setBusContactLastname("smith");
+        bus.setContactEmail("john.smith@gte.net");
+        bus.setBusContactPhone("9999999999");
+        bus.setAddrId(2258);
+        bus.setBusinessId(1351);
+        bus.setAddr1("address 1");
+        bus.setAddr1("address 2");
+        bus.setAddr1("address 3");
+        bus.setAddr1("address 4");
+        bus.setZipCity("dallas");
+        bus.setZipState("Tx");
+        bus.setAddrZip(75232);
+        bus.setAddrPhoneMain("2143738000");
+        BusinessContactDto busDto = Rmt2AddressBookDtoFactory.getBusinessInstance(bus);
         list.add(busDto);
         return list;
     }
@@ -43,7 +47,6 @@ public class ContactMockData {
         List<ContactDto> list = new ArrayList<ContactDto>();
         
         VwBusinessAddress bus = new VwBusinessAddress();
-
         bus.setBusinessId(1351);
         bus.setBusLongname("Business Name 1");
         bus.setBusContactFirstname("john");
