@@ -12,9 +12,6 @@
    <criteria>
       <business_criteria>
          <contact_id>1351</contact_id>
-         <entity_type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
-         <service_type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
       </business_criteria>
    </criteria>
 </AddressBookRequest>
-
