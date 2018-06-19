@@ -73,8 +73,6 @@ public class BusinessProfilePayloadHandler extends
             // This means an error occurred.
             return r;
         }
-
-        
         switch (command) {
             case BusinessProfilePayloadHandler.TRANS_ADD:
                 // r = this.addBusinessContact(this.request);
