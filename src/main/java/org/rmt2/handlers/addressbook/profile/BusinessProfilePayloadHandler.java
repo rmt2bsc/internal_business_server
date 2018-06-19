@@ -11,6 +11,7 @@ import org.dto.converter.jaxb.ContactsJaxbFactory;
 import org.modules.contacts.ContactsApi;
 import org.modules.contacts.ContactsApiException;
 import org.modules.contacts.ContactsApiFactory;
+import org.rmt2.constants.ApiTransactionCodes;
 import org.rmt2.handlers.AbstractMessageHandler;
 import org.rmt2.handlers.InvalidRequestException;
 import org.rmt2.jaxb.AddressBookRequest;
@@ -18,7 +19,6 @@ import org.rmt2.jaxb.AddressBookResponse;
 import org.rmt2.jaxb.BusinessContactCriteria;
 import org.rmt2.jaxb.BusinessType;
 import org.rmt2.jaxb.ContactDetailGroup;
-import org.rmt2.jaxb.ObjectFactory;
 import org.rmt2.jaxb.ReplyStatusType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +27,8 @@ import com.InvalidDataException;
 import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.jms.handler.MessageHandlerCommandException;
 import com.api.messaging.webservice.WebServiceConstants;
+import com.util.assistants.Verifier;
+import com.util.assistants.VerifyException;
 
 /**
  * 
@@ -35,15 +37,8 @@ import com.api.messaging.webservice.WebServiceConstants;
  */
 public class BusinessProfilePayloadHandler extends
         AbstractMessageHandler<AddressBookRequest, AddressBookResponse, ContactDetailGroup> {
-    private static final Logger logger = LoggerFactory.getLogger(BusinessProfilePayloadHandler.class);
-
-    public static final String TRANS_ADD = "addressbook.profile.ADD_BUSINESS_CONTACT";
-    public static final String TRANS_UPDATE = "addressbook.profile.UPDATE_BUSINESS_CONTACT";
-    public static final String TRANS_DELETE = "addressbook.profile.DELETE_BUSINESS_CONTACT";
-    public static final String TRANS_FETCH_ALL = "addressbook.profile.GET_ALL_BUSINESS_CONTACTS";
-    public static final String TRANS_FETCH_ONE = "addressbook.profile.GET_BUSINESS_CONTACT";
-    public static final String TRANS_FETCH_CRITERIA = "addressbook.profile.GET_BUSINESS_CONTACTS_USING_CRITERIA";
     
+    private static final Logger logger = LoggerFactory.getLogger(BusinessProfilePayloadHandler.class);
     protected ContactsApiFactory cf;
     protected ContactsApi api;
 
@@ -74,23 +69,14 @@ public class BusinessProfilePayloadHandler extends
             return r;
         }
         switch (command) {
-            case BusinessProfilePayloadHandler.TRANS_ADD:
-                // r = this.addBusinessContact(this.request);
-                break;
-            case BusinessProfilePayloadHandler.TRANS_UPDATE:
+            case ApiTransactionCodes.CONTACTS_BUSINESS_UPDATE:
                  r = this.updateBusinessContact(this.requestObj);
                 break;
-            case BusinessProfilePayloadHandler.TRANS_DELETE:
+            case ApiTransactionCodes.CONTACTS_BUSINESS_DELETE:
                 // r = this.deleteBusinessContact(this.request);
                 break;
-            case BusinessProfilePayloadHandler.TRANS_FETCH_ONE:
+            case ApiTransactionCodes.CONTACTS_BUSINESS_GET:
                 r = this.fetchBusinessContact(this.requestObj);
-                break;
-            case BusinessProfilePayloadHandler.TRANS_FETCH_ALL:
-                // r = this.fetchBusinessContact(this.request);
-                break;
-            case BusinessProfilePayloadHandler.TRANS_FETCH_CRITERIA:
-                 r = this.fetchBusinessContact(this.requestObj);
                 break;
         }
         return r;
@@ -98,26 +84,23 @@ public class BusinessProfilePayloadHandler extends
 
     protected MessageHandlerResults fetchBusinessContact(AddressBookRequest obj) {
         MessageHandlerResults results = new MessageHandlerResults();
-        ObjectFactory f = new ObjectFactory();
-        ReplyStatusType rs = f.createReplyStatusType();
-        BusinessContactDto dto = null;
-        BusinessContactCriteria contact = null;
-        ContactDetailGroup cdg = f.createContactDetailGroup();
+        ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
+        BusinessContactDto criteriaDto = null;
+        ContactDetailGroup cdg = jaxbObjFactory.createContactDetailGroup();
 
         try {
-            contact = this.getBusinessContactCriteria(obj);
-            dto = JaxbAddressBookFactory.createBusinessContactDtoInstance(contact);
+            criteriaDto = this.extractBusinessContactCriteria(obj);
             ContactsApiFactory cf = new ContactsApiFactory();
             ContactsApi api = cf.createApi();
-            List<ContactDto> dtoList = api.getContact(dto);
+            List<ContactDto> dtoList = api.getContact(criteriaDto);
             if (dtoList == null) {
-                rs.setMessage("Businsess contact records not found!");
+                rs.setMessage("Businsess contact data not found!");
             }
             else {
                 ContactsJaxbFactory cjf = new ContactsJaxbFactory();
                 List<BusinessType> jaxbList = cjf.createBusinessTypeInstance(dtoList);
                 cdg.getBusinessContacts().addAll(jaxbList);
-                rs.setMessage(dtoList.size() + " Businsess contact records found");
+                rs.setMessage(dtoList.size() + " Businsess contact record(s) found");
             }
             this.responseObj.setHeader(obj.getHeader());
             // Set reply status
@@ -138,11 +121,20 @@ public class BusinessProfilePayloadHandler extends
      * @param req
      * @return
      */
-    protected BusinessContactCriteria getBusinessContactCriteria(AddressBookRequest req) {
+    private BusinessContactDto extractBusinessContactCriteria(AddressBookRequest req) {
         this.validateBusinessContactCriteria(req);
-        return req.getCriteria().getBusinessCriteria();
+        BusinessContactCriteria bcc = req.getCriteria().getBusinessCriteria();
+        BusinessContactDto dto = JaxbAddressBookFactory.createBusinessContactDtoInstance(bcc);
+        return dto;
     }
 
+    private BusinessContactDto extractBusinessContact(AddressBookRequest req) {
+        this.validateBusinessContacts(req);
+        BusinessType contact = req.getProfile().getBusinessContacts().get(0);
+        BusinessContactDto dto = JaxbAddressBookFactory.createBusinessContactDtoInstance(contact);
+        return dto;
+    }
+    
     /**
      * Updates a given contact by invoking the ContactsApi.
      * <p>
@@ -156,28 +148,60 @@ public class BusinessProfilePayloadHandler extends
     protected MessageHandlerResults updateBusinessContact(AddressBookRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
         ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
-        ContactDto contactDto = null;
+        ContactDetailGroup cdg = null;
+        BusinessContactDto contactDto = null;
+        contactDto = this.extractBusinessContact(req);
+        boolean newContact = (contactDto.getContactId() == 0);
         ContactsApiFactory cf = new ContactsApiFactory();
         ContactsApi api = cf.createApi();
+        int rc = 0;
         try {
-            api.updateContact(contactDto);
+            // call api
+            rc = api.updateContact(contactDto);
+            
+            // prepare response with updated contact data
+            ContactsJaxbFactory cjf = new ContactsJaxbFactory();
+            BusinessType busType = cjf.createBusinessTypeInstance(contactDto);
+            cdg = jaxbObjFactory.createContactDetailGroup();
+            cdg.getBusinessContacts().add(busType);
+            
+            // Return code is either the total number of rows updated or the business id of the contact created
+            rs.setReturnCode(BigInteger.valueOf(rc));
+            rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
+            if (newContact) {
+                rs.setMessage("Business contact was created successfully");
+                rs.setExtMessage("The new business contact id is " + rc);
+            }
+            else {
+                rs.setMessage("Business contact was modified successfully");
+                rs.setExtMessage("Total number of rows modified: " + rc);
+            }
         } catch (ContactsApiException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            rs.setReturnCode(BigInteger.valueOf(-1));
+            rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
+            rs.setMessage("Failure to update " + (newContact ? "new " : "existing ")  + " business contact");
+            rs.setExtMessage(e.getMessage());
+            cdg = req.getProfile();
         }
         
-        String xml = this.buildResponse(null, rs);
+        String xml = this.buildResponse(cdg, rs);
         results.setPayload(xml);
         return results;
     }
     
     protected void validateBusinessContactCriteria(AddressBookRequest req) {
-        if (req.getCriteria() == null || req.getCriteria().getBusinessCriteria() == null) {
+        try {
+            Verifier.verifyNotNull(req.getCriteria());
+        }
+        catch (VerifyException e) {
             throw new InvalidRequestBusinessProfileCriteriaException(
                     "AddressBook message request business contact criteria group element is invalid or null");
         }
-        BusinessContactCriteria criteria = req.getCriteria().getBusinessCriteria();
-        if (criteria == null) {
+
+        try {
+            Verifier.verifyNotNull(req.getCriteria().getBusinessCriteria());
+        }
+        catch (VerifyException e) {
             throw new InvalidRequestBusinessProfileCriteriaException(
                     "AddressBook message request business contact criteria element is null");
         }
@@ -185,7 +209,10 @@ public class BusinessProfilePayloadHandler extends
     
     @Override
     protected void validdateRequest(AddressBookRequest req) throws InvalidDataException {
-        if (req == null) {
+        try {
+            Verifier.verifyNotNull(req);
+        }
+        catch (VerifyException e) {
             throw new InvalidRequestException("AddressBook message request element is invalid");
         }
     }
@@ -207,21 +234,31 @@ public class BusinessProfilePayloadHandler extends
     
     
     /**
-     *
+     * Validates the request's business contacts.
      */
     protected void validateBusinessContacts(AddressBookRequest req) {
         List<BusinessType> contacts = req.getProfile().getBusinessContacts();
-        if (contacts == null) {
+        try {
+            Verifier.verifyNotNull(contacts);
+        }
+        catch (VerifyException e) {
             throw new InvalidRequestBusinessProfileException(
                     "AddressBook message request business contact(s) element is invalid or null");
         }
-        if (contacts.size() == 0) {
+        
+        try {
+            Verifier.verifyFalse(contacts.size() == 0);
+        }
+        catch (VerifyException e) {
             throw new NoContactProfilesAvailableException(
                     "AddressBook message request's Business Contacts element is valid, but does not contain a business contact record");
         }
-        if (contacts.size() > 1) {
-            throw new TooManyContactProfilesException(
-                    "Too many contacts were available for update operation");
+
+        try {
+            Verifier.verifyFalse(contacts.size() > 1);
+        }
+        catch (VerifyException e) {
+            throw new TooManyContactProfilesException("Too many contacts were available for update operation");
         }
     }
     
