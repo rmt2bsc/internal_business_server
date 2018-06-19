@@ -23,8 +23,6 @@ import org.rmt2.ContactMockData;
 import org.rmt2.handlers.addressbook.profile.BusinessProfilePayloadHandler;
 import org.rmt2.jaxb.AddressBookResponse;
 
-import com.api.config.ConfigConstants;
-import com.api.config.SystemConfigurator;
 import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.jms.JmsClientManager;
 import com.api.messaging.jms.handler.MessageHandlerCommandException;
@@ -104,7 +102,7 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
         Assert.assertNotNull(results);
         Assert.assertNotNull(results.getPayload());
         
-        JaxbUtil jaxb = SystemConfigurator.getJaxb(ConfigConstants.JAXB_CONTEXNAME_DEFAULT);
+        JaxbUtil jaxb = this.getJaxbContext();
         AddressBookResponse expectedResponse = (AddressBookResponse) jaxb
                 .unMarshalMessage(expectedResponseXml);
         AddressBookResponse actualRepsonse = (AddressBookResponse) jaxb

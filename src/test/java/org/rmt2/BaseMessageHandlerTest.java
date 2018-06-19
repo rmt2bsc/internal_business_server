@@ -3,7 +3,9 @@ package org.rmt2;
 import org.junit.Before;
 import org.rmt2.handlers.AbstractMessageDrivenBean;
 
+import com.api.config.ConfigConstants;
 import com.api.config.SystemConfigurator;
+import com.api.xml.jaxb.JaxbUtil;
 import com.util.RMT2File;
 
 /**
@@ -25,6 +27,10 @@ public class BaseMessageHandlerTest extends AbstractMessageDrivenBean {
         APP_CONFIG_FILENAME = curDir + "/src/test/resources/config/TestAppServerConfig.xml";
         SystemConfigurator appConfig = new SystemConfigurator();
         appConfig.start(APP_CONFIG_FILENAME);
+    }
+    
+    protected JaxbUtil getJaxbContext() {
+        return SystemConfigurator.getJaxb(ConfigConstants.JAXB_CONTEXNAME_DEFAULT);
     }
 
 }
