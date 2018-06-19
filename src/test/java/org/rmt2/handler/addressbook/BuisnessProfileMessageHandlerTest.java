@@ -20,13 +20,13 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMessageHandlerTest;
 import org.rmt2.ContactMockData;
+import org.rmt2.constants.ApiTransactionCodes;
 import org.rmt2.handlers.addressbook.profile.BusinessProfilePayloadHandler;
 import org.rmt2.jaxb.AddressBookResponse;
 
 import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.jms.JmsClientManager;
 import com.api.messaging.jms.handler.MessageHandlerCommandException;
-import com.api.xml.jaxb.JaxbUtil;
 import com.util.RMT2File;
 
 /**
@@ -94,7 +94,7 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
         MessageHandlerResults results = null;
         BusinessProfilePayloadHandler handler = new BusinessProfilePayloadHandler();
         try {
-            results = handler.processMessage(BusinessProfilePayloadHandler.TRANS_FETCH_ONE, request);
+            results = handler.processMessage(ApiTransactionCodes.CONTACTS_BUSINESS_GET, request);
         } catch (MessageHandlerCommandException e) {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
@@ -102,13 +102,11 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
         Assert.assertNotNull(results);
         Assert.assertNotNull(results.getPayload());
         
-        JaxbUtil jaxb = this.getJaxbContext();
-        AddressBookResponse expectedResponse = (AddressBookResponse) jaxb
-                .unMarshalMessage(expectedResponseXml);
-        AddressBookResponse actualRepsonse = (AddressBookResponse) jaxb
-                .unMarshalMessage(results.getPayload().toString());
-        Assert.assertEquals(
-                expectedResponse.getProfile().getBusinessContacts().get(0).getContactEmail(),
+        AddressBookResponse expectedResponse = 
+                (AddressBookResponse) jaxb.unMarshalMessage(expectedResponseXml);
+        AddressBookResponse actualRepsonse = 
+                (AddressBookResponse) jaxb.unMarshalMessage(results.getPayload().toString());
+        Assert.assertEquals(expectedResponse.getProfile().getBusinessContacts().get(0).getContactEmail(),
                 actualRepsonse.getProfile().getBusinessContacts().get(0).getContactEmail());
         
     }
