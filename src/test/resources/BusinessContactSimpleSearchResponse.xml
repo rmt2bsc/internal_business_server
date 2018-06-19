@@ -10,16 +10,30 @@
     </header>
     <reply_status>
         <return_status>SUCCESS</return_status>
-        <message>1 Businsess contact records found</message>
-        <return_code>0</return_code>
+        <message>Businsess contact record(s) found</message>
+        <return_code>1</return_code>
     </reply_status>
     <profile>
         <business_contacts>
             <business_id>1351</business_id>
-            <long_name>Ticket Master</long_name>
+            <long_name>Business Name 1</long_name>
+            <contact_firstname>john</contact_firstname>
+            <contact_lastname>smith</contact_lastname>
+            <contact_phone>9999999999</contact_phone>
+            <contact_email>john.smith@gte.net</contact_email>
             <address>
                 <addr_id>2258</addr_id>
                 <business_id>1351</business_id>
+                <addr1>address 4</addr1>
+                <zip>
+                    <zip_id>75232</zip_id>
+                    <zipcode>75232</zipcode>
+                    <city>Dallas</city>
+                    <state>Tx</state>
+                    <areaCode>214</areaCode>
+                    <cityAliasName>Dallas_Alias</cityAliasName>
+                    <countyName>Dallas</countyName>
+                </zip>
                 <zip_ext>0</zip_ext>
                 <phone_main>2143738000</phone_main>
             </address>
