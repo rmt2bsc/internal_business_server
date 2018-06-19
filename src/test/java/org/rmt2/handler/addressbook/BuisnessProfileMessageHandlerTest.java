@@ -69,6 +69,13 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
             e.printStackTrace();
         }
         when(this.mockContactsApiFactory.createApi()).thenReturn(this.mockApi);
+        
+        PowerMockito.mockStatic(PostalApiFactory.class);
+        PostalApi mockPostalApi = Mockito.mock(PostalApi.class);
+        ZipcodeDto mockZipcodeDto = ContactMockData.createZipcodeOrm(75232, 75232, "Tx", "Dallas", "214", "Dallas", 6);
+        when(PostalApiFactory.createApi()).thenReturn(mockPostalApi);
+        when(mockPostalApi.getZipCode(isA(Integer.class))).thenReturn(mockZipcodeDto);
+        
         return;
     }
 
@@ -83,7 +90,7 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
     }
 
     @Test
-    public void testSuccess_FetchSingleBusinessContact() throws Exception {
+    public void testSuccess_FetchSingleBusinessContact() {
         String request = RMT2File.getFileContentsAsString("BusinessContactSimpleSearchRequest.xml");
         String expectedResponseXml = RMT2File.getFileContentsAsString("BusinessContactSimpleSearchResponse.xml");
         List<ContactDto> mockSingleContactDtoResponse = ContactMockData.createMockSingleContactDtoResponseData();
@@ -94,12 +101,6 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
             Assert.fail("Unable to setup mock stub for fetching a business contact");
         }
         
-        PowerMockito.mockStatic(PostalApiFactory.class);
-        PostalApi mockPostalApi = Mockito.mock(PostalApi.class);
-        ZipcodeDto mockZipcodeDto = ContactMockData.createZipcodeOrm(75232, 75232, "Tx", "Dallas", "214", "Dallas", 6);
-        when(PostalApiFactory.createApi()).thenReturn(mockPostalApi);
-        when(mockPostalApi.getZipCode(isA(Integer.class))).thenReturn(mockZipcodeDto);
-
         MessageHandlerResults results = null;
         BusinessContactApiHandler handler = new BusinessContactApiHandler();
         try {
@@ -122,7 +123,7 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
     
     
     @Test
-    public void testSuccess_FetchBusinessContactList() throws Exception {
+    public void testSuccess_FetchBusinessContactList() {
         String request = RMT2File.getFileContentsAsString("BusinessContactComplexSearchRequest.xml");
         String expectedResponseXml = RMT2File.getFileContentsAsString("BusinessContactSimpleSearchResponse.xml");
         List<ContactDto> mockContactDtoListResponse = ContactMockData.createMockContactDtoResponseListData();
@@ -133,12 +134,6 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
             Assert.fail("Unable to setup mock stub for fetching a list of business contacts");
         }
         
-        PowerMockito.mockStatic(PostalApiFactory.class);
-        PostalApi mockPostalApi = Mockito.mock(PostalApi.class);
-        ZipcodeDto mockZipcodeDto = ContactMockData.createZipcodeOrm(75232, 75232, "Tx", "Dallas", "214", "Dallas", 6);
-        when(PostalApiFactory.createApi()).thenReturn(mockPostalApi);
-        when(mockPostalApi.getZipCode(isA(Integer.class))).thenReturn(mockZipcodeDto);
-
         MessageHandlerResults results = null;
         BusinessContactApiHandler handler = new BusinessContactApiHandler();
         try {
@@ -154,6 +149,7 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
                 (AddressBookResponse) jaxb.unMarshalMessage(expectedResponseXml);
         AddressBookResponse actualRepsonse = 
                 (AddressBookResponse) jaxb.unMarshalMessage(results.getPayload().toString());
+        Assert.assertEquals(3, actualRepsonse.getProfile().getBusinessContacts().size());
         Assert.assertEquals(expectedResponse.getProfile().getBusinessContacts().get(0).getContactEmail(),
                 actualRepsonse.getProfile().getBusinessContacts().get(0).getContactEmail());
         
