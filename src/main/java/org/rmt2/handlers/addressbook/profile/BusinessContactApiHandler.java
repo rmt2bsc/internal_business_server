@@ -95,21 +95,24 @@ public class BusinessContactApiHandler extends
             List<ContactDto> dtoList = api.getContact(criteriaDto);
             if (dtoList == null) {
                 rs.setMessage("Businsess contact data not found!");
+                rs.setReturnCode(BigInteger.valueOf(0));
             }
             else {
                 ContactsJaxbFactory cjf = new ContactsJaxbFactory();
                 List<BusinessType> jaxbList = cjf.createBusinessTypeInstance(dtoList);
                 cdg.getBusinessContacts().addAll(jaxbList);
-                rs.setMessage(dtoList.size() + " Businsess contact record(s) found");
+                rs.setMessage("Businsess contact record(s) found");
+                rs.setReturnCode(BigInteger.valueOf(dtoList.size()));
             }
             this.responseObj.setHeader(obj.getHeader());
             // Set reply status
-            rs.setReturnCode(BigInteger.valueOf(0));
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
         } catch (Exception e) {
-            rs.setReturnCode(BigInteger.valueOf(1));
+            rs.setReturnCode(BigInteger.valueOf(-1));
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
-            rs.setMessage("Failure to retrieve business contact(s): " + e.getMessage());
+            rs.setMessage("Failure to retrieve business contact(s)");
+            rs.setExtMessage(e.getMessage());
+            cdg = null;
         }
         String xml = this.buildResponse(cdg, rs);
         results.setPayload(xml);
