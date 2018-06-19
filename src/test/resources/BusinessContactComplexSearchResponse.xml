@@ -1,0 +1,90 @@
+<AddressBookResponse>
+    <header>
+        <routing>JMS: addressbook-p2p-dest</routing>
+        <application>addressbook</application>
+        <module>profile</module>
+        <transaction>GET_BUSINESS_CONTACT</transaction>
+        <delivery_mode>SYNC</delivery_mode>
+        <message_mode>REQUEST</message_mode>
+        <delivery_date>2017-04-16 02:01:12</delivery_date>
+    </header>
+    <reply_status>
+        <return_status>SUCCESS</return_status>
+        <message>Businsess contact record(s) found</message>
+        <return_code>3</return_code>
+    </reply_status>
+    <profile>
+        <business_contacts>
+            <business_id>1351</business_id>
+            <long_name>Business Name 1</long_name>
+            <contact_firstname>john</contact_firstname>
+            <contact_lastname>smith</contact_lastname>
+            <contact_phone>9999999999</contact_phone>
+            <contact_email>john.smith@gte.net</contact_email>
+            <address>
+                <addr_id>2258</addr_id>
+                <business_id>1351</business_id>
+                <addr1>address 4</addr1>
+                <zip>
+                    <zip_id>75232</zip_id>
+                    <zipcode>75232</zipcode>
+                    <city>Dallas</city>
+                    <state>Tx</state>
+                    <areaCode>214</areaCode>
+                    <cityAliasName>Dallas_Alias</cityAliasName>
+                    <countyName>Dallas</countyName>
+                </zip>
+                <zip_ext>0</zip_ext>
+                <phone_main>2143738000</phone_main>
+            </address>
+        </business_contacts>
+        <business_contacts>
+            <business_id>1351</business_id>
+            <long_name>Business Name 2</long_name>
+            <contact_firstname>frank</contact_firstname>
+            <contact_lastname>good</contact_lastname>
+            <contact_phone>9999999999</contact_phone>
+            <contact_email>frank.good@gte.net</contact_email>
+            <address>
+                <addr_id>2258</addr_id>
+                <business_id>1351</business_id>
+                <addr1>address 4</addr1>
+                <zip>
+                    <zip_id>75232</zip_id>
+                    <zipcode>75232</zipcode>
+                    <city>Dallas</city>
+                    <state>Tx</state>
+                    <areaCode>214</areaCode>
+                    <cityAliasName>Dallas_Alias</cityAliasName>
+                    <countyName>Dallas</countyName>
+                </zip>
+                <zip_ext>0</zip_ext>
+                <phone_main>2143738000</phone_main>
+            </address>
+        </business_contacts>
+        <business_contacts>
+            <business_id>1351</business_id>
+            <long_name>Business Name 3</long_name>
+            <contact_firstname>steve</contact_firstname>
+            <contact_lastname>gadd</contact_lastname>
+            <contact_phone>9999999999</contact_phone>
+            <contact_email>steve.gadd@gte.net</contact_email>
+            <address>
+                <addr_id>2258</addr_id>
+                <business_id>1351</business_id>
+                <addr1>address 4</addr1>
+                <zip>
+                    <zip_id>75232</zip_id>
+                    <zipcode>75232</zipcode>
+                    <city>Dallas</city>
+                    <state>Tx</state>
+                    <areaCode>214</areaCode>
+                    <cityAliasName>Dallas_Alias</cityAliasName>
+                    <countyName>Dallas</countyName>
+                </zip>
+                <zip_ext>0</zip_ext>
+                <phone_main>2143738000</phone_main>
+            </address>
+        </business_contacts>
+    </profile>
+</AddressBookResponse>
