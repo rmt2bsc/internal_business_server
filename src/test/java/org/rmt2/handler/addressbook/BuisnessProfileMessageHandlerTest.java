@@ -21,7 +21,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMessageHandlerTest;
 import org.rmt2.ContactMockData;
 import org.rmt2.constants.ApiTransactionCodes;
-import org.rmt2.handlers.addressbook.profile.BusinessProfilePayloadHandler;
+import org.rmt2.handlers.addressbook.profile.BusinessContactApiHandler;
 import org.rmt2.jaxb.AddressBookResponse;
 
 import com.api.messaging.handler.MessageHandlerResults;
@@ -34,7 +34,7 @@ import com.util.RMT2File;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ BusinessProfilePayloadHandler.class, JmsClientManager.class })
+@PrepareForTest({ BusinessContactApiHandler.class, JmsClientManager.class })
 public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
 
 //    private static final String DESTINATION = "Test-AddressBook-Queue";
@@ -92,7 +92,7 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
         }
 
         MessageHandlerResults results = null;
-        BusinessProfilePayloadHandler handler = new BusinessProfilePayloadHandler();
+        BusinessContactApiHandler handler = new BusinessContactApiHandler();
         try {
             results = handler.processMessage(ApiTransactionCodes.CONTACTS_BUSINESS_GET, request);
         } catch (MessageHandlerCommandException e) {

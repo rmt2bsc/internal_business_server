@@ -35,22 +35,22 @@ import com.util.assistants.VerifyException;
  * @author roy.terrell
  *
  */
-public class BusinessProfilePayloadHandler extends
-        AbstractMessageHandler<AddressBookRequest, AddressBookResponse, ContactDetailGroup> {
+public class BusinessContactApiHandler extends 
+                  AbstractMessageHandler<AddressBookRequest, AddressBookResponse, ContactDetailGroup> {
     
-    private static final Logger logger = LoggerFactory.getLogger(BusinessProfilePayloadHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(BusinessContactApiHandler.class);
     protected ContactsApiFactory cf;
     protected ContactsApi api;
 
     /**
      * @param payload
      */
-    public BusinessProfilePayloadHandler() {
+    public BusinessContactApiHandler() {
         super();
         this.responseObj = jaxbObjFactory.createAddressBookResponse();
         this.cf = new ContactsApiFactory();
         this.api = cf.createApi();
-        logger.info(BusinessProfilePayloadHandler.class.getName() + " was instantiated successfully");
+        logger.info(BusinessContactApiHandler.class.getName() + " was instantiated successfully");
     }
 
     /*
@@ -115,25 +115,6 @@ public class BusinessProfilePayloadHandler extends
         results.setPayload(xml);
         return results;
     }
-
-    /**
-     *
-     * @param req
-     * @return
-     */
-    private BusinessContactDto extractBusinessContactCriteria(AddressBookRequest req) {
-        this.validateBusinessContactCriteria(req);
-        BusinessContactCriteria bcc = req.getCriteria().getBusinessCriteria();
-        BusinessContactDto dto = JaxbAddressBookFactory.createBusinessContactDtoInstance(bcc);
-        return dto;
-    }
-
-    private BusinessContactDto extractBusinessContact(AddressBookRequest req) {
-        this.validateBusinessContacts(req);
-        BusinessType contact = req.getProfile().getBusinessContacts().get(0);
-        BusinessContactDto dto = JaxbAddressBookFactory.createBusinessContactDtoInstance(contact);
-        return dto;
-    }
     
     /**
      * Updates a given contact by invoking the ContactsApi.
@@ -189,6 +170,25 @@ public class BusinessProfilePayloadHandler extends
         return results;
     }
     
+    /**
+    *
+    * @param req
+    * @return
+    */
+   private BusinessContactDto extractBusinessContactCriteria(AddressBookRequest req) {
+       this.validateBusinessContactCriteria(req);
+       BusinessContactCriteria bcc = req.getCriteria().getBusinessCriteria();
+       BusinessContactDto dto = JaxbAddressBookFactory.createBusinessContactDtoInstance(bcc);
+       return dto;
+   }
+
+   private BusinessContactDto extractBusinessContact(AddressBookRequest req) {
+       this.validateBusinessContacts(req);
+       BusinessType contact = req.getProfile().getBusinessContacts().get(0);
+       BusinessContactDto dto = JaxbAddressBookFactory.createBusinessContactDtoInstance(contact);
+       return dto;
+   }
+   
     protected void validateBusinessContactCriteria(AddressBookRequest req) {
         try {
             Verifier.verifyNotNull(req.getCriteria());
@@ -206,32 +206,6 @@ public class BusinessProfilePayloadHandler extends
                     "AddressBook message request business contact criteria element is null");
         }
     }
-    
-    @Override
-    protected void validdateRequest(AddressBookRequest req) throws InvalidDataException {
-        try {
-            Verifier.verifyNotNull(req);
-        }
-        catch (VerifyException e) {
-            throw new InvalidRequestException("AddressBook message request element is invalid");
-        }
-    }
-
-    @Override
-    protected String buildResponse(ContactDetailGroup payload,  ReplyStatusType replyStatus) {
-        if (replyStatus != null) {
-            this.responseObj.setReplyStatus(replyStatus);    
-        }
-        
-        if (payload != null) {
-            this.responseObj.setProfile((ContactDetailGroup) payload);
-        }
-        
-        String xml = this.jaxb.marshalMessage(this.responseObj);
-        return xml;
-    }
-    
-    
     
     /**
      * Validates the request's business contacts.
@@ -262,6 +236,27 @@ public class BusinessProfilePayloadHandler extends
         }
     }
     
+    @Override
+    protected void validdateRequest(AddressBookRequest req) throws InvalidDataException {
+        try {
+            Verifier.verifyNotNull(req);
+        }
+        catch (VerifyException e) {
+            throw new InvalidRequestException("AddressBook message request element is invalid");
+        }
+    }
 
-    
+    @Override
+    protected String buildResponse(ContactDetailGroup payload,  ReplyStatusType replyStatus) {
+        if (replyStatus != null) {
+            this.responseObj.setReplyStatus(replyStatus);    
+        }
+        
+        if (payload != null) {
+            this.responseObj.setProfile((ContactDetailGroup) payload);
+        }
+        
+        String xml = this.jaxb.marshalMessage(this.responseObj);
+        return xml;
+    }
 }
