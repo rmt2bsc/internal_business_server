@@ -141,7 +141,7 @@ public abstract class AbstractMessageDrivenBean {
 
         // Invoke handler.
         try {
-            MessageHandlerResults response = apiHandler.processMessage(commandKey.toString(), requestPayload);
+            MessageHandlerResults response = apiHandler.processMessage(commandKey, requestPayload);
             if (response != null && response.getPayload() != null) {
                 responsePayload = response.getPayload().toString();
                 logger.info("MDB response message: ");

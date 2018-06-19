@@ -1,0 +1,28 @@
+<AddressBookResponse>
+    <header>
+        <routing>JMS: addressbook-p2p-dest</routing>
+        <application>addressbook</application>
+        <module>profile</module>
+        <transaction>GET_BUSINESS_CONTACT</transaction>
+        <delivery_mode>SYNC</delivery_mode>
+        <message_mode>REQUEST</message_mode>
+        <delivery_date>2017-04-16 02:01:12</delivery_date>
+    </header>
+    <reply_status>
+        <return_status>SUCCESS</return_status>
+        <message>1 Businsess contact records found</message>
+        <return_code>0</return_code>
+    </reply_status>
+    <profile>
+        <business_contacts>
+            <business_id>1351</business_id>
+            <long_name>Ticket Master</long_name>
+            <address>
+                <addr_id>2258</addr_id>
+                <business_id>1351</business_id>
+                <zip_ext>0</zip_ext>
+                <phone_main>2143738000</phone_main>
+            </address>
+        </business_contacts>
+    </profile>
+</AddressBookResponse>

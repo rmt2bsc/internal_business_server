@@ -37,12 +37,12 @@ public class BusinessProfilePayloadHandler extends
         AbstractMessageHandler<AddressBookRequest, AddressBookResponse, ContactDetailGroup> {
     private static final Logger logger = LoggerFactory.getLogger(BusinessProfilePayloadHandler.class);
 
-    private static final String TRANS_ADD = "addressbook.profile.ADD_BUSINESS_CONTACT";
-    private static final String TRANS_UPDATE = "addressbook.profile.UPDATE_BUSINESS_CONTACT";
-    private static final String TRANS_DELETE = "addressbook.profile.DELETE_BUSINESS_CONTACT";
-    private static final String TRANS_FETCH_ALL = "addressbook.profile.GET_ALL_BUSINESS_CONTACTS";
-    private static final String TRANS_FETCH_ONE = "addressbook.profile.GET_BUSINESS_CONTACT";
-    private static final String TRANS_FETCH_CRITERIA = "addressbook.profile.GET_BUSINESS_CONTACTS_USING_CRITERIA";
+    public static final String TRANS_ADD = "addressbook.profile.ADD_BUSINESS_CONTACT";
+    public static final String TRANS_UPDATE = "addressbook.profile.UPDATE_BUSINESS_CONTACT";
+    public static final String TRANS_DELETE = "addressbook.profile.DELETE_BUSINESS_CONTACT";
+    public static final String TRANS_FETCH_ALL = "addressbook.profile.GET_ALL_BUSINESS_CONTACTS";
+    public static final String TRANS_FETCH_ONE = "addressbook.profile.GET_BUSINESS_CONTACT";
+    public static final String TRANS_FETCH_CRITERIA = "addressbook.profile.GET_BUSINESS_CONTACTS_USING_CRITERIA";
     
     protected ContactsApiFactory cf;
     protected ContactsApi api;
