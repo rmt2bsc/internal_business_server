@@ -69,12 +69,14 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
         // Unmarshall XML String
         String reqXml = this.getPayloadAsString();
         this.requestObj = (T1) this.jaxb.unMarshalMessage(reqXml);
-        try {
-            String printXml = RMT2XmlUtility.prettyPrint(reqXml);
-            logger.debug(printXml);
-        } catch (TransformerException e1) {
-            logger.debug(reqXml);
-            e1.printStackTrace();
+        if (logger.isDebugEnabled()) {
+            try {
+                String printXml = RMT2XmlUtility.prettyPrint(reqXml);
+                logger.debug(printXml);
+            } catch (TransformerException e1) {
+                logger.debug(reqXml);
+                e1.printStackTrace();
+            }
         }
         
         try {
@@ -85,12 +87,14 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
             results = new MessageHandlerResults();
             results.setPayload(respXml);
 
-            try {
-                String printXml = RMT2XmlUtility.prettyPrint(respXml);
-                logger.debug(printXml);
-            } catch (TransformerException e1) {
-                logger.debug(reqXml);
-                e1.printStackTrace();
+            if (logger.isDebugEnabled()) {
+                try {
+                    String printXml = RMT2XmlUtility.prettyPrint(respXml);
+                    logger.debug(printXml);
+                } catch (TransformerException e1) {
+                    logger.debug(reqXml);
+                    e1.printStackTrace();
+                }
             }
         }
         
