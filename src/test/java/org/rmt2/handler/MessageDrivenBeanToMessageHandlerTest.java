@@ -78,7 +78,7 @@ public class MessageDrivenBeanToMessageHandlerTest extends BaseMockMessageDriven
 
     @Test
     public void fetchSingleBusinessContact() {
-        String request  = RMT2File.getFileContentsAsString("BusinessContactSimpleSearchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactSimpleSearchRequest.xml");
         List<ContactDto> mockSingleContactDtoResponse = ContactMockData.createMockSingleContactDtoResponseData();
         this.setupMocks(DESTINATION, request);
         try {
