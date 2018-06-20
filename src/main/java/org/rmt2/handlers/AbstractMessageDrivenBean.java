@@ -6,6 +6,7 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
+import javax.xml.transform.TransformerException;
 
 import org.rmt2.constants.ApiHeaderNames;
 import org.slf4j.Logger;
@@ -124,8 +125,15 @@ public abstract class AbstractMessageDrivenBean {
                 throw new MessageHandlerException("Error occurred fetching JMS TextMessage content", e);
             }
         }
-        logger.info("MDB request message: ");
-        logger.info(requestPayload);
+        try {
+            String printXml = RMT2XmlUtility.prettyPrint(requestPayload);
+            logger.info("MDB request message: ");
+            logger.info(printXml);
+        } catch (TransformerException e1) {
+            logger.info(requestPayload);
+            logger.warn("Unable to print request XML in pretty format", e1);
+        }
+
         String app = RMT2XmlUtility.getElementValue(ApiHeaderNames.APPLICATION, requestPayload);
         String module = RMT2XmlUtility.getElementValue(ApiHeaderNames.MODULE, requestPayload);
         String trans = RMT2XmlUtility.getElementValue(ApiHeaderNames.TRANSACTION, requestPayload);
@@ -144,8 +152,14 @@ public abstract class AbstractMessageDrivenBean {
             MessageHandlerResults response = apiHandler.processMessage(trans, requestPayload);
             if (response != null && response.getPayload() != null) {
                 responsePayload = response.getPayload().toString();
-                logger.info("MDB response message: ");
-                logger.info(responsePayload);
+                try {
+                    String printXml = RMT2XmlUtility.prettyPrint(responsePayload);
+                    logger.info("MDB response message: ");
+                    logger.info(printXml);
+                } catch (TransformerException e1) {
+                    logger.info(responsePayload);
+                    logger.warn("Unable to print response XML in pretty format", e1);
+                }
             }
             return response;
         } catch (MessageHandlerCommandException e) {
