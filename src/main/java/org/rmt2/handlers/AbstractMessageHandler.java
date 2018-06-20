@@ -71,9 +71,9 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
         this.requestObj = (T1) this.jaxb.unMarshalMessage(reqXml);
         try {
             String printXml = RMT2XmlUtility.prettyPrint(reqXml);
-            logger.info(printXml);
+            logger.debug(printXml);
         } catch (TransformerException e1) {
-            logger.info(reqXml);
+            logger.debug(reqXml);
             e1.printStackTrace();
         }
         
@@ -87,9 +87,9 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
 
             try {
                 String printXml = RMT2XmlUtility.prettyPrint(respXml);
-                logger.info(printXml);
+                logger.debug(printXml);
             } catch (TransformerException e1) {
-                logger.info(reqXml);
+                logger.debug(reqXml);
                 e1.printStackTrace();
             }
         }
