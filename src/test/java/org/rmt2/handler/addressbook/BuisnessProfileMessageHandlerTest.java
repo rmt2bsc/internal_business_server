@@ -91,8 +91,8 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
 
     @Test
     public void testSuccess_FetchSingleBusinessContact() {
-        String request = RMT2File.getFileContentsAsString("BusinessContactSimpleSearchRequest.xml");
-        String expectedResponseXml = RMT2File.getFileContentsAsString("BusinessContactSimpleSearchResponse.xml");
+        String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactSimpleSearchRequest.xml");
+        String expectedResponseXml = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactSimpleSearchResponse.xml");
         List<ContactDto> mockSingleContactDtoResponse = ContactMockData.createMockSingleContactDtoResponseData();
 
         try {
@@ -128,8 +128,8 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
     
     @Test
     public void testSuccess_FetchBusinessContactList() {
-        String request = RMT2File.getFileContentsAsString("BusinessContactComplexSearchRequest.xml");
-        String expectedResponseXml = RMT2File.getFileContentsAsString("BusinessContactSimpleSearchResponse.xml");
+        String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactComplexSearchRequest.xml");
+        String expectedResponseXml = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactSimpleSearchResponse.xml");
         List<ContactDto> mockContactDtoListResponse = ContactMockData.createMockContactDtoResponseListData();
 
         try {
@@ -164,7 +164,7 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
     
     @Test
     public void testSuccess_FetchBusinessContact_NoDataFound() {
-        String request = RMT2File.getFileContentsAsString("BusinessContactSimpleSearchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactSimpleSearchRequest.xml");
 
         try {
             when(this.mockApi.getContact(isA(ContactDto.class))).thenReturn(null);
@@ -193,7 +193,7 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
     
     @Test
     public void testError_FetchBusinessContact_API_Error() {
-        String request = RMT2File.getFileContentsAsString("BusinessContactNoCriteriaSearchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactNoCriteriaSearchRequest.xml");
 
         try {
             when(this.mockApi.getContact(null))
