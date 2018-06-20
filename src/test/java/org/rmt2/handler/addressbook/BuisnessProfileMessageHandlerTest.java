@@ -40,7 +40,6 @@ import com.util.RMT2File;
 @PrepareForTest({ BusinessContactApiHandler.class, PostalApiFactory.class })
 public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
 
-//    private static final String DESTINATION = "Test-AddressBook-Queue";
     private ContactsApiFactory mockContactsApiFactory;
     private ContactsApi mockApi;
 
@@ -49,7 +48,7 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
      * 
      */
     public BuisnessProfileMessageHandlerTest() {
-        // TODO Auto-generated constructor stub
+        return;
     }
 
     /*
@@ -119,10 +118,93 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
         Assert.assertEquals(1, actualRepsonse.getProfile().getBusinessContacts().size());
         Assert.assertEquals(1, actualRepsonse.getReplyStatus().getReturnCode().intValue());
         Assert.assertEquals("SUCCESS", actualRepsonse.getReplyStatus().getReturnStatus());
-        Assert.assertEquals("Businsess contact record(s) found", actualRepsonse.getReplyStatus().getMessage());
-        Assert.assertEquals(expectedResponse.getProfile().getBusinessContacts().get(0).getContactEmail(),
-                actualRepsonse.getProfile().getBusinessContacts().get(0).getContactEmail());
-        
+        Assert.assertEquals("Businsess contact record(s) found",
+                actualRepsonse.getReplyStatus().getMessage());
+        Assert.assertEquals(
+                expectedResponse.getProfile().getBusinessContacts().get(0)
+                        .getContactFirstname(),
+                actualRepsonse.getProfile().getBusinessContacts().get(0)
+                        .getContactFirstname());
+        Assert.assertEquals(
+                expectedResponse.getProfile().getBusinessContacts().get(0)
+                        .getContactLastname(),
+                actualRepsonse.getProfile().getBusinessContacts().get(0)
+                        .getContactLastname());
+        Assert.assertEquals(
+                expectedResponse.getProfile().getBusinessContacts().get(0)
+                        .getContactEmail(),
+                actualRepsonse.getProfile().getBusinessContacts().get(0)
+                        .getContactEmail());
+        Assert.assertEquals(
+                expectedResponse.getProfile().getBusinessContacts().get(0)
+                        .getLongName(),
+                actualRepsonse.getProfile().getBusinessContacts().get(0)
+                        .getLongName());
+        Assert.assertEquals(
+                expectedResponse.getProfile().getBusinessContacts().get(0)
+                        .getTaxId(),
+                actualRepsonse.getProfile().getBusinessContacts().get(0)
+                        .getTaxId());
+        Assert.assertEquals(
+                expectedResponse.getProfile().getBusinessContacts().get(0)
+                        .getBusinessId(),
+                actualRepsonse.getProfile().getBusinessContacts().get(0)
+                        .getBusinessId());
+        Assert.assertEquals(
+                expectedResponse.getProfile().getBusinessContacts().get(0)
+                        .getContactPhone(),
+                actualRepsonse.getProfile().getBusinessContacts().get(0)
+                        .getContactPhone());
+        Assert.assertEquals(
+                expectedResponse.getProfile().getBusinessContacts().get(0)
+                        .getWebsite(),
+                actualRepsonse.getProfile().getBusinessContacts().get(0)
+                        .getWebsite());
+        Assert.assertEquals(
+                expectedResponse.getProfile().getBusinessContacts().get(0)
+                        .getShortName(),
+                actualRepsonse.getProfile().getBusinessContacts().get(0)
+                        .getShortName());
+        Assert.assertEquals(
+                expectedResponse.getProfile().getBusinessContacts().get(0)
+                        .getAddress().getAddr1(),
+                actualRepsonse.getProfile().getBusinessContacts().get(0)
+                        .getAddress().getAddr1());
+        Assert.assertEquals(
+                expectedResponse.getProfile().getBusinessContacts().get(0)
+                        .getAddress().getAddr2(),
+                actualRepsonse.getProfile().getBusinessContacts().get(0)
+                        .getAddress().getAddr2());
+        Assert.assertEquals(
+                expectedResponse.getProfile().getBusinessContacts().get(0)
+                        .getAddress().getAddr3(),
+                actualRepsonse.getProfile().getBusinessContacts().get(0)
+                        .getAddress().getAddr3());
+        Assert.assertEquals(
+                expectedResponse.getProfile().getBusinessContacts().get(0)
+                        .getAddress().getAddr4(),
+                actualRepsonse.getProfile().getBusinessContacts().get(0)
+                        .getAddress().getAddr4());
+        Assert.assertEquals(
+                expectedResponse.getProfile().getBusinessContacts().get(0)
+                        .getAddress().getAddrId(),
+                actualRepsonse.getProfile().getBusinessContacts().get(0)
+                        .getAddress().getAddrId());
+        Assert.assertEquals(
+                expectedResponse.getProfile().getBusinessContacts().get(0)
+                        .getAddress().getZip().getCity(),
+                actualRepsonse.getProfile().getBusinessContacts().get(0)
+                        .getAddress().getZip().getCity());
+        Assert.assertEquals(
+                expectedResponse.getProfile().getBusinessContacts().get(0)
+                        .getAddress().getZip().getState(),
+                actualRepsonse.getProfile().getBusinessContacts().get(0)
+                        .getAddress().getZip().getState());
+        Assert.assertEquals(
+                expectedResponse.getProfile().getBusinessContacts().get(0)
+                        .getAddress().getZip().getZipcode(),
+                actualRepsonse.getProfile().getBusinessContacts().get(0)
+                        .getAddress().getZip().getZipcode());
     }
     
     
@@ -156,10 +238,96 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
         Assert.assertEquals(3, actualRepsonse.getProfile().getBusinessContacts().size());
         Assert.assertEquals(3, actualRepsonse.getReplyStatus().getReturnCode().intValue());
         Assert.assertEquals("SUCCESS", actualRepsonse.getReplyStatus().getReturnStatus());
-        Assert.assertEquals("Businsess contact record(s) found", actualRepsonse.getReplyStatus().getMessage());
-        Assert.assertEquals(expectedResponse.getProfile().getBusinessContacts().get(0).getContactEmail(),
-                actualRepsonse.getProfile().getBusinessContacts().get(0).getContactEmail());
+        Assert.assertEquals("Businsess contact record(s) found",
+                actualRepsonse.getReplyStatus().getMessage());
         
+        for (int ndx = 0; ndx < expectedResponse.getProfile().getBusinessContacts().size(); ndx++) {
+            Assert.assertEquals(
+                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
+                            .getContactFirstname(),
+                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+                            .getContactFirstname());
+            Assert.assertEquals(
+                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
+                            .getContactLastname(),
+                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+                            .getContactLastname());
+            Assert.assertEquals(
+                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
+                            .getContactEmail(),
+                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+                            .getContactEmail());
+            Assert.assertEquals(
+                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
+                            .getLongName(),
+                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+                            .getLongName());
+            Assert.assertEquals(
+                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
+                            .getTaxId(),
+                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+                            .getTaxId());
+            Assert.assertEquals(
+                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
+                            .getBusinessId(),
+                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+                            .getBusinessId());
+            Assert.assertEquals(
+                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
+                            .getContactPhone(),
+                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+                            .getContactPhone());
+            Assert.assertEquals(
+                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
+                            .getWebsite(),
+                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+                            .getWebsite());
+            Assert.assertEquals(
+                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
+                            .getShortName(),
+                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+                            .getShortName());
+            Assert.assertEquals(
+                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
+                            .getAddress().getAddr1(),
+                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+                            .getAddress().getAddr1());
+            Assert.assertEquals(
+                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
+                            .getAddress().getAddr2(),
+                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+                            .getAddress().getAddr2());
+            Assert.assertEquals(
+                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
+                            .getAddress().getAddr3(),
+                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+                            .getAddress().getAddr3());
+            Assert.assertEquals(
+                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
+                            .getAddress().getAddr4(),
+                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+                            .getAddress().getAddr4());
+            Assert.assertEquals(
+                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
+                            .getAddress().getAddrId(),
+                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+                            .getAddress().getAddrId());
+            Assert.assertEquals(
+                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
+                            .getAddress().getZip().getCity(),
+                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+                            .getAddress().getZip().getCity());
+            Assert.assertEquals(
+                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
+                            .getAddress().getZip().getState(),
+                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+                            .getAddress().getZip().getState());
+            Assert.assertEquals(
+                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
+                            .getAddress().getZip().getZipcode(),
+                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+                            .getAddress().getZip().getZipcode());
+        }
     }
     
     @Test
