@@ -3,6 +3,8 @@ package org.rmt2.handlers;
 import java.io.Serializable;
 import java.math.BigInteger;
 
+import javax.xml.transform.TransformerException;
+
 import org.apache.log4j.Logger;
 import org.rmt2.jaxb.ObjectFactory;
 import org.rmt2.jaxb.ReplyStatusType;
@@ -14,6 +16,7 @@ import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.jms.handler.MessageHandlerCommand;
 import com.api.messaging.jms.handler.MessageHandlerCommandException;
 import com.api.messaging.webservice.WebServiceConstants;
+import com.api.xml.RMT2XmlUtility;
 import com.api.xml.jaxb.JaxbUtil;
 
 /**
@@ -66,6 +69,13 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
         // Unmarshall XML String
         String reqXml = this.getPayloadAsString();
         this.requestObj = (T1) this.jaxb.unMarshalMessage(reqXml);
+        try {
+            String printXml = RMT2XmlUtility.prettyPrint(reqXml);
+            logger.info(printXml);
+        } catch (TransformerException e1) {
+            logger.info(reqXml);
+            e1.printStackTrace();
+        }
         
         try {
             this.validdateRequest(this.requestObj);
@@ -74,6 +84,14 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
             String respXml = this.buildResponse(null,rs);
             results = new MessageHandlerResults();
             results.setPayload(respXml);
+
+            try {
+                String printXml = RMT2XmlUtility.prettyPrint(respXml);
+                logger.info(printXml);
+            } catch (TransformerException e1) {
+                logger.info(reqXml);
+                e1.printStackTrace();
+            }
         }
         
         return results;
