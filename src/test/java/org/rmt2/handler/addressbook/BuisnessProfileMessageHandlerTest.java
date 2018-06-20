@@ -116,6 +116,10 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
                 (AddressBookResponse) jaxb.unMarshalMessage(expectedResponseXml);
         AddressBookResponse actualRepsonse = 
                 (AddressBookResponse) jaxb.unMarshalMessage(results.getPayload().toString());
+        Assert.assertEquals(1, actualRepsonse.getProfile().getBusinessContacts().size());
+        Assert.assertEquals(1, actualRepsonse.getReplyStatus().getReturnCode().intValue());
+        Assert.assertEquals("SUCCESS", actualRepsonse.getReplyStatus().getReturnStatus());
+        Assert.assertEquals("Businsess contact record(s) found", actualRepsonse.getReplyStatus().getMessage());
         Assert.assertEquals(expectedResponse.getProfile().getBusinessContacts().get(0).getContactEmail(),
                 actualRepsonse.getProfile().getBusinessContacts().get(0).getContactEmail());
         
@@ -150,8 +154,71 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
         AddressBookResponse actualRepsonse = 
                 (AddressBookResponse) jaxb.unMarshalMessage(results.getPayload().toString());
         Assert.assertEquals(3, actualRepsonse.getProfile().getBusinessContacts().size());
+        Assert.assertEquals(3, actualRepsonse.getReplyStatus().getReturnCode().intValue());
+        Assert.assertEquals("SUCCESS", actualRepsonse.getReplyStatus().getReturnStatus());
+        Assert.assertEquals("Businsess contact record(s) found", actualRepsonse.getReplyStatus().getMessage());
         Assert.assertEquals(expectedResponse.getProfile().getBusinessContacts().get(0).getContactEmail(),
                 actualRepsonse.getProfile().getBusinessContacts().get(0).getContactEmail());
         
+    }
+    
+    @Test
+    public void testSuccess_FetchBusinessContact_NoDataFound() {
+        String request = RMT2File.getFileContentsAsString("BusinessContactSimpleSearchRequest.xml");
+
+        try {
+            when(this.mockApi.getContact(isA(ContactDto.class))).thenReturn(null);
+        } catch (ContactsApiException e) {
+            Assert.fail("Unable to setup mock stub for fetching a business contact");
+        }
+        
+        MessageHandlerResults results = null;
+        BusinessContactApiHandler handler = new BusinessContactApiHandler();
+        try {
+            results = handler.processMessage(ApiTransactionCodes.CONTACTS_BUSINESS_GET, request);
+        } catch (MessageHandlerCommandException e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+        Assert.assertNotNull(results);
+        Assert.assertNotNull(results.getPayload());
+        
+        AddressBookResponse actualRepsonse = 
+                (AddressBookResponse) jaxb.unMarshalMessage(results.getPayload().toString());
+        Assert.assertNull(actualRepsonse.getProfile());
+        Assert.assertEquals(0, actualRepsonse.getReplyStatus().getReturnCode().intValue());
+        Assert.assertEquals("SUCCESS", actualRepsonse.getReplyStatus().getReturnStatus());
+        Assert.assertEquals("Businsess contact data not found!", actualRepsonse.getReplyStatus().getMessage());
+    }
+    
+    @Test
+    public void testError_FetchBusinessContact_API_Error() {
+        String request = RMT2File.getFileContentsAsString("BusinessContactNoCriteriaSearchRequest.xml");
+
+        try {
+            when(this.mockApi.getContact(null))
+                    .thenThrow(new ContactsApiException("Test validation error: selection criteria is required"));
+        } catch (ContactsApiException e) {
+            Assert.fail("Unable to setup mock stub for fetching a business contact");
+        }
+        
+        MessageHandlerResults results = null;
+        BusinessContactApiHandler handler = new BusinessContactApiHandler();
+        try {
+            results = handler.processMessage(ApiTransactionCodes.CONTACTS_BUSINESS_GET, request);
+        } catch (MessageHandlerCommandException e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+        Assert.assertNotNull(results);
+        Assert.assertNotNull(results.getPayload());
+        
+        AddressBookResponse actualRepsonse = 
+                (AddressBookResponse) jaxb.unMarshalMessage(results.getPayload().toString());
+        Assert.assertNull(actualRepsonse.getProfile());
+        Assert.assertEquals("ERROR", actualRepsonse.getReplyStatus().getReturnStatus());
+        Assert.assertEquals(-1, actualRepsonse.getReplyStatus().getReturnCode().intValue());
+        Assert.assertEquals("Failure to retrieve business contact(s)", actualRepsonse.getReplyStatus().getMessage());
+        Assert.assertEquals("Test validation error: selection criteria is required", actualRepsonse.getReplyStatus().getExtMessage());
     }
 }
