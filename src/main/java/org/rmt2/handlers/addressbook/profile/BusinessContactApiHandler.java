@@ -96,6 +96,7 @@ public class BusinessContactApiHandler extends
             if (dtoList == null) {
                 rs.setMessage("Businsess contact data not found!");
                 rs.setReturnCode(BigInteger.valueOf(0));
+                cdg = null;
             }
             else {
                 ContactsJaxbFactory cjf = new ContactsJaxbFactory();
@@ -179,7 +180,12 @@ public class BusinessContactApiHandler extends
     * @return
     */
    private BusinessContactDto extractBusinessContactCriteria(AddressBookRequest req) {
-       this.validateBusinessContactCriteria(req);
+       try {
+           this.validateBusinessContactCriteria(req);    
+       }
+       catch (Exception e) {
+           return null;
+       }
        BusinessContactCriteria bcc = req.getCriteria().getBusinessCriteria();
        BusinessContactDto dto = JaxbAddressBookFactory.createBusinessContactDtoInstance(bcc);
        return dto;
