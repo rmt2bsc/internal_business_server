@@ -89,7 +89,7 @@ public class BusinessContactApiHandler extends
         ContactDetailGroup cdg = jaxbObjFactory.createContactDetailGroup();
 
         try {
-            criteriaDto = this.extractBusinessContactCriteria(obj);
+            criteriaDto = this.extractSelectionCriteria(obj);
             ContactsApiFactory cf = new ContactsApiFactory();
             ContactsApi api = cf.createApi();
             List<ContactDto> dtoList = api.getContact(criteriaDto);
@@ -135,7 +135,7 @@ public class BusinessContactApiHandler extends
         ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
         ContactDetailGroup cdg = null;
         BusinessContactDto contactDto = null;
-        contactDto = this.extractBusinessContact(req);
+        contactDto = this.extractContactObject(req);
         boolean newContact = (contactDto.getContactId() == 0);
         ContactsApiFactory cf = new ContactsApiFactory();
         ContactsApi api = cf.createApi();
@@ -179,7 +179,7 @@ public class BusinessContactApiHandler extends
     * @param req
     * @return
     */
-   private BusinessContactDto extractBusinessContactCriteria(AddressBookRequest req) {
+   private BusinessContactDto extractSelectionCriteria(AddressBookRequest req) {
        try {
            this.validateBusinessContactCriteria(req);    
        }
@@ -191,7 +191,7 @@ public class BusinessContactApiHandler extends
        return dto;
    }
 
-   private BusinessContactDto extractBusinessContact(AddressBookRequest req) {
+   private BusinessContactDto extractContactObject(AddressBookRequest req) {
        this.validateBusinessContacts(req);
        BusinessType contact = req.getProfile().getBusinessContacts().get(0);
        BusinessContactDto dto = JaxbAddressBookFactory.createBusinessContactDtoInstance(contact);
