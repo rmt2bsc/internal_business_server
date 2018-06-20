@@ -8,9 +8,10 @@ import javax.jms.Message;
 import javax.jms.TextMessage;
 import javax.xml.transform.TransformerException;
 
+import org.apache.log4j.Logger;
 import org.rmt2.constants.ApiHeaderNames;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import com.RMT2RuntimeException;
 import com.api.messaging.handler.MessageHandlerException;
@@ -32,7 +33,7 @@ import com.util.RMT2Utility;
  * with a ReplyTo Destination.
  */
 public abstract class AbstractMessageDrivenBean {
-    private static Logger logger = LoggerFactory.getLogger(AbstractMessageDrivenBean.class);
+    private static Logger logger = Logger.getLogger(AbstractMessageDrivenBean.class);
 
     protected ResourceBundle mappings;
 

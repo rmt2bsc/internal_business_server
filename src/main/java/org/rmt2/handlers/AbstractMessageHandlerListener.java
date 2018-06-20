@@ -8,8 +8,10 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
+
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import com.RMT2RuntimeException;
 import com.api.messaging.handler.MessageHandlerException;
@@ -52,7 +54,7 @@ import com.util.RMT2Utility;
  * with a ReplyTo Destination.
  */
 public abstract class AbstractMessageHandlerListener {
-    private static Logger logger = LoggerFactory.getLogger(AbstractMessageHandlerListener.class);
+    private static Logger logger = Logger.getLogger(AbstractMessageHandlerListener.class);
 
     protected ResourceBundle mappings;
 

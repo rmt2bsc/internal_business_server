@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.dto.BusinessContactDto;
 import org.dto.ContactDto;
 import org.dto.adapter.jaxb.JaxbAddressBookFactory;
@@ -20,8 +21,8 @@ import org.rmt2.jaxb.BusinessContactCriteria;
 import org.rmt2.jaxb.BusinessType;
 import org.rmt2.jaxb.ContactDetailGroup;
 import org.rmt2.jaxb.ReplyStatusType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import com.InvalidDataException;
 import com.api.messaging.handler.MessageHandlerResults;
@@ -38,7 +39,7 @@ import com.util.assistants.VerifyException;
 public class BusinessContactApiHandler extends 
                   AbstractMessageHandler<AddressBookRequest, AddressBookResponse, ContactDetailGroup> {
     
-    private static final Logger logger = LoggerFactory.getLogger(BusinessContactApiHandler.class);
+    private static final Logger logger = Logger.getLogger(BusinessContactApiHandler.class);
     protected ContactsApiFactory cf;
     protected ContactsApi api;
 
