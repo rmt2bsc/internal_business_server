@@ -23,7 +23,7 @@ import org.rmt2.ContactMockData;
 import org.rmt2.handlers.addressbook.profile.BusinessContactApiHandler;
 
 import com.api.messaging.jms.JmsClientManager;
-import com.util.RMT2File;
+import com.api.util.RMT2File;
 
 
 

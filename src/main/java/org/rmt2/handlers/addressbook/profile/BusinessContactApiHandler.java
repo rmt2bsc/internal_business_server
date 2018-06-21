@@ -28,8 +28,8 @@ import com.InvalidDataException;
 import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.jms.handler.MessageHandlerCommandException;
 import com.api.messaging.webservice.WebServiceConstants;
-import com.util.assistants.Verifier;
-import com.util.assistants.VerifyException;
+import com.api.util.assistants.Verifier;
+import com.api.util.assistants.VerifyException;
 
 /**
  * 

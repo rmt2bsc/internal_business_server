@@ -30,7 +30,7 @@ import org.rmt2.jaxb.AddressBookResponse;
 
 import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.jms.handler.MessageHandlerCommandException;
-import com.util.RMT2File;
+import com.api.util.RMT2File;
 
 /**
  * @author appdev

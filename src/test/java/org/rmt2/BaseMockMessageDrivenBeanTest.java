@@ -14,7 +14,7 @@ import org.rmt2.handlers.AbstractMessageDrivenBean;
 
 import com.api.config.SystemConfigurator;
 import com.api.messaging.jms.JmsClientManager;
-import com.util.RMT2File;
+import com.api.util.RMT2File;
 
 /**
  * Base class for testing the API handlers.
