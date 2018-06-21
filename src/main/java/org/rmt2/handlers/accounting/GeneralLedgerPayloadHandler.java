@@ -28,7 +28,7 @@ public class GeneralLedgerPayloadHandler extends
     }
 
     @Override
-    protected void validdateRequest(AccountingGeneralLedgerRequest req) throws InvalidRequestException {
+    protected void validateRequest(AccountingGeneralLedgerRequest req) throws InvalidRequestException {
         if (req == null) {
             throw new InvalidRequestException("Accounting General Ledger message request element is invalid");
         }

@@ -26,7 +26,7 @@ public class MediaPayloadHandler extends AbstractMessageHandler<MultimediaReques
     }
 
     @Override
-    protected void validdateRequest(MultimediaRequest req) throws InvalidRequestException {
+    protected void validateRequest(MultimediaRequest req) throws InvalidRequestException {
         if (req == null) {
             throw new InvalidRequestException("Multimedia message request element is invalid");
         }

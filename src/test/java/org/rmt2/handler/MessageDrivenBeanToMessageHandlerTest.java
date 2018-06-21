@@ -20,7 +20,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.ContactMockData;
-import org.rmt2.handlers.addressbook.profile.BusinessContactApiHandler;
+import org.rmt2.handlers.addressbook.profile.ContactProfileApiHandler;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -32,7 +32,7 @@ import com.api.util.RMT2File;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ BusinessContactApiHandler.class, JmsClientManager.class })
+@PrepareForTest({ ContactProfileApiHandler.class, JmsClientManager.class })
 public class MessageDrivenBeanToMessageHandlerTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "Test-AddressBook-Queue";

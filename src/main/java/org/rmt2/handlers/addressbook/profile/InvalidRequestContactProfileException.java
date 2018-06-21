@@ -6,21 +6,21 @@ import com.RMT2RuntimeException;
  * @author appdev
  *
  */
-public class InvalidRequestPersonProfileException extends RMT2RuntimeException {
+public class InvalidRequestContactProfileException extends RMT2RuntimeException {
 
     private static final long serialVersionUID = 5215472098798504260L;
 
     /**
      * 
      */
-    public InvalidRequestPersonProfileException() {
+    public InvalidRequestContactProfileException() {
         super();
     }
 
     /**
      * @param msg
      */
-    public InvalidRequestPersonProfileException(String msg) {
+    public InvalidRequestContactProfileException(String msg) {
         super(msg);
     }
 
@@ -28,14 +28,14 @@ public class InvalidRequestPersonProfileException extends RMT2RuntimeException {
      * @param msg
      * @param e
      */
-    public InvalidRequestPersonProfileException(String msg, Throwable e) {
+    public InvalidRequestContactProfileException(String msg, Throwable e) {
         super(msg, e);
     }
 
     /**
      * @param e
      */
-    public InvalidRequestPersonProfileException(Throwable e) {
+    public InvalidRequestContactProfileException(Throwable e) {
         super(e);
     }
 

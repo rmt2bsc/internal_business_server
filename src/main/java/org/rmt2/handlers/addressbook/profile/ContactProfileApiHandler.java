@@ -2,11 +2,14 @@ package org.rmt2.handlers.addressbook.profile;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.dto.BusinessContactDto;
 import org.dto.ContactDto;
+import org.dto.PersonalContactDto;
 import org.dto.adapter.jaxb.JaxbAddressBookFactory;
 import org.dto.converter.jaxb.ContactsJaxbFactory;
 import org.modules.contacts.ContactsApi;
@@ -19,7 +22,12 @@ import org.rmt2.jaxb.AddressBookRequest;
 import org.rmt2.jaxb.AddressBookResponse;
 import org.rmt2.jaxb.BusinessContactCriteria;
 import org.rmt2.jaxb.BusinessType;
+import org.rmt2.jaxb.CommonContactCriteria;
+import org.rmt2.jaxb.CommonContactType;
+import org.rmt2.jaxb.ContactCriteriaGroup;
 import org.rmt2.jaxb.ContactDetailGroup;
+import org.rmt2.jaxb.PersonContactCriteria;
+import org.rmt2.jaxb.PersonType;
 import org.rmt2.jaxb.ReplyStatusType;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
@@ -36,22 +44,22 @@ import com.api.util.assistants.VerifyException;
  * @author roy.terrell
  *
  */
-public class BusinessContactApiHandler extends 
+public class ContactProfileApiHandler extends 
                   AbstractMessageHandler<AddressBookRequest, AddressBookResponse, ContactDetailGroup> {
     
-    private static final Logger logger = Logger.getLogger(BusinessContactApiHandler.class);
+    private static final Logger logger = Logger.getLogger(ContactProfileApiHandler.class);
     protected ContactsApiFactory cf;
     protected ContactsApi api;
 
     /**
      * @param payload
      */
-    public BusinessContactApiHandler() {
+    public ContactProfileApiHandler() {
         super();
         this.responseObj = jaxbObjFactory.createAddressBookResponse();
         this.cf = new ContactsApiFactory();
         this.api = cf.createApi();
-        logger.info(BusinessContactApiHandler.class.getName() + " was instantiated successfully");
+        logger.info(ContactProfileApiHandler.class.getName() + " was instantiated successfully");
     }
 
     /*
@@ -70,51 +78,59 @@ public class BusinessContactApiHandler extends
             return r;
         }
         switch (command) {
-            case ApiTransactionCodes.CONTACTS_BUSINESS_UPDATE:
-                 r = this.updateBusinessContact(this.requestObj);
+            case ApiTransactionCodes.CONTACTS_UPDATE:
+                 r = this.updateContact(this.requestObj);
                 break;
-            case ApiTransactionCodes.CONTACTS_BUSINESS_DELETE:
+            case ApiTransactionCodes.CONTACTS_DELETE:
                 // r = this.deleteBusinessContact(this.request);
                 break;
-            case ApiTransactionCodes.CONTACTS_BUSINESS_GET:
-                r = this.fetchBusinessContact(this.requestObj);
+            case ApiTransactionCodes.CONTACTS_GET:
+                r = this.fetchContact(this.requestObj);
                 break;
         }
         return r;
     }
 
-    protected MessageHandlerResults fetchBusinessContact(AddressBookRequest obj) {
+    /**
+     * Handler for invoking the appropriate API in order to fetch one or more contacts.
+     * <p>
+     * This method is capable of processing personal, business, or generic
+     * contact types.
+     * 
+     * @param req
+     *            The request used to build the ContactDto selection criteria
+     * @return an instance of {@link MessageHandlerResults}           
+     */
+    protected MessageHandlerResults fetchContact(AddressBookRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
         ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
-        BusinessContactDto criteriaDto = null;
-        ContactDetailGroup cdg = jaxbObjFactory.createContactDetailGroup();
+        ContactDetailGroup cdg = null;
 
         try {
-            criteriaDto = this.extractSelectionCriteria(obj);
+            this.validateRequest(req);
+            Object generiicCriteriaObj = this.validateSelectionCriteria(req.getCriteria());
+            ContactDto criteriaDto = this.extractSelectionCriteria(generiicCriteriaObj);
+            
             ContactsApiFactory cf = new ContactsApiFactory();
             ContactsApi api = cf.createApi();
             List<ContactDto> dtoList = api.getContact(criteriaDto);
             if (dtoList == null) {
-                rs.setMessage("Businsess contact data not found!");
+                rs.setMessage("Contact data not found!");
                 rs.setReturnCode(BigInteger.valueOf(0));
-                cdg = null;
             }
             else {
-                ContactsJaxbFactory cjf = new ContactsJaxbFactory();
-                List<BusinessType> jaxbList = cjf.createBusinessTypeInstance(dtoList);
-                cdg.getBusinessContacts().addAll(jaxbList);
-                rs.setMessage("Businsess contact record(s) found");
+                cdg = this.buildQueryResults(dtoList);
+                rs.setMessage("Contact record(s) found");
                 rs.setReturnCode(BigInteger.valueOf(dtoList.size()));
             }
-            this.responseObj.setHeader(obj.getHeader());
+            this.responseObj.setHeader(req.getHeader());
             // Set reply status
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
         } catch (Exception e) {
             rs.setReturnCode(BigInteger.valueOf(-1));
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
-            rs.setMessage("Failure to retrieve business contact(s)");
+            rs.setMessage("Failure to retrieve contact(s)");
             rs.setExtMessage(e.getMessage());
-            cdg = null;
         }
         String xml = this.buildResponse(cdg, rs);
         results.setPayload(xml);
@@ -122,16 +138,16 @@ public class BusinessContactApiHandler extends
     }
     
     /**
-     * Updates a given contact by invoking the ContactsApi.
+     * Handler for invoking the appropriate API in order to update the specified contact.
      * <p>
      * This method is capable of processing personal, business, or generic
      * contact types.
      * 
      * @param req
-     *            The request used to build the ContactDto
-     * @throws ContactUpdateDaoException
+     *            The request used to build the ContactDto selection criteria
+     * @return an instance of {@link MessageHandlerResults}           
      */
-    protected MessageHandlerResults updateBusinessContact(AddressBookRequest req) {
+    protected MessageHandlerResults updateContact(AddressBookRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
         ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
         ContactDetailGroup cdg = null;
@@ -175,20 +191,44 @@ public class BusinessContactApiHandler extends
         return results;
     }
     
-    /**
-    *
-    * @param req
+    private ContactDetailGroup buildQueryResults(List<ContactDto> results) {
+        ContactDetailGroup cdg = jaxbObjFactory.createContactDetailGroup();
+        ContactsJaxbFactory cjf = new ContactsJaxbFactory();
+        
+        for (ContactDto contact : results) {
+            if (contact instanceof BusinessContactDto) {
+                BusinessType jaxbObj = cjf.createBusinessTypeInstance(contact);
+                cdg.getBusinessContacts().add(jaxbObj);
+            } else if (contact instanceof PersonalContactDto) {
+                PersonType jaxbObj = cjf.createPersonalTypeInstance(contact);
+                cdg.getPersonContacts().add(jaxbObj);
+            } else {
+                CommonContactType jaxbObj = cjf.createCommonContactTypeInstance(contact);
+                cdg.getCommonContacts().add(jaxbObj);
+            }
+        }
+        return cdg;
+    }
+   /**
+    * 
+    * @param criteriaObj
     * @return
     */
-   private BusinessContactDto extractSelectionCriteria(AddressBookRequest req) {
-       try {
-           this.validateBusinessContactCriteria(req);    
+   private ContactDto extractSelectionCriteria(Object criteriaObj) {
+       ContactDto dto = null;
+       if (criteriaObj instanceof BusinessContactCriteria) {
+           BusinessContactCriteria bcc = (BusinessContactCriteria) criteriaObj;
+           dto = JaxbAddressBookFactory.createBusinessContactDtoInstance(bcc);
        }
-       catch (Exception e) {
-           return null;
+       if (criteriaObj instanceof PersonContactCriteria) {
+           PersonContactCriteria pcc = (PersonContactCriteria) criteriaObj;
+           dto = JaxbAddressBookFactory.createPersonContactDtoInstance(pcc);
        }
-       BusinessContactCriteria bcc = req.getCriteria().getBusinessCriteria();
-       BusinessContactDto dto = JaxbAddressBookFactory.createBusinessContactDtoInstance(bcc);
+       if (criteriaObj instanceof CommonContactCriteria) {
+           CommonContactCriteria ccc = (CommonContactCriteria) criteriaObj;
+           dto = JaxbAddressBookFactory.createContactDtoInstance(ccc);
+       }
+       
        return dto;
    }
 
@@ -199,21 +239,41 @@ public class BusinessContactApiHandler extends
        return dto;
    }
    
-    protected void validateBusinessContactCriteria(AddressBookRequest req) {
+    private Object validateSelectionCriteria(ContactCriteriaGroup criteriaGroup) {
         try {
-            Verifier.verifyNotNull(req.getCriteria());
+            Verifier.verifyNotNull(criteriaGroup);
         }
         catch (VerifyException e) {
-            throw new InvalidRequestBusinessProfileCriteriaException(
-                    "AddressBook message request business contact criteria group element is invalid or null");
+            throw new InvalidRequestContactCriteriaException(
+                    "AddressBook contact query request is rquired to have a criteria group element");
         }
 
+        // Use a hashtable to assist in ContactCriteriaGroup validations since
+        // hashtable only allows non-null keys and values.
+        Map<Object, Object> criteriaHash = new Hashtable<>();
+        this.addCriteriaObjectToHashTable(criteriaHash, criteriaGroup.getBusinessCriteria());
+        this.addCriteriaObjectToHashTable(criteriaHash, criteriaGroup.getCommonCriteria());
+        this.addCriteriaObjectToHashTable(criteriaHash, criteriaGroup.getPersonCriteria());
+        
+        // ContactCriteriaGroup is required to have one and only one criteria
+        // object available.
         try {
-            Verifier.verifyNotNull(req.getCriteria().getBusinessCriteria());
+            Verifier.verifyTrue(!criteriaHash.isEmpty() && criteriaHash.size() == 1);
+        } catch (VerifyException e) {
+            throw new InvalidRequestContactCriteriaException(
+                    "AddressBook ContactCriteriaGroup is required to have one and only one criteria object that is of type either personal, business, or common");
         }
-        catch (VerifyException e) {
-            throw new InvalidRequestBusinessProfileCriteriaException(
-                    "AddressBook message request business contact criteria element is null");
+        
+        // If we arrived here, that means there must be one and only one criteria object available
+        return criteriaHash.keySet().iterator().next();
+    }
+    
+    private void addCriteriaObjectToHashTable(Map hash, Object criteriaObj) {
+        try {
+            hash.put(criteriaObj, criteriaObj);    
+        }
+        catch (NullPointerException e) {
+            //Do nothing
         }
     }
     
@@ -226,7 +286,7 @@ public class BusinessContactApiHandler extends
             Verifier.verifyNotNull(contacts);
         }
         catch (VerifyException e) {
-            throw new InvalidRequestBusinessProfileException(
+            throw new InvalidRequestContactProfileException(
                     "AddressBook message request business contact(s) element is invalid or null");
         }
         
@@ -247,7 +307,7 @@ public class BusinessContactApiHandler extends
     }
     
     @Override
-    protected void validdateRequest(AddressBookRequest req) throws InvalidDataException {
+    protected void validateRequest(AddressBookRequest req) throws InvalidDataException {
         try {
             Verifier.verifyNotNull(req);
         }

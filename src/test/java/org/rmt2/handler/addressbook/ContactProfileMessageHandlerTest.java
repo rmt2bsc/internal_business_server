@@ -25,7 +25,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMessageHandlerTest;
 import org.rmt2.ContactMockData;
 import org.rmt2.constants.ApiTransactionCodes;
-import org.rmt2.handlers.addressbook.profile.BusinessContactApiHandler;
+import org.rmt2.handlers.addressbook.profile.ContactProfileApiHandler;
 import org.rmt2.jaxb.AddressBookResponse;
 
 import com.api.messaging.handler.MessageHandlerResults;
@@ -37,8 +37,8 @@ import com.api.util.RMT2File;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ BusinessContactApiHandler.class, PostalApiFactory.class })
-public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
+@PrepareForTest({ ContactProfileApiHandler.class, PostalApiFactory.class })
+public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
 
     private ContactsApiFactory mockContactsApiFactory;
     private ContactsApi mockApi;
@@ -47,7 +47,7 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
     /**
      * 
      */
-    public BuisnessProfileMessageHandlerTest() {
+    public ContactProfileMessageHandlerTest() {
         return;
     }
 
@@ -101,9 +101,9 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
         }
         
         MessageHandlerResults results = null;
-        BusinessContactApiHandler handler = new BusinessContactApiHandler();
+        ContactProfileApiHandler handler = new ContactProfileApiHandler();
         try {
-            results = handler.processMessage(ApiTransactionCodes.CONTACTS_BUSINESS_GET, request);
+            results = handler.processMessage(ApiTransactionCodes.CONTACTS_GET, request);
         } catch (MessageHandlerCommandException e) {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
@@ -118,7 +118,7 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
         Assert.assertEquals(1, actualRepsonse.getProfile().getBusinessContacts().size());
         Assert.assertEquals(1, actualRepsonse.getReplyStatus().getReturnCode().intValue());
         Assert.assertEquals("SUCCESS", actualRepsonse.getReplyStatus().getReturnStatus());
-        Assert.assertEquals("Businsess contact record(s) found",
+        Assert.assertEquals("Contact record(s) found",
                 actualRepsonse.getReplyStatus().getMessage());
         Assert.assertEquals(
                 expectedResponse.getProfile().getBusinessContacts().get(0)
@@ -217,13 +217,13 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
         try {
             when(this.mockApi.getContact(isA(ContactDto.class))).thenReturn(mockContactDtoListResponse);
         } catch (ContactsApiException e) {
-            Assert.fail("Unable to setup mock stub for fetching a list of business contacts");
+            Assert.fail("Unable to setup mock stub for fetching a list of contacts");
         }
         
         MessageHandlerResults results = null;
-        BusinessContactApiHandler handler = new BusinessContactApiHandler();
+        ContactProfileApiHandler handler = new ContactProfileApiHandler();
         try {
-            results = handler.processMessage(ApiTransactionCodes.CONTACTS_BUSINESS_GET, request);
+            results = handler.processMessage(ApiTransactionCodes.CONTACTS_GET, request);
         } catch (MessageHandlerCommandException e) {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
@@ -238,7 +238,7 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
         Assert.assertEquals(3, actualRepsonse.getProfile().getBusinessContacts().size());
         Assert.assertEquals(3, actualRepsonse.getReplyStatus().getReturnCode().intValue());
         Assert.assertEquals("SUCCESS", actualRepsonse.getReplyStatus().getReturnStatus());
-        Assert.assertEquals("Businsess contact record(s) found",
+        Assert.assertEquals("Contact record(s) found",
                 actualRepsonse.getReplyStatus().getMessage());
         
         for (int ndx = 0; ndx < expectedResponse.getProfile().getBusinessContacts().size(); ndx++) {
@@ -341,9 +341,9 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
         }
         
         MessageHandlerResults results = null;
-        BusinessContactApiHandler handler = new BusinessContactApiHandler();
+        ContactProfileApiHandler handler = new ContactProfileApiHandler();
         try {
-            results = handler.processMessage(ApiTransactionCodes.CONTACTS_BUSINESS_GET, request);
+            results = handler.processMessage(ApiTransactionCodes.CONTACTS_GET, request);
         } catch (MessageHandlerCommandException e) {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
@@ -356,7 +356,7 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
         Assert.assertNull(actualRepsonse.getProfile());
         Assert.assertEquals(0, actualRepsonse.getReplyStatus().getReturnCode().intValue());
         Assert.assertEquals("SUCCESS", actualRepsonse.getReplyStatus().getReturnStatus());
-        Assert.assertEquals("Businsess contact data not found!", actualRepsonse.getReplyStatus().getMessage());
+        Assert.assertEquals("Contact data not found!", actualRepsonse.getReplyStatus().getMessage());
     }
     
     @Test
@@ -371,9 +371,9 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
         }
         
         MessageHandlerResults results = null;
-        BusinessContactApiHandler handler = new BusinessContactApiHandler();
+        ContactProfileApiHandler handler = new ContactProfileApiHandler();
         try {
-            results = handler.processMessage(ApiTransactionCodes.CONTACTS_BUSINESS_GET, request);
+            results = handler.processMessage(ApiTransactionCodes.CONTACTS_GET, request);
         } catch (MessageHandlerCommandException e) {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
@@ -386,7 +386,9 @@ public class BuisnessProfileMessageHandlerTest extends BaseMessageHandlerTest {
         Assert.assertNull(actualRepsonse.getProfile());
         Assert.assertEquals("ERROR", actualRepsonse.getReplyStatus().getReturnStatus());
         Assert.assertEquals(-1, actualRepsonse.getReplyStatus().getReturnCode().intValue());
-        Assert.assertEquals("Failure to retrieve business contact(s)", actualRepsonse.getReplyStatus().getMessage());
-        Assert.assertEquals("Test validation error: selection criteria is required", actualRepsonse.getReplyStatus().getExtMessage());
+        Assert.assertEquals("Failure to retrieve contact(s)", actualRepsonse.getReplyStatus().getMessage());
+        Assert.assertEquals(
+                "AddressBook ContactCriteriaGroup is required to have one and only one criteria object that is of type either personal, business, or common",
+                actualRepsonse.getReplyStatus().getExtMessage());
     }
 }

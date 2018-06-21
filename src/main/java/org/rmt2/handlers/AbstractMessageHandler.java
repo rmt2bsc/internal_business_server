@@ -80,7 +80,7 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
         }
         
         try {
-            this.validdateRequest(this.requestObj);
+            this.validateRequest(this.requestObj);
         } catch (Exception e) {
             ReplyStatusType rs = this.createReplyStatus(1, WebServiceConstants.RETURN_STATUS_ERROR, e.getMessage());
             String respXml = this.buildResponse(null,rs);
@@ -105,7 +105,7 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
      * 
      * @param req
      */
-    protected abstract void validdateRequest(T1 req) throws InvalidRequestException;
+    protected abstract void validateRequest(T1 req) throws InvalidRequestException;
     
     /**
      * 
