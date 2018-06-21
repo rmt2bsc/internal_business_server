@@ -391,4 +391,70 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
                 "AddressBook ContactCriteriaGroup is required to have one and only one criteria object that is of type either personal, business, or common",
                 actualRepsonse.getReplyStatus().getExtMessage());
     }
+    
+    @Test
+    public void testSuccess_UpdateBusinessContact() {
+        String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactUpdateRequest.xml");
+        try {
+            when(this.mockApi.updateContact(isA(ContactDto.class))).thenReturn(1);
+        } catch (ContactsApiException e) {
+            Assert.fail("Unable to setup mock stub for updating a business contact");
+        }
+        
+        MessageHandlerResults results = null;
+        ContactProfileApiHandler handler = new ContactProfileApiHandler();
+        try {
+            results = handler.processMessage(ApiTransactionCodes.CONTACTS_UPDATE, request);
+        } catch (MessageHandlerCommandException e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+        Assert.assertNotNull(results);
+        Assert.assertNotNull(results.getPayload());
+        
+        AddressBookResponse actualRepsonse = 
+                (AddressBookResponse) jaxb.unMarshalMessage(results.getPayload().toString());
+        Assert.assertEquals(1, actualRepsonse.getProfile().getBusinessContacts().size());
+        Assert.assertEquals(1, actualRepsonse.getReplyStatus().getReturnCode().intValue());
+        Assert.assertEquals("SUCCESS", actualRepsonse.getReplyStatus().getReturnStatus());
+        Assert.assertEquals("Contact was modified successfully",
+                actualRepsonse.getReplyStatus().getMessage());
+        Assert.assertEquals("Total number of rows modified: " + actualRepsonse.getReplyStatus().getReturnCode().intValue(),
+                actualRepsonse.getReplyStatus().getExtMessage());
+        Assert.assertTrue(actualRepsonse.getProfile().getBusinessContacts().get(0).getBusinessId().intValue() > 0);
+        Assert.assertTrue(actualRepsonse.getProfile().getBusinessContacts().get(0).getAddress().getAddrId().intValue() > 0);
+    }
+    
+    @Test
+    public void testSuccess_InsertBusinessContact() {
+        String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactInsertRequest.xml");
+        try {
+            when(this.mockApi.updateContact(isA(ContactDto.class))).thenReturn(1234);
+        } catch (ContactsApiException e) {
+            Assert.fail("Unable to setup mock stub for updating a business contact");
+        }
+        
+        MessageHandlerResults results = null;
+        ContactProfileApiHandler handler = new ContactProfileApiHandler();
+        try {
+            results = handler.processMessage(ApiTransactionCodes.CONTACTS_UPDATE, request);
+        } catch (MessageHandlerCommandException e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+        Assert.assertNotNull(results);
+        Assert.assertNotNull(results.getPayload());
+        
+        AddressBookResponse actualRepsonse = 
+                (AddressBookResponse) jaxb.unMarshalMessage(results.getPayload().toString());
+        Assert.assertEquals(1, actualRepsonse.getProfile().getBusinessContacts().size());
+        Assert.assertEquals(1234, actualRepsonse.getReplyStatus().getReturnCode().intValue());
+        Assert.assertEquals("SUCCESS", actualRepsonse.getReplyStatus().getReturnStatus());
+        Assert.assertEquals("Contact was created successfully",
+                actualRepsonse.getReplyStatus().getMessage());
+        Assert.assertEquals("The new contact id is " + actualRepsonse.getReplyStatus().getReturnCode().intValue(),
+                actualRepsonse.getReplyStatus().getExtMessage());
+        Assert.assertEquals(1234, actualRepsonse.getProfile().getBusinessContacts().get(0).getBusinessId().intValue());
+//        Assert.assertTrue(actualRepsonse.getProfile().getBusinessContacts().get(0).getAddress().getAddrId().intValue() > 0);
+    }
 }
