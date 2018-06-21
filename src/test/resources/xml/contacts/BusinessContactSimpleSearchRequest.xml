@@ -4,7 +4,7 @@
       <routing>JMS: addressbook-p2p-dest</routing>
       <application>addressbook</application>
       <module>profile</module>
-      <transaction>GET_BUSINESS_CONTACT</transaction>
+      <transaction>GET_CONTACT</transaction>
       <delivery_mode>SYNC</delivery_mode>
       <message_mode>REQUEST</message_mode>
       <delivery_date>2017-04-16 02:01:12</delivery_date>
