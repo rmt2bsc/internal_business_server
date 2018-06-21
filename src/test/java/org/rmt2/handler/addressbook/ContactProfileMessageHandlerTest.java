@@ -1,11 +1,14 @@
 package org.rmt2.handler.addressbook;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 import java.util.List;
 
+import org.dao.contacts.ContactDaoException;
+import org.dao.mapping.orm.rmt2.Address;
+import org.dao.mapping.orm.rmt2.Business;
 import org.dto.ContactDto;
 import org.dto.ZipcodeDto;
 import org.junit.After;
@@ -30,14 +33,17 @@ import org.rmt2.jaxb.AddressBookResponse;
 
 import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.jms.handler.MessageHandlerCommandException;
+import com.api.persistence.AbstractDaoClientImpl;
+import com.api.persistence.db.orm.Rmt2OrmClientFactory;
 import com.api.util.RMT2File;
 
 /**
- * @author appdev
+ * 
+ * @author roy.terrell
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ ContactProfileApiHandler.class, PostalApiFactory.class })
+@PrepareForTest({ AbstractDaoClientImpl.class, Rmt2OrmClientFactory.class , ContactProfileApiHandler.class, PostalApiFactory.class })
 public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
 
     private ContactsApiFactory mockContactsApiFactory;
@@ -60,14 +66,6 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        this.mockContactsApiFactory = Mockito.mock(ContactsApiFactory.class);
-        this.mockApi = Mockito.mock(ContactsApi.class);
-        try {
-            whenNew(ContactsApiFactory.class).withNoArguments().thenReturn(this.mockContactsApiFactory);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        when(this.mockContactsApiFactory.createApi()).thenReturn(this.mockApi);
         
         PowerMockito.mockStatic(PostalApiFactory.class);
         PostalApi mockPostalApi = Mockito.mock(PostalApi.class);
@@ -78,6 +76,35 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
         return;
     }
 
+    private void setupMockContactApiCall() {
+      this.mockContactsApiFactory = Mockito.mock(ContactsApiFactory.class);
+      this.mockApi = Mockito.mock(ContactsApi.class);
+      try {
+          PowerMockito.whenNew(ContactsApiFactory.class).withNoArguments().thenReturn(this.mockContactsApiFactory);
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
+      when(this.mockContactsApiFactory.createApi()).thenReturn(this.mockApi);
+    }
+    
+    private void setupMockForContactInsert() {
+        try {
+            when(this.mockPersistenceClient.insertRow(isA(Business.class), any(Boolean.class)))
+                    .thenReturn(1351);
+        } catch (ContactDaoException e) {
+            e.printStackTrace();
+            Assert.fail("Business contact insert test case failed setting up update call");
+        }
+        
+        try {
+            when(this.mockPersistenceClient.insertRow(isA(Address.class), any(Boolean.class)))
+                    .thenReturn(2222);
+        } catch (ContactDaoException e) {
+            e.printStackTrace();
+            Assert.fail("Address insert test case failed setting up update call");
+        }
+    }
+    
     /*
      * (non-Javadoc)
      * 
@@ -94,6 +121,8 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
         String expectedResponseXml = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactSimpleSearchResponse.xml");
         List<ContactDto> mockSingleContactDtoResponse = ContactMockData.createMockSingleContactDtoResponseData();
 
+        this.setupMockContactApiCall();
+        
         try {
             when(this.mockApi.getContact(isA(ContactDto.class))).thenReturn(mockSingleContactDtoResponse);
         } catch (ContactsApiException e) {
@@ -214,6 +243,7 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
         String expectedResponseXml = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactSimpleSearchResponse.xml");
         List<ContactDto> mockContactDtoListResponse = ContactMockData.createMockContactDtoResponseListData();
 
+        this.setupMockContactApiCall();
         try {
             when(this.mockApi.getContact(isA(ContactDto.class))).thenReturn(mockContactDtoListResponse);
         } catch (ContactsApiException e) {
@@ -334,6 +364,7 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
     public void testSuccess_FetchBusinessContact_NoDataFound() {
         String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactSimpleSearchRequest.xml");
 
+        this.setupMockContactApiCall();
         try {
             when(this.mockApi.getContact(isA(ContactDto.class))).thenReturn(null);
         } catch (ContactsApiException e) {
@@ -363,6 +394,7 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
     public void testError_FetchBusinessContact_API_Error() {
         String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactNoCriteriaSearchRequest.xml");
 
+        this.setupMockContactApiCall();
         try {
             when(this.mockApi.getContact(null))
                     .thenThrow(new ContactsApiException("Test validation error: selection criteria is required"));
@@ -395,6 +427,8 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
     @Test
     public void testSuccess_UpdateBusinessContact() {
         String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactUpdateRequest.xml");
+        
+        this.setupMockContactApiCall();
         try {
             when(this.mockApi.updateContact(isA(ContactDto.class))).thenReturn(1);
         } catch (ContactsApiException e) {
@@ -428,11 +462,7 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
     @Test
     public void testSuccess_InsertBusinessContact() {
         String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactInsertRequest.xml");
-        try {
-            when(this.mockApi.updateContact(isA(ContactDto.class))).thenReturn(1234);
-        } catch (ContactsApiException e) {
-            Assert.fail("Unable to setup mock stub for updating a business contact");
-        }
+        this.setupMockForContactInsert();
         
         MessageHandlerResults results = null;
         ContactProfileApiHandler handler = new ContactProfileApiHandler();
@@ -448,13 +478,13 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
         AddressBookResponse actualRepsonse = 
                 (AddressBookResponse) jaxb.unMarshalMessage(results.getPayload().toString());
         Assert.assertEquals(1, actualRepsonse.getProfile().getBusinessContacts().size());
-        Assert.assertEquals(1234, actualRepsonse.getReplyStatus().getReturnCode().intValue());
+        Assert.assertEquals(1351, actualRepsonse.getReplyStatus().getReturnCode().intValue());
         Assert.assertEquals("SUCCESS", actualRepsonse.getReplyStatus().getReturnStatus());
         Assert.assertEquals("Contact was created successfully",
                 actualRepsonse.getReplyStatus().getMessage());
         Assert.assertEquals("The new contact id is " + actualRepsonse.getReplyStatus().getReturnCode().intValue(),
                 actualRepsonse.getReplyStatus().getExtMessage());
-        Assert.assertEquals(1234, actualRepsonse.getProfile().getBusinessContacts().get(0).getBusinessId().intValue());
-//        Assert.assertTrue(actualRepsonse.getProfile().getBusinessContacts().get(0).getAddress().getAddrId().intValue() > 0);
+        Assert.assertEquals(1351, actualRepsonse.getProfile().getBusinessContacts().get(0).getBusinessId().intValue());
+        Assert.assertEquals(2222, actualRepsonse.getProfile().getBusinessContacts().get(0).getAddress().getAddrId().intValue());
     }
 }
