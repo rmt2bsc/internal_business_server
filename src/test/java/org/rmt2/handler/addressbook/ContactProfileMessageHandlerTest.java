@@ -4,6 +4,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.when;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.dao.contacts.ContactDaoException;
@@ -97,8 +98,7 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
         }
         
         try {
-            when(this.mockPersistenceClient.insertRow(isA(Address.class), any(Boolean.class)))
-                    .thenReturn(2222);
+            when(this.mockPersistenceClient.insertRow(isA(Address.class), any(Boolean.class))).thenReturn(2222);
         } catch (ContactDaoException e) {
             e.printStackTrace();
             Assert.fail("Address insert test case failed setting up update call");
@@ -118,7 +118,6 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
     @Test
     public void testSuccess_FetchSingleBusinessContact() {
         String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactSimpleSearchRequest.xml");
-        String expectedResponseXml = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactSimpleSearchResponse.xml");
         List<ContactDto> mockSingleContactDtoResponse = ContactMockData.createMockSingleContactDtoResponseData();
 
         this.setupMockContactApiCall();
@@ -139,9 +138,7 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
         }
         Assert.assertNotNull(results);
         Assert.assertNotNull(results.getPayload());
-        
-        AddressBookResponse expectedResponse = 
-                (AddressBookResponse) jaxb.unMarshalMessage(expectedResponseXml);
+
         AddressBookResponse actualRepsonse = 
                 (AddressBookResponse) jaxb.unMarshalMessage(results.getPayload().toString());
         Assert.assertEquals(1, actualRepsonse.getProfile().getBusinessContacts().size());
@@ -149,89 +146,55 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
         Assert.assertEquals("SUCCESS", actualRepsonse.getReplyStatus().getReturnStatus());
         Assert.assertEquals("Contact record(s) found",
                 actualRepsonse.getReplyStatus().getMessage());
-        Assert.assertEquals(
-                expectedResponse.getProfile().getBusinessContacts().get(0)
-                        .getContactFirstname(),
+        Assert.assertEquals("firstname_1",
                 actualRepsonse.getProfile().getBusinessContacts().get(0)
                         .getContactFirstname());
-        Assert.assertEquals(
-                expectedResponse.getProfile().getBusinessContacts().get(0)
-                        .getContactLastname(),
+        Assert.assertEquals("lastname_1",
                 actualRepsonse.getProfile().getBusinessContacts().get(0)
                         .getContactLastname());
-        Assert.assertEquals(
-                expectedResponse.getProfile().getBusinessContacts().get(0)
-                        .getContactEmail(),
+        Assert.assertEquals("firstname_1.lastname_1@gte.net",
                 actualRepsonse.getProfile().getBusinessContacts().get(0)
                         .getContactEmail());
-        Assert.assertEquals(
-                expectedResponse.getProfile().getBusinessContacts().get(0)
-                        .getLongName(),
+        Assert.assertEquals("BusinessName_1",
                 actualRepsonse.getProfile().getBusinessContacts().get(0)
                         .getLongName());
-        Assert.assertEquals(
-                expectedResponse.getProfile().getBusinessContacts().get(0)
-                        .getTaxId(),
+        Assert.assertEquals("750000001",
                 actualRepsonse.getProfile().getBusinessContacts().get(0)
                         .getTaxId());
-        Assert.assertEquals(
-                expectedResponse.getProfile().getBusinessContacts().get(0)
-                        .getBusinessId(),
+        Assert.assertEquals(BigInteger.valueOf(1351),
                 actualRepsonse.getProfile().getBusinessContacts().get(0)
                         .getBusinessId());
-        Assert.assertEquals(
-                expectedResponse.getProfile().getBusinessContacts().get(0)
-                        .getContactPhone(),
+        Assert.assertEquals("9999999991",
                 actualRepsonse.getProfile().getBusinessContacts().get(0)
                         .getContactPhone());
-        Assert.assertEquals(
-                expectedResponse.getProfile().getBusinessContacts().get(0)
-                        .getWebsite(),
+        Assert.assertEquals("www.BusinessName_1.com",
                 actualRepsonse.getProfile().getBusinessContacts().get(0)
                         .getWebsite());
-        Assert.assertEquals(
-                expectedResponse.getProfile().getBusinessContacts().get(0)
-                        .getShortName(),
+        Assert.assertEquals("shortname",
                 actualRepsonse.getProfile().getBusinessContacts().get(0)
                         .getShortName());
-        Assert.assertEquals(
-                expectedResponse.getProfile().getBusinessContacts().get(0)
-                        .getAddress().getAddr1(),
+        Assert.assertEquals("address_line1_1",
                 actualRepsonse.getProfile().getBusinessContacts().get(0)
                         .getAddress().getAddr1());
-        Assert.assertEquals(
-                expectedResponse.getProfile().getBusinessContacts().get(0)
-                        .getAddress().getAddr2(),
+        Assert.assertEquals("address_line2_1",
                 actualRepsonse.getProfile().getBusinessContacts().get(0)
                         .getAddress().getAddr2());
-        Assert.assertEquals(
-                expectedResponse.getProfile().getBusinessContacts().get(0)
-                        .getAddress().getAddr3(),
+        Assert.assertEquals("address_line3_1",
                 actualRepsonse.getProfile().getBusinessContacts().get(0)
                         .getAddress().getAddr3());
-        Assert.assertEquals(
-                expectedResponse.getProfile().getBusinessContacts().get(0)
-                        .getAddress().getAddr4(),
+        Assert.assertEquals("address_line4_1",
                 actualRepsonse.getProfile().getBusinessContacts().get(0)
                         .getAddress().getAddr4());
-        Assert.assertEquals(
-                expectedResponse.getProfile().getBusinessContacts().get(0)
-                        .getAddress().getAddrId(),
+        Assert.assertEquals(BigInteger.valueOf(2001),
                 actualRepsonse.getProfile().getBusinessContacts().get(0)
                         .getAddress().getAddrId());
-        Assert.assertEquals(
-                expectedResponse.getProfile().getBusinessContacts().get(0)
-                        .getAddress().getZip().getCity(),
+        Assert.assertEquals("Dallas",
                 actualRepsonse.getProfile().getBusinessContacts().get(0)
                         .getAddress().getZip().getCity());
-        Assert.assertEquals(
-                expectedResponse.getProfile().getBusinessContacts().get(0)
-                        .getAddress().getZip().getState(),
+        Assert.assertEquals("Tx",
                 actualRepsonse.getProfile().getBusinessContacts().get(0)
                         .getAddress().getZip().getState());
-        Assert.assertEquals(
-                expectedResponse.getProfile().getBusinessContacts().get(0)
-                        .getAddress().getZip().getZipcode(),
+        Assert.assertEquals(BigInteger.valueOf(75232),
                 actualRepsonse.getProfile().getBusinessContacts().get(0)
                         .getAddress().getZip().getZipcode());
     }
@@ -240,7 +203,6 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
     @Test
     public void testSuccess_FetchBusinessContactList() {
         String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactComplexSearchRequest.xml");
-        String expectedResponseXml = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactSimpleSearchResponse.xml");
         List<ContactDto> mockContactDtoListResponse = ContactMockData.createMockContactDtoResponseListData();
 
         this.setupMockContactApiCall();
@@ -261,8 +223,6 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
         Assert.assertNotNull(results);
         Assert.assertNotNull(results.getPayload());
         
-        AddressBookResponse expectedResponse = 
-                (AddressBookResponse) jaxb.unMarshalMessage(expectedResponseXml);
         AddressBookResponse actualRepsonse = 
                 (AddressBookResponse) jaxb.unMarshalMessage(results.getPayload().toString());
         Assert.assertEquals(3, actualRepsonse.getProfile().getBusinessContacts().size());
@@ -271,90 +231,44 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
         Assert.assertEquals("Contact record(s) found",
                 actualRepsonse.getReplyStatus().getMessage());
         
-        for (int ndx = 0; ndx < expectedResponse.getProfile().getBusinessContacts().size(); ndx++) {
-            Assert.assertEquals(
-                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
-                            .getContactFirstname(),
-                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+        for (int ndx = 0; ndx < actualRepsonse.getProfile().getBusinessContacts().size(); ndx++) {
+            Assert.assertEquals("firstname_" + (ndx + 1), actualRepsonse.getProfile().getBusinessContacts().get(ndx)
                             .getContactFirstname());
-            Assert.assertEquals(
-                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
-                            .getContactLastname(),
-                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+            Assert.assertEquals("lastname_" + (ndx + 1), actualRepsonse.getProfile().getBusinessContacts().get(ndx)
                             .getContactLastname());
-            Assert.assertEquals(
-                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
-                            .getContactEmail(),
+            Assert.assertEquals("firstname_" + (ndx + 1) + ".lastname_" + (ndx + 1) + "@gte.net",
                     actualRepsonse.getProfile().getBusinessContacts().get(ndx)
                             .getContactEmail());
-            Assert.assertEquals(
-                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
-                            .getLongName(),
-                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+            Assert.assertEquals("BusinessName_" + (ndx + 1), actualRepsonse.getProfile().getBusinessContacts().get(ndx)
                             .getLongName());
-            Assert.assertEquals(
-                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
-                            .getTaxId(),
-                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+            Assert.assertEquals("75000000" + (ndx + 1), actualRepsonse.getProfile().getBusinessContacts().get(ndx)
                             .getTaxId());
-            Assert.assertEquals(
-                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
-                            .getBusinessId(),
+            Assert.assertEquals(BigInteger.valueOf(1351 + ndx),
                     actualRepsonse.getProfile().getBusinessContacts().get(ndx)
                             .getBusinessId());
-            Assert.assertEquals(
-                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
-                            .getContactPhone(),
-                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+            Assert.assertEquals("999999999" + (ndx + 1), actualRepsonse.getProfile().getBusinessContacts().get(ndx)
                             .getContactPhone());
-            Assert.assertEquals(
-                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
-                            .getWebsite(),
+            Assert.assertEquals("www.BusinessName_" + (ndx + 1) + ".com",
                     actualRepsonse.getProfile().getBusinessContacts().get(ndx)
                             .getWebsite());
-            Assert.assertEquals(
-                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
-                            .getShortName(),
-                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+            Assert.assertEquals("shortname", actualRepsonse.getProfile().getBusinessContacts().get(ndx)
                             .getShortName());
-            Assert.assertEquals(
-                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
-                            .getAddress().getAddr1(),
-                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+            Assert.assertEquals("address_line1_" + (ndx + 1), actualRepsonse.getProfile().getBusinessContacts().get(ndx)
                             .getAddress().getAddr1());
-            Assert.assertEquals(
-                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
-                            .getAddress().getAddr2(),
-                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+            Assert.assertEquals("address_line2_" + (ndx + 1), actualRepsonse.getProfile().getBusinessContacts().get(ndx)
                             .getAddress().getAddr2());
-            Assert.assertEquals(
-                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
-                            .getAddress().getAddr3(),
-                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+            Assert.assertEquals("address_line3_" + (ndx + 1), actualRepsonse.getProfile().getBusinessContacts().get(ndx)
                             .getAddress().getAddr3());
-            Assert.assertEquals(
-                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
-                            .getAddress().getAddr4(),
-                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+            Assert.assertEquals("address_line4_" + (ndx + 1), actualRepsonse.getProfile().getBusinessContacts().get(ndx)
                             .getAddress().getAddr4());
-            Assert.assertEquals(
-                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
-                            .getAddress().getAddrId(),
+            Assert.assertEquals(BigInteger.valueOf(2001 + ndx),
                     actualRepsonse.getProfile().getBusinessContacts().get(ndx)
                             .getAddress().getAddrId());
-            Assert.assertEquals(
-                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
-                            .getAddress().getZip().getCity(),
-                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+            Assert.assertEquals("Dallas", actualRepsonse.getProfile().getBusinessContacts().get(ndx)
                             .getAddress().getZip().getCity());
-            Assert.assertEquals(
-                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
-                            .getAddress().getZip().getState(),
-                    actualRepsonse.getProfile().getBusinessContacts().get(ndx)
+            Assert.assertEquals("Tx", actualRepsonse.getProfile().getBusinessContacts().get(ndx)
                             .getAddress().getZip().getState());
-            Assert.assertEquals(
-                    expectedResponse.getProfile().getBusinessContacts().get(ndx)
-                            .getAddress().getZip().getZipcode(),
+            Assert.assertEquals(BigInteger.valueOf(75232),
                     actualRepsonse.getProfile().getBusinessContacts().get(ndx)
                             .getAddress().getZip().getZipcode());
         }
