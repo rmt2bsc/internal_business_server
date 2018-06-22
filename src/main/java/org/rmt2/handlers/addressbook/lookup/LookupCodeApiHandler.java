@@ -1,4 +1,4 @@
-package org.rmt2.handlers.addressbook.profile;
+package org.rmt2.handlers.addressbook.lookup;
 
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -20,6 +20,10 @@ import org.modules.contacts.ContactsApiFactory;
 import org.rmt2.constants.ApiTransactionCodes;
 import org.rmt2.handlers.AbstractMessageHandler;
 import org.rmt2.handlers.InvalidRequestException;
+import org.rmt2.handlers.addressbook.profile.InvalidRequestContactCriteriaException;
+import org.rmt2.handlers.addressbook.profile.InvalidRequestContactProfileException;
+import org.rmt2.handlers.addressbook.profile.NoContactProfilesAvailableException;
+import org.rmt2.handlers.addressbook.profile.TooManyContactProfilesException;
 import org.rmt2.jaxb.AddressBookRequest;
 import org.rmt2.jaxb.AddressBookResponse;
 import org.rmt2.jaxb.BusinessContactCriteria;
@@ -43,28 +47,28 @@ import com.api.util.assistants.Verifier;
 import com.api.util.assistants.VerifyException;
 
 /**
- * Handles and routes Business, Personal, and Common contact related messages to
- * the AddressBook API.
+ * Handles and routes Lookup code related messages to the AddressBook
+ * API.
  * 
  * @author roy.terrell
  *
  */
-public class ContactProfileApiHandler extends 
+public class LookupCodeApiHandler extends 
                   AbstractMessageHandler<AddressBookRequest, AddressBookResponse, ContactDetailGroup> {
     
-    private static final Logger logger = Logger.getLogger(ContactProfileApiHandler.class);
+    private static final Logger logger = Logger.getLogger(LookupCodeApiHandler.class);
     protected ContactsApiFactory cf;
     protected ContactsApi api;
 
     /**
      * @param payload
      */
-    public ContactProfileApiHandler() {
+    public LookupCodeApiHandler() {
         super();
         this.responseObj = jaxbObjFactory.createAddressBookResponse();
         this.cf = new ContactsApiFactory();
         this.api = cf.createApi();
-        logger.info(ContactProfileApiHandler.class.getName() + " was instantiated successfully");
+        logger.info(LookupCodeApiHandler.class.getName() + " was instantiated successfully");
     }
 
     /*
