@@ -105,6 +105,57 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
         }
     }
     
+    private void setupMockForContactUpdate() {
+        try {
+            when(this.mockPersistenceClient.retrieveObject(any(Object.class))).thenReturn(this.createBusinessMockObject(),
+                    this.createAddressMockObject());
+        } catch (ContactDaoException e) {
+            e.printStackTrace();
+            Assert.fail("Business contact and Address fetch test case failed setting up business and address object calls");
+        }
+        
+        try {
+            when(this.mockPersistenceClient.updateRow(isA(Business.class))).thenReturn(1);
+        } catch (ContactDaoException e) {
+            e.printStackTrace();
+            Assert.fail("Business contact update test case failed setting up update call");
+        }
+        
+        try {
+            when(this.mockPersistenceClient.updateRow(isA(Address.class))).thenReturn(1);
+        } catch (ContactDaoException e) {
+            e.printStackTrace();
+            Assert.fail("Address update test case failed setting up update call");
+        }
+    }
+    
+    private Business createBusinessMockObject() {
+        Business b = new Business();
+        b.setBusinessId(1351);
+        b.setLongname("Ticket Master");
+        b.setContactFirstname("roy");
+        b.setContactLastname("terrell");
+        b.setContactPhone("9728882222");
+        b.setContactEmail("royterrell@gte.net");
+        b.setServTypeId(130);
+        b.setEntityTypeId(100);
+        b.setTaxId("75-9847382");
+        b.setWebsite("ticketmaster.com");
+        return b;
+    }
+    
+    private Address createAddressMockObject() {
+        Address a = new Address();
+        a.setAddrId(2222);
+        a.setBusinessId(1351);
+        a.setAddr1("94393 Hall Ave.");
+        a.setAddr2("Suite 948");
+        a.setAddr3("P.O. Box 84763");
+        a.setZip(75028);
+        a.setZipext(1234);
+        return a;
+    }
+    
     /*
      * (non-Javadoc)
      * 
@@ -374,6 +425,40 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
     }
     
     @Test
+    public void testError_Update_Contact_NotFound() {
+        String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactUpdateRequest.xml");
+        
+        this.setupMockForContactUpdate();
+        try {
+            when(this.mockPersistenceClient.retrieveObject(any(Object.class))).thenReturn(null);
+        } catch (ContactDaoException e) {
+            e.printStackTrace();
+            Assert.fail("Business contact and Address fetch test case failed setting up business and address object calls");
+        }
+        
+        MessageHandlerResults results = null;
+        ContactProfileApiHandler handler = new ContactProfileApiHandler();
+        try {
+            results = handler.processMessage(ApiTransactionCodes.CONTACTS_UPDATE, request);
+        } catch (MessageHandlerCommandException e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+        Assert.assertNotNull(results);
+        Assert.assertNotNull(results.getPayload());
+        
+        AddressBookResponse actualRepsonse = 
+                (AddressBookResponse) jaxb.unMarshalMessage(results.getPayload().toString());
+        Assert.assertEquals(1, actualRepsonse.getProfile().getBusinessContacts().size());
+        Assert.assertEquals(-1, actualRepsonse.getReplyStatus().getReturnCode().intValue());
+        Assert.assertEquals("ERROR", actualRepsonse.getReplyStatus().getReturnStatus());
+        Assert.assertEquals("Failure to update existing contact",
+                actualRepsonse.getReplyStatus().getMessage());
+        Assert.assertTrue(actualRepsonse.getReplyStatus().getExtMessage()
+                .contains("Business contact profile not found in database: "));
+    }
+    
+    @Test
     public void testSuccess_InsertBusinessContact() {
         String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactInsertRequest.xml");
         this.setupMockForContactInsert();
@@ -433,4 +518,64 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
         Assert.assertEquals(ContactProfileApiHandler.ERROR_MSG_TRANS_NOT_FOUND + "GET_INCORRECT_TRANS", actualRepsonse
                 .getReplyStatus().getMessage());
     }
+    
+    
+    @Test
+    public void testSuccess_DeleteBusinessContact() {
+        String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactDeleteRequest.xml");
+        
+        this.setupMockContactApiCall();
+        try {
+            when(this.mockApi.deleteContact(isA(ContactDto.class))).thenReturn(1);
+        } catch (ContactsApiException e) {
+            Assert.fail("Unable to setup mock stub for deleting a business contact");
+        }
+        
+        MessageHandlerResults results = null;
+        ContactProfileApiHandler handler = new ContactProfileApiHandler();
+        try {
+            results = handler.processMessage(ApiTransactionCodes.CONTACTS_DELETE, request);
+        } catch (MessageHandlerCommandException e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+        Assert.assertNotNull(results);
+        Assert.assertNotNull(results.getPayload());
+        
+        AddressBookResponse actualRepsonse = 
+                (AddressBookResponse) jaxb.unMarshalMessage(results.getPayload().toString());
+        Assert.assertNull(actualRepsonse.getProfile());
+        Assert.assertEquals(1, actualRepsonse.getReplyStatus().getReturnCode().intValue());
+        Assert.assertEquals("SUCCESS", actualRepsonse.getReplyStatus().getReturnStatus());
+        Assert.assertEquals("Contact was deleted successfully", actualRepsonse.getReplyStatus().getMessage());
+    }
+    
+    @Test
+    public void testError_Delete_Invalid_ContactId() {
+        String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactDeleteInvalidRequest.xml");
+        
+        this.setupMockForContactUpdate();
+        
+        MessageHandlerResults results = null;
+        ContactProfileApiHandler handler = new ContactProfileApiHandler();
+        try {
+            results = handler.processMessage(ApiTransactionCodes.CONTACTS_DELETE, request);
+        } catch (MessageHandlerCommandException e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+        Assert.assertNotNull(results);
+        Assert.assertNotNull(results.getPayload());
+        
+        AddressBookResponse actualRepsonse = 
+                (AddressBookResponse) jaxb.unMarshalMessage(results.getPayload().toString());
+        Assert.assertNull(actualRepsonse.getProfile());
+        Assert.assertEquals(-1, actualRepsonse.getReplyStatus().getReturnCode().intValue());
+        Assert.assertEquals("ERROR", actualRepsonse.getReplyStatus().getReturnStatus());
+        Assert.assertEquals("Failure to delelte contact", actualRepsonse.getReplyStatus().getMessage());
+        Assert.assertEquals("A valid Contact Id is required when deleting a contact from the database",
+                actualRepsonse.getReplyStatus().getExtMessage());
+        
+    }
+    
 }
