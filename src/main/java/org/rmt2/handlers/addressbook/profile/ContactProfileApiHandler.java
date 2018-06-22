@@ -35,6 +35,7 @@ import org.rmt2.jaxb.ReplyStatusType;
 //import org.slf4j.LoggerFactory;
 
 import com.InvalidDataException;
+import com.NotFoundException;
 import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.jms.handler.MessageHandlerCommandException;
 import com.api.messaging.webservice.WebServiceConstants;
@@ -84,7 +85,7 @@ public class ContactProfileApiHandler extends
                  r = this.updateContact(this.requestObj);
                 break;
             case ApiTransactionCodes.CONTACTS_DELETE:
-                // r = this.deleteBusinessContact(this.request);
+                 r = this.deleteContact(this.requestObj);
                 break;
             case ApiTransactionCodes.CONTACTS_GET:
                 r = this.fetchContact(this.requestObj);
@@ -141,14 +142,15 @@ public class ContactProfileApiHandler extends
     }
     
     /**
-     * Handler for invoking the appropriate API in order to update the specified contact.
+     * Handler for invoking the appropriate API in order to update the specified
+     * contact.
      * <p>
      * This method is capable of processing personal, business, or generic
      * contact types.
      * 
      * @param req
      *            The request used to build the ContactDto selection criteria
-     * @return an instance of {@link MessageHandlerResults}           
+     * @return an instance of {@link MessageHandlerResults}
      */
     protected MessageHandlerResults updateContact(AddressBookRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
@@ -160,7 +162,7 @@ public class ContactProfileApiHandler extends
         ContactsApi api = cf.createApi();
         int rc = 0;
         try {
-            this.validateRequest(req);
+            this.validateRequest(req); 
             ContactDto contactDto = this.extractContactObject(req.getProfile());
             newContact = (contactDto.getContactId() == 0);
             
@@ -183,15 +185,57 @@ public class ContactProfileApiHandler extends
                 rs.setMessage("Contact was modified successfully");
                 rs.setExtMessage("Total number of rows modified: " + rc);
             }
-        } catch (ContactsApiException e) {
+        } catch (ContactsApiException | NotFoundException | InvalidDataException e) {
             rs.setReturnCode(BigInteger.valueOf(-1));
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
-            rs.setMessage("Failure to update " + (newContact ? "new " : "existing ")  + " contact");
+            rs.setMessage("Failure to update " + (newContact ? "new" : "existing")  + " contact");
             rs.setExtMessage(e.getMessage());
             cdg = req.getProfile();
         }
         
         String xml = this.buildResponse(cdg, rs);
+        results.setPayload(xml);
+        return results;
+    }
+    
+    /**
+     * Handler for invoking the appropriate API in order to delete the specified
+     * contact.
+     * <p>
+     * This method is capable of processing personal, business, or generic
+     * contact types.
+     * 
+     * @param req
+     *            The request used to build the ContactDto selection criteria
+     * @return an instance of {@link MessageHandlerResults}
+     */
+    protected MessageHandlerResults deleteContact(AddressBookRequest req) {
+        MessageHandlerResults results = new MessageHandlerResults();
+        ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
+        
+        ContactsApiFactory cf = new ContactsApiFactory();
+        ContactsApi api = cf.createApi();
+        int rc = 0;
+        try {
+            this.validateRequest(req); 
+            ContactDto criteriaDto = this.extractSelectionCriteria(req.getCriteria());
+            
+            // call api
+            rc = api.deleteContact(criteriaDto);
+            
+            // Return code is either the total number of rows deleted
+            rs.setReturnCode(BigInteger.valueOf(rc));
+            rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
+            rs.setMessage("Contact was deleted successfully");
+            rs.setExtMessage("Contact Id deleted was " + criteriaDto.getContactId());
+        } catch (ContactsApiException | InvalidDataException e) {
+            rs.setReturnCode(BigInteger.valueOf(-1));
+            rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
+            rs.setMessage("Failure to delelte contact");
+            rs.setExtMessage(e.getMessage());
+        }
+        
+        String xml = this.buildResponse(null, rs);
         results.setPayload(xml);
         return results;
     }
