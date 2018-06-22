@@ -31,7 +31,7 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
 
     private static final Logger logger = Logger.getLogger(AbstractMessageHandler.class);
 
-    protected static final String ERROR_MSG_TRANS_NOT_FOUND = "Unable to identify transaction code: ";
+    public static final String ERROR_MSG_TRANS_NOT_FOUND = "Unable to identify transaction code: ";
 
     protected Serializable payload;
 

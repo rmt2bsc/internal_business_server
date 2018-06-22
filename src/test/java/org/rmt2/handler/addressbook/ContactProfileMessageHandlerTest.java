@@ -401,4 +401,36 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
         Assert.assertEquals(1351, actualRepsonse.getProfile().getBusinessContacts().get(0).getBusinessId().intValue());
         Assert.assertEquals(2222, actualRepsonse.getProfile().getBusinessContacts().get(0).getAddress().getAddrId().intValue());
     }
+
+    @Test
+    public void testError_Incorrect_Trans_Code() {
+        String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactIncorrectTransCodeRequest.xml");
+
+        this.setupMockContactApiCall();
+        try {
+            when(this.mockApi.getContact(null)).thenThrow(
+                    new ContactsApiException("Test validation error: selection criteria is required"));
+        } catch (ContactsApiException e) {
+            Assert.fail("Unable to setup mock stub for fetching a business contact");
+        }
+
+        MessageHandlerResults results = null;
+        ContactProfileApiHandler handler = new ContactProfileApiHandler();
+        try {
+            results = handler.processMessage("GET_INCORRECT_TRANS", request);
+        } catch (MessageHandlerCommandException e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+        Assert.assertNotNull(results);
+        Assert.assertNotNull(results.getPayload());
+
+        AddressBookResponse actualRepsonse = (AddressBookResponse) jaxb.unMarshalMessage(results.getPayload()
+                .toString());
+        Assert.assertNull(actualRepsonse.getProfile());
+        Assert.assertEquals("ERROR", actualRepsonse.getReplyStatus().getReturnStatus());
+        Assert.assertEquals(-1, actualRepsonse.getReplyStatus().getReturnCode().intValue());
+        Assert.assertEquals(ContactProfileApiHandler.ERROR_MSG_TRANS_NOT_FOUND + "GET_INCORRECT_TRANS", actualRepsonse
+                .getReplyStatus().getMessage());
+    }
 }
