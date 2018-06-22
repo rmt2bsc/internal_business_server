@@ -1,4 +1,4 @@
-package org.rmt2.handler;
+package org.rmt2.handler.addressbook;
 
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.when;
@@ -33,7 +33,7 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ ContactProfileApiHandler.class, JmsClientManager.class })
-public class MessageDrivenBeanToMessageHandlerTest extends BaseMockMessageDrivenBeanTest {
+public class ContactProfileJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "Test-AddressBook-Queue";
     private ContactsApiFactory mockContactsApiFactory;
@@ -43,7 +43,7 @@ public class MessageDrivenBeanToMessageHandlerTest extends BaseMockMessageDriven
     /**
      * 
      */
-    public MessageDrivenBeanToMessageHandlerTest() {
+    public ContactProfileJmsTest() {
     }
 
     /*
