@@ -89,6 +89,8 @@ public class ContactProfileApiHandler extends
             case ApiTransactionCodes.CONTACTS_GET:
                 r = this.fetchContact(this.requestObj);
                 break;
+            default:
+                r = this.createErrorReply(-1, ERROR_MSG_TRANS_NOT_FOUND + command);
         }
         return r;
     }

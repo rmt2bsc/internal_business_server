@@ -31,6 +31,8 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
 
     private static final Logger logger = Logger.getLogger(AbstractMessageHandler.class);
 
+    protected static final String ERROR_MSG_TRANS_NOT_FOUND = "Unable to identify transaction code: ";
+
     protected Serializable payload;
 
     protected JaxbUtil jaxb;
@@ -137,5 +139,20 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
         rs.setReturnStatus(statusCode);
         rs.setMessage(message);
         return rs;
+    }
+
+    /**
+     * Creates an error reply as XML String
+     * 
+     * @param errorCode
+     * @param msg
+     * @return
+     */
+    protected MessageHandlerResults createErrorReply(int errorCode, String msg) {
+        MessageHandlerResults results = new MessageHandlerResults();
+        ReplyStatusType rs = this.createReplyStatus(errorCode, WebServiceConstants.RETURN_STATUS_ERROR, msg);
+        String xml = this.buildResponse(null, rs);
+        results.setPayload(xml);
+        return results;
     }
 }
