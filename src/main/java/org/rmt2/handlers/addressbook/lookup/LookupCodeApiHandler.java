@@ -3,37 +3,23 @@ package org.rmt2.handlers.addressbook.lookup;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.dao.contacts.ContactsConst;
-import org.dto.BusinessContactDto;
-import org.dto.ContactDto;
-import org.dto.PersonalContactDto;
-import org.dto.adapter.jaxb.JaxbAddressBookFactory;
-import org.dto.converter.jaxb.ContactsJaxbFactory;
-import org.modules.contacts.ContactsApi;
-import org.modules.contacts.ContactsApiException;
-import org.modules.contacts.ContactsApiFactory;
+import org.dto.LookupCodeDto;
+import org.dto.adapter.orm.Rmt2AddressBookDtoFactory;
+import org.modules.AddressBookConstants;
+import org.modules.lookup.LookupDataApi;
+import org.modules.lookup.LookupDataApiException;
+import org.modules.lookup.LookupDataApiFactory;
 import org.rmt2.constants.ApiTransactionCodes;
 import org.rmt2.handlers.AbstractMessageHandler;
 import org.rmt2.handlers.InvalidRequestException;
-import org.rmt2.handlers.addressbook.profile.InvalidRequestContactCriteriaException;
 import org.rmt2.handlers.addressbook.profile.InvalidRequestContactProfileException;
-import org.rmt2.handlers.addressbook.profile.NoContactProfilesAvailableException;
-import org.rmt2.handlers.addressbook.profile.TooManyContactProfilesException;
-import org.rmt2.jaxb.AddressBookRequest;
-import org.rmt2.jaxb.AddressBookResponse;
-import org.rmt2.jaxb.BusinessContactCriteria;
-import org.rmt2.jaxb.BusinessType;
-import org.rmt2.jaxb.CommonContactCriteria;
-import org.rmt2.jaxb.CommonContactType;
-import org.rmt2.jaxb.ContactCriteriaGroup;
-import org.rmt2.jaxb.ContactDetailGroup;
-import org.rmt2.jaxb.PersonContactCriteria;
-import org.rmt2.jaxb.PersonType;
+import org.rmt2.jaxb.CodeDetailType;
+import org.rmt2.jaxb.LookupCodeCriteriaType;
+import org.rmt2.jaxb.LookupCodesRequest;
+import org.rmt2.jaxb.LookupCodesResponse;
 import org.rmt2.jaxb.ReplyStatusType;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
@@ -47,27 +33,23 @@ import com.api.util.assistants.Verifier;
 import com.api.util.assistants.VerifyException;
 
 /**
- * Handles and routes Lookup code related messages to the AddressBook
+ * Handles and routes Lookup Code related messages to the AddressBook
  * API.
  * 
  * @author roy.terrell
  *
  */
 public class LookupCodeApiHandler extends 
-                  AbstractMessageHandler<AddressBookRequest, AddressBookResponse, ContactDetailGroup> {
+                  AbstractMessageHandler<LookupCodesRequest, LookupCodesResponse, List<CodeDetailType>> {
     
     private static final Logger logger = Logger.getLogger(LookupCodeApiHandler.class);
-    protected ContactsApiFactory cf;
-    protected ContactsApi api;
 
     /**
      * @param payload
      */
     public LookupCodeApiHandler() {
         super();
-        this.responseObj = jaxbObjFactory.createAddressBookResponse();
-        this.cf = new ContactsApiFactory();
-        this.api = cf.createApi();
+        this.responseObj = jaxbObjFactory.createLookupCodesResponse();
         logger.info(LookupCodeApiHandler.class.getName() + " was instantiated successfully");
     }
 
@@ -87,14 +69,14 @@ public class LookupCodeApiHandler extends
             return r;
         }
         switch (command) {
-            case ApiTransactionCodes.CONTACTS_UPDATE:
-                 r = this.updateContact(this.requestObj);
+            case ApiTransactionCodes.LOOKUP_CODE_UPDATE:
+                 r = this.updateGroup(this.requestObj);
                 break;
-            case ApiTransactionCodes.CONTACTS_DELETE:
-                 r = this.deleteContact(this.requestObj);
+            case ApiTransactionCodes.LOOKUP_CODE_DELETE:
+                 r = this.deleteGroup(this.requestObj);
                 break;
-            case ApiTransactionCodes.CONTACTS_GET:
-                r = this.fetchContact(this.requestObj);
+            case ApiTransactionCodes.LOOKUP_CODE_GET:
+                r = this.fetchGroup(this.requestObj);
                 break;
             default:
                 r = this.createErrorReply(-1, ERROR_MSG_TRANS_NOT_FOUND + command);
@@ -103,34 +85,32 @@ public class LookupCodeApiHandler extends
     }
 
     /**
-     * Handler for invoking the appropriate API in order to fetch one or more contacts.
-     * <p>
-     * This method is capable of processing personal, business, or generic
-     * contact types.
+     * Handler for invoking the appropriate API in order to fetch one or more
+     * Lookup Code objects.
      * 
      * @param req
-     *            The request used to build the ContactDto selection criteria
-     * @return an instance of {@link MessageHandlerResults}           
+     *            an instance of {@link LookupCodesRequest}
+     * @return an instance of {@link MessageHandlerResults}
      */
-    protected MessageHandlerResults fetchContact(AddressBookRequest req) {
+    protected MessageHandlerResults fetchGroup(LookupCodesRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
         ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
-        ContactDetailGroup cdg = null;
+        List<CodeDetailType> cdtList = null;
 
         try {
             this.validateRequest(req);
-            ContactDto criteriaDto = this.extractSelectionCriteria(req.getCriteria());
+            LookupCodeDto criteriaDto = this.extractSelectionCriteria(req.getCriteria());
             
-            ContactsApiFactory cf = new ContactsApiFactory();
-            ContactsApi api = cf.createApi();
-            List<ContactDto> dtoList = api.getContact(criteriaDto);
+            LookupDataApiFactory f = new LookupDataApiFactory();
+            LookupDataApi api = f.createApi(AddressBookConstants.APP_NAME);
+            List<LookupCodeDto> dtoList = api.getCode(criteriaDto);
             if (dtoList == null) {
-                rs.setMessage("Contact data not found!");
+                rs.setMessage("Code Detail Lookup data not found!");
                 rs.setReturnCode(BigInteger.valueOf(0));
             }
             else {
-                cdg = this.buildContactDetailGroup(dtoList);
-                rs.setMessage("Contact record(s) found");
+                cdtList = this.buildJaxbListData(dtoList);
+                rs.setMessage("Code Detail Lookup record(s) found");
                 rs.setReturnCode(BigInteger.valueOf(dtoList.size()));
             }
             this.responseObj.setHeader(req.getHeader());
@@ -139,105 +119,100 @@ public class LookupCodeApiHandler extends
         } catch (Exception e) {
             rs.setReturnCode(BigInteger.valueOf(-1));
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
-            rs.setMessage("Failure to retrieve contact(s)");
+            rs.setMessage("Failure to retrieve Lookup Code Detail(s)");
             rs.setExtMessage(e.getMessage());
         }
-        String xml = this.buildResponse(cdg, rs);
+        String xml = this.buildResponse(cdtList, rs);
         results.setPayload(xml);
         return results;
     }
     
     /**
      * Handler for invoking the appropriate API in order to update the specified
-     * contact.
-     * <p>
-     * This method is capable of processing personal, business, or generic
-     * contact types.
+     * Lookup Code.
      * 
      * @param req
-     *            The request used to build the ContactDto selection criteria
+     *            an instance of {@link LookupCodesRequest}
      * @return an instance of {@link MessageHandlerResults}
      */
-    protected MessageHandlerResults updateContact(AddressBookRequest req) {
+    protected MessageHandlerResults updateGroup(LookupCodesRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
         ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
-        ContactDetailGroup cdg = null;
+        List<CodeDetailType> cdtList = null;
         
-        boolean newContact = false;
-        ContactsApiFactory cf = new ContactsApiFactory();
-        ContactsApi api = cf.createApi();
+        boolean newRec = false;
+        LookupDataApiFactory f = new LookupDataApiFactory();
+        LookupDataApi api = f.createApi(AddressBookConstants.APP_NAME);
         int rc = 0;
         try {
             this.validateRequest(req); 
-            ContactDto contactDto = this.extractContactObject(req.getProfile());
-            newContact = (contactDto.getContactId() == 0);
+            LookupCodeDto dataObjDto = this.extractJaxbObject(req.getDetailCodes());
+            newRec = (dataObjDto.getCodeId() == 0);
             
             // call api
-            rc = api.updateContact(contactDto);
+            rc = api.updateCode(dataObjDto);
             
             // prepare response with updated contact data
-            List<ContactDto> updateList = new ArrayList<>();
-            updateList.add(contactDto);
-            cdg = this.buildContactDetailGroup(updateList);
+            List<LookupCodeDto> updateList = new ArrayList<>();
+            updateList.add(dataObjDto);
+            cdtList = this.buildJaxbListData(updateList);
             
-            // Return code is either the total number of rows updated or the business id of the contact created
+            // Return code is either the total number of rows updated or the new code id
             rs.setReturnCode(BigInteger.valueOf(rc));
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
-            if (newContact) {
-                rs.setMessage("Contact was created successfully");
-                rs.setExtMessage("The new contact id is " + rc);
+            if (newRec) {
+                rs.setMessage("Lookup Code was created successfully");
+                rs.setExtMessage("The new code id is " + rc);
             }
             else {
-                rs.setMessage("Contact was modified successfully");
+                rs.setMessage("Lookup Code was modified successfully");
                 rs.setExtMessage("Total number of rows modified: " + rc);
             }
-        } catch (ContactsApiException | NotFoundException | InvalidDataException e) {
+        } catch (LookupDataApiException | NotFoundException | InvalidDataException e) {
             rs.setReturnCode(BigInteger.valueOf(-1));
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
-            rs.setMessage("Failure to update " + (newContact ? "new" : "existing")  + " contact");
+            rs.setMessage("Failure to update " + (newRec ? "new" : "existing")  + " Lookup Code");
             rs.setExtMessage(e.getMessage());
-            cdg = req.getProfile();
+            cdtList = req.getDetailCodes();
         }
         
-        String xml = this.buildResponse(cdg, rs);
+        String xml = this.buildResponse(cdtList, rs);
         results.setPayload(xml);
         return results;
     }
     
     /**
      * Handler for invoking the appropriate API in order to delete the specified
-     * contact.
-     * <p>
-     * This method is capable of processing personal, business, or generic
-     * contact types.
+     * Lookup Code.
      * 
      * @param req
-     *            The request used to build the ContactDto selection criteria
+     *            an instance of {@link LookupCodesRequest}
      * @return an instance of {@link MessageHandlerResults}
      */
-    protected MessageHandlerResults deleteContact(AddressBookRequest req) {
+    protected MessageHandlerResults deleteGroup(LookupCodesRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
         ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
         
-        ContactsApiFactory cf = new ContactsApiFactory();
-        ContactsApi api = cf.createApi();
+        LookupDataApiFactory f = new LookupDataApiFactory();
+        LookupDataApi api = f.createApi(AddressBookConstants.APP_NAME);
         int rc = 0;
+        LookupCodeDto criteriaDto = null;
         try {
             this.validateRequest(req); 
-            ContactDto criteriaDto = this.extractSelectionCriteria(req.getCriteria());
+            criteriaDto = this.extractSelectionCriteria(req.getCriteria());
             
             // call api
-            rc = api.deleteContact(criteriaDto);
+            rc = api.deleteCode(criteriaDto.getCodeId());
             
             // Return code is either the total number of rows deleted
             rs.setReturnCode(BigInteger.valueOf(rc));
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
-            rs.setMessage("Contact was deleted successfully");
-            rs.setExtMessage("Contact Id deleted was " + criteriaDto.getContactId());
-        } catch (ContactsApiException | InvalidDataException e) {
+            rs.setMessage("Lookup Code was deleted successfully");
+            rs.setExtMessage("Lookup Code Id deleted was " + criteriaDto.getCodeId());
+        } catch (LookupDataApiException | InvalidDataException e) {
             rs.setReturnCode(BigInteger.valueOf(-1));
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
-            rs.setMessage("Failure to delelte contact");
+            rs.setMessage("Failure to delelte Lookup Code by code id, " + criteriaDto.getCodeId());
             rs.setExtMessage(e.getMessage());
         }
         
@@ -246,171 +221,92 @@ public class LookupCodeApiHandler extends
         return results;
     }
     
-    private ContactDetailGroup buildContactDetailGroup(List<ContactDto> results) {
-        ContactDetailGroup cdg = jaxbObjFactory.createContactDetailGroup();
-        ContactsJaxbFactory cjf = new ContactsJaxbFactory();
-        
-        for (ContactDto contact : results) {
-            if (contact instanceof BusinessContactDto) {
-                BusinessType jaxbObj = cjf.createBusinessTypeInstance(contact);
-                cdg.getBusinessContacts().add(jaxbObj);
-            } else if (contact instanceof PersonalContactDto) {
-                PersonType jaxbObj = cjf.createPersonalTypeInstance(contact);
-                cdg.getPersonContacts().add(jaxbObj);
-            } else {
-                CommonContactType jaxbObj = cjf.createCommonContactTypeInstance(contact);
-                cdg.getCommonContacts().add(jaxbObj);
-            }
+    private List<CodeDetailType> buildJaxbListData(List<LookupCodeDto> results) {
+        List<CodeDetailType> list = new ArrayList<>();
+        for (LookupCodeDto item : results) {
+            CodeDetailType jaxbObj = jaxbObjFactory.createCodeDetailType();
+            jaxbObj.setGroupId(BigInteger.valueOf(item.getGrpId()));
+            jaxbObj.setCodeId(BigInteger.valueOf(item.getCodeId()));
+            jaxbObj.setLongdesc(item.getCodeLongName());
+            jaxbObj.setShortdesc(item.getCodeShortName());
+            list.add(jaxbObj);
         }
-        return cdg;
+        return list;
     }
    /**
     * 
-    * @param criteriaObj
+    * @param criteria
     * @return
     */
-   private ContactDto extractSelectionCriteria(ContactCriteriaGroup criteriaGroup) {
-       Object criteriaObj = this.validateSelectionCriteria(criteriaGroup);
-       ContactDto dto = null;
-       if (criteriaObj instanceof BusinessContactCriteria) {
-           BusinessContactCriteria bcc = (BusinessContactCriteria) criteriaObj;
-           dto = JaxbAddressBookFactory.createBusinessContactDtoInstance(bcc);
+   private LookupCodeDto extractSelectionCriteria(LookupCodeCriteriaType criteria) {
+       LookupCodeDto criteriaDto = Rmt2AddressBookDtoFactory.getNewCodeInstance();
+       if (criteria != null) {
+           if (criteria.getGroup() != null) {
+               criteriaDto.setGrpId(criteria.getGroup().intValue());    
+           }
+           if (criteria.getCode() != null) {
+               criteriaDto.setCodeId(criteria.getCode().intValue());    
+           }
+           criteriaDto.setCodeLongName(criteria.getCodeLongDescription());
+           criteriaDto.setCodeShortDesc(criteria.getCodeShortDescription());
        }
-       if (criteriaObj instanceof PersonContactCriteria) {
-           PersonContactCriteria pcc = (PersonContactCriteria) criteriaObj;
-           dto = JaxbAddressBookFactory.createPersonContactDtoInstance(pcc);
-       }
-       if (criteriaObj instanceof CommonContactCriteria) {
-           CommonContactCriteria ccc = (CommonContactCriteria) criteriaObj;
-           dto = JaxbAddressBookFactory.createContactDtoInstance(ccc);
-       }
+       return criteriaDto;
+   }
+   
+   private LookupCodeDto extractJaxbObject(List<CodeDetailType> cdtList) {
+       CodeDetailType jaxbObj = this.validateJaxbData(cdtList);
+       LookupCodeDto dto = Rmt2AddressBookDtoFactory.getNewCodeInstance();
        
+       if (jaxbObj.getGroupId() != null) {
+           dto.setGrpId(jaxbObj.getGroupId().intValue());    
+       }
+       if (jaxbObj.getCodeId() != null) {
+           dto.setCodeId(jaxbObj.getCodeId().intValue());    
+       }
+       dto.setCodeLongName(jaxbObj.getLongdesc());
+       dto.setCodeShortDesc(jaxbObj.getShortdesc());
        return dto;
    }
    
-   private ContactDto extractContactObject(ContactDetailGroup cdg) {
-       Object contactObj = this.validateContactDetailGroup(cdg);
-       ContactDto dto = null;
-       if (contactObj instanceof BusinessType) {
-           BusinessType bt = (BusinessType) contactObj;
-           dto = JaxbAddressBookFactory.createBusinessContactDtoInstance(bt);
-           dto.setContactType(ContactsConst.CONTACT_TYPE_BUSINESS);
-       }
-       if (contactObj instanceof PersonType) {
-           PersonType pt = (PersonType) contactObj;
-           dto = JaxbAddressBookFactory.createPersonContactDtoInstance(pt);
-           dto.setContactType(ContactsConst.CONTACT_TYPE_PERSONAL);
-       }
-       if (contactObj instanceof CommonContactType) {
-           CommonContactType cct = (CommonContactType) contactObj;
-           dto = JaxbAddressBookFactory.createContactDtoInstance(cct);
-       }
-       
-       return dto;
-   }
-   
-   private Object validateSelectionCriteria(ContactCriteriaGroup criteriaGroup) {
-        try {
-            Verifier.verifyNotNull(criteriaGroup);
-        } catch (VerifyException e) {
-            throw new InvalidRequestContactCriteriaException(
-                    "AddressBook contact query request is rquired to have a criteria group element");
-        }
-
-        // Use a hashtable to assist in ContactCriteriaGroup validations since
-        // hashtable only allows non-null keys and values.
-        Map<Object, Object> criteriaHash = new Hashtable<>();
-        this.addToValidationHashTable(criteriaHash, criteriaGroup.getBusinessCriteria());
-        this.addToValidationHashTable(criteriaHash, criteriaGroup.getCommonCriteria());
-        this.addToValidationHashTable(criteriaHash, criteriaGroup.getPersonCriteria());
-        
-        // ContactCriteriaGroup is required to have one and only one criteria
-        // object available.
-        try {
-            Verifier.verifyTrue(!criteriaHash.isEmpty() && criteriaHash.size() == 1);
-        } catch (VerifyException e) {
-            throw new InvalidRequestContactCriteriaException(
-                    "AddressBook ContactCriteriaGroup is required to have one and only one criteria object that is of type either personal, business, or common");
-        }
-        
-        // If we arrived here, that means there must be one and only one criteria object available
-        return criteriaHash.keySet().iterator().next();
-    }
-    
     /**
-     * Validates the request's list of contacts.
+     * Validates the request's list of Lookup Codes.
      */
-    private Object validateContactDetailGroup(ContactDetailGroup cdg) {
+    private CodeDetailType validateJaxbData(List<CodeDetailType> cdtList) {
         try {
-            Verifier.verifyNotNull(cdg);
+            Verifier.verifyNotEmpty(cdtList);
         }
         catch (VerifyException e) {
-            throw new InvalidRequestContactProfileException("AddressBook request ContactDetailGroup element is required");
+            throw new InvalidRequestContactProfileException("AddressBook Lookup Code List is required");
         }
         
-        // Use a hashtable to assist in ContactDetailGroup validations since
-        // hashtable only allows non-null keys and values.
-        Map<List, List> detailGroupHash = new Hashtable<>();
-        this.addToValidationHashTable(detailGroupHash, cdg.getBusinessContacts().isEmpty() ? null : cdg.getBusinessContacts());
-        this.addToValidationHashTable(detailGroupHash, cdg.getCommonContacts().isEmpty() ? null : cdg.getCommonContacts());
-        this.addToValidationHashTable(detailGroupHash, cdg.getPersonContacts().isEmpty() ? null : cdg.getPersonContacts());
-        
-        // ContactCriteriaGroup is required to have one and only one criteria
-        // object available.
         try {
-            Verifier.verifyTrue(!detailGroupHash.isEmpty() && detailGroupHash.size() == 1);
-        } catch (VerifyException e) {
-            throw new InvalidRequestContactProfileException(
-                    "AddressBook ContactDetailGroup is required to have one and only one detail group object that is of type either personal, business, or common");
-        }
-        
-        // If we arrived here, that means there must be one and only one contact detail grouop object available
-        List contacts = detailGroupHash.keySet().iterator().next();
-        
-        try {
-            Verifier.verifyNotEmpty(contacts);
+            Verifier.verifyTrue(cdtList.size() == 1);
         }
         catch (VerifyException e) {
-            throw new NoContactProfilesAvailableException(
-                    "AddressBook message request's list of contacts cannot be empty for an update operation");
+            throw new InvalidDataException("Only one Lookup Code object can be updated at a time");
         }
-
-        try {
-            Verifier.verifyFalse(contacts.size() > 1);
-        }
-        catch (VerifyException e) {
-            throw new TooManyContactProfilesException("Too many contacts were available for update operation");
-        }
-        return contacts.get(0);
+        return cdtList.get(0);
     }
     
-    private void addToValidationHashTable(Map hash, Object criteriaObj) {
-        try {
-            hash.put(criteriaObj, criteriaObj);    
-        }
-        catch (NullPointerException e) {
-            //Do nothing
-        }
-    }
     
     @Override
-    protected void validateRequest(AddressBookRequest req) throws InvalidDataException {
+    protected void validateRequest(LookupCodesRequest req) throws InvalidDataException {
         try {
             Verifier.verifyNotNull(req);
         }
         catch (VerifyException e) {
-            throw new InvalidRequestException("AddressBook message request element is invalid");
+            throw new InvalidRequestException("LookupCodes message request element is invalid");
         }
     }
 
     @Override
-    protected String buildResponse(ContactDetailGroup payload,  ReplyStatusType replyStatus) {
+    protected String buildResponse(List<CodeDetailType> payload,  ReplyStatusType replyStatus) {
         if (replyStatus != null) {
             this.responseObj.setReplyStatus(replyStatus);    
         }
         
         if (payload != null) {
-            this.responseObj.setProfile((ContactDetailGroup) payload);
+            this.responseObj.getDetailCodes().addAll(payload);
         }
         
         String xml = this.jaxb.marshalMessage(this.responseObj);

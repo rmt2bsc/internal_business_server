@@ -9,8 +9,6 @@ import org.apache.log4j.Logger;
 import org.dto.LookupGroupDto;
 import org.dto.adapter.orm.Rmt2AddressBookDtoFactory;
 import org.modules.AddressBookConstants;
-import org.modules.contacts.ContactsApi;
-import org.modules.contacts.ContactsApiFactory;
 import org.modules.lookup.LookupDataApi;
 import org.modules.lookup.LookupDataApiException;
 import org.modules.lookup.LookupDataApiFactory;
@@ -45,8 +43,6 @@ public class LookupGroupApiHandler extends
                   AbstractMessageHandler<LookupCodesRequest, LookupCodesResponse, List<CodeGroupType>> {
     
     private static final Logger logger = Logger.getLogger(LookupGroupApiHandler.class);
-    protected ContactsApiFactory cf;
-    protected ContactsApi api;
 
     /**
      * @param payload
@@ -54,8 +50,6 @@ public class LookupGroupApiHandler extends
     public LookupGroupApiHandler() {
         super();
         this.responseObj = jaxbObjFactory.createLookupCodesResponse();
-        this.cf = new ContactsApiFactory();
-        this.api = cf.createApi();
         logger.info(LookupGroupApiHandler.class.getName() + " was instantiated successfully");
     }
 
@@ -91,13 +85,13 @@ public class LookupGroupApiHandler extends
     }
 
     /**
-     * Handler for invoking the appropriate API in order to fetch one or more contacts.
+     * Handler for invoking the appropriate API in order to fetch one or more Lookup Group objects.
      * <p>
      * This method is capable of processing personal, business, or generic
      * contact types.
      * 
      * @param req
-     *            The request used to build the ContactDto selection criteria
+     *            an instance of {@link LookupCodesRequest}
      * @return an instance of {@link MessageHandlerResults}           
      */
     protected MessageHandlerResults fetchGroup(LookupCodesRequest req) {
@@ -137,13 +131,10 @@ public class LookupGroupApiHandler extends
     
     /**
      * Handler for invoking the appropriate API in order to update the specified
-     * contact.
-     * <p>
-     * This method is capable of processing personal, business, or generic
-     * contact types.
+     * Lookup Group.
      * 
      * @param req
-     *            The request used to build the ContactDto selection criteria
+     *            an instance of {@link LookupCodesRequest}
      * @return an instance of {@link MessageHandlerResults}
      */
     protected MessageHandlerResults updateGroup(LookupCodesRequest req) {
@@ -168,7 +159,7 @@ public class LookupGroupApiHandler extends
             updateList.add(dataObjDto);
             cdgList = this.buildJaxbListData(updateList);
             
-            // Return code is either the total number of rows updated or the business id of the contact created
+            // Return code is either the total number of rows updated or the new group id
             rs.setReturnCode(BigInteger.valueOf(rc));
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
             if (newRec) {
@@ -194,13 +185,10 @@ public class LookupGroupApiHandler extends
     
     /**
      * Handler for invoking the appropriate API in order to delete the specified
-     * contact.
-     * <p>
-     * This method is capable of processing personal, business, or generic
-     * contact types.
+     * Lookup Group.
      * 
      * @param req
-     *            The request used to build the ContactDto selection criteria
+     *            an instance of {@link LookupCodesRequest}
      * @return an instance of {@link MessageHandlerResults}
      */
     protected MessageHandlerResults deleteGroup(LookupCodesRequest req) {
