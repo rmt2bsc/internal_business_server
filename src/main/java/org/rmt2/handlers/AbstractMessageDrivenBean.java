@@ -33,6 +33,8 @@ import com.api.xml.RMT2XmlUtility;
  */
 public abstract class AbstractMessageDrivenBean {
     private static Logger logger = Logger.getLogger(AbstractMessageDrivenBean.class);
+    
+    protected static final String BUS_SERVER_ERROR = "RMT2 Business Server Error was encountered";
 
     protected ResourceBundle mappings;
 
@@ -121,7 +123,13 @@ public abstract class AbstractMessageDrivenBean {
             try {
                 requestPayload = ((TextMessage) message).getText();
             } catch (JMSException e) {
-                throw new MessageHandlerException("Error occurred fetching JMS TextMessage content", e);
+                String errMsg = "Error occurred extracting content from JMS TextMessage object";
+                String xml = MessageHandlerHelper.buildCommonErrorResponseMessageXml(BUS_SERVER_ERROR, 
+                        errMsg, -101, "unknow application code", "unknow module", "unknown transaction");
+                MessageHandlerResults response = new MessageHandlerResults();
+                response.setPayload(xml);
+                logger.error(BUS_SERVER_ERROR + ":  " + errMsg, e);
+                return response;
             }
         }
         try {
@@ -149,11 +157,11 @@ public abstract class AbstractMessageDrivenBean {
             apiHandler = this.getApiHandlerInstance(commandKey, handlerMapping);
         } catch (Exception e) {
             String errMsg = "Unable to determine the API that would be responsible for processing the message.  Check the header's application, module, and transaction values for possible corrections.";
-            String xml = MessageHandlerHelper.buildCommonErrorResponseMessageXml("RMT2 Business Server Error was encountered", 
+            String xml = MessageHandlerHelper.buildCommonErrorResponseMessageXml(BUS_SERVER_ERROR, 
                     errMsg, -101, app, module, trans);
             MessageHandlerResults response = new MessageHandlerResults();
             response.setPayload(xml);
-            logger.error("RMT2 Business Server Error was encountered:  " + errMsg, e);
+            logger.error(BUS_SERVER_ERROR + ":  " + errMsg, e);
             return response;
         }
 
