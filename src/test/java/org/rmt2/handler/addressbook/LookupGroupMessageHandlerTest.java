@@ -413,7 +413,7 @@ public class LookupGroupMessageHandlerTest extends BaseMessageHandlerTest {
     }
     
     @Test
-    public void testError_Delete_Invalid_ContactId() {
+    public void testError_Delete_Invalid_GroupId() {
         String request = RMT2File.getFileContentsAsString("xml/lookup/LookupGroupDeleteInvalidGroupIdRequest.xml");
         
         this.setupMockForDelete();
@@ -434,7 +434,7 @@ public class LookupGroupMessageHandlerTest extends BaseMessageHandlerTest {
         Assert.assertNotNull(actualRepsonse.getGroupCodes());
         Assert.assertNotNull(actualRepsonse.getDetailCodes());
         Assert.assertTrue(actualRepsonse.getDetailCodes().isEmpty());
-        Assert.assertEquals(1, actualRepsonse.getGroupCodes().size());
+        Assert.assertTrue(actualRepsonse.getGroupCodes().isEmpty());
         Assert.assertEquals(-1, actualRepsonse.getReplyStatus().getReturnCode().intValue());
         Assert.assertEquals(WebServiceConstants.RETURN_STATUS_ERROR, actualRepsonse.getReplyStatus().getReturnStatus());
         Assert.assertEquals("Failure to delelte Lookup Group by group id, 0", actualRepsonse.getReplyStatus().getMessage());
