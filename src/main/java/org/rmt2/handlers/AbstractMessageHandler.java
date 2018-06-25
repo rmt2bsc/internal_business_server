@@ -1,13 +1,13 @@
 package org.rmt2.handlers;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 
 import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
 import org.rmt2.jaxb.ObjectFactory;
 import org.rmt2.jaxb.ReplyStatusType;
+import org.rmt2.util.MessageHandlerHelper;
 
 import com.RMT2Base;
 import com.api.config.ConfigConstants;
@@ -84,7 +84,8 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
         try {
             this.validateRequest(this.requestObj);
         } catch (Exception e) {
-            ReplyStatusType rs = this.createReplyStatus(1, WebServiceConstants.RETURN_STATUS_ERROR, e.getMessage());
+            ReplyStatusType rs = MessageHandlerHelper.createReplyStatus(1,
+                    WebServiceConstants.RETURN_STATUS_ERROR, e.getMessage(), null);
             String respXml = this.buildResponse(null,rs);
             results = new MessageHandlerResults();
             results.setPayload(respXml);
@@ -127,21 +128,6 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
     }
 
     /**
-     * 
-     * @param returnCode
-     * @param statusCode
-     * @param message
-     * @return
-     */
-    protected ReplyStatusType createReplyStatus(int returnCode, String statusCode, String message) {
-        ReplyStatusType rs = this.jaxbObjFactory.createReplyStatusType();
-        rs.setReturnCode(BigInteger.valueOf(returnCode));
-        rs.setReturnStatus(statusCode);
-        rs.setMessage(message);
-        return rs;
-    }
-
-    /**
      * Creates an error reply as XML String
      * 
      * @param errorCode
@@ -150,7 +136,7 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
      */
     protected MessageHandlerResults createErrorReply(int errorCode, String msg) {
         MessageHandlerResults results = new MessageHandlerResults();
-        ReplyStatusType rs = this.createReplyStatus(errorCode, WebServiceConstants.RETURN_STATUS_ERROR, msg);
+        ReplyStatusType rs = MessageHandlerHelper.createReplyStatus(errorCode, WebServiceConstants.RETURN_STATUS_ERROR, msg, null);
         String xml = this.buildResponse(null, rs);
         results.setPayload(xml);
         return results;

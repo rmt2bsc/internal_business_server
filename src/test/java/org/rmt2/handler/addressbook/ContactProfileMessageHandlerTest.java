@@ -27,7 +27,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMessageHandlerTest;
-import org.rmt2.ContactMockData;
+import org.rmt2.AddressBookMockData;
 import org.rmt2.constants.ApiTransactionCodes;
 import org.rmt2.handlers.addressbook.profile.ContactProfileApiHandler;
 import org.rmt2.jaxb.AddressBookResponse;
@@ -70,7 +70,7 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
         
         PowerMockito.mockStatic(PostalApiFactory.class);
         PostalApi mockPostalApi = Mockito.mock(PostalApi.class);
-        ZipcodeDto mockZipcodeDto = ContactMockData.createZipcodeOrm(75232, 75232, "Tx", "Dallas", "214", "Dallas", 6);
+        ZipcodeDto mockZipcodeDto = AddressBookMockData.createZipcodeOrm(75232, 75232, "Tx", "Dallas", "214", "Dallas", 6);
         when(PostalApiFactory.createApi()).thenReturn(mockPostalApi);
         when(mockPostalApi.getZipCode(isA(Integer.class))).thenReturn(mockZipcodeDto);
         
@@ -169,7 +169,7 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
     @Test
     public void testSuccess_FetchSingleBusinessContact() {
         String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactSimpleSearchRequest.xml");
-        List<ContactDto> mockSingleContactDtoResponse = ContactMockData.createMockSingleContactDtoResponseData();
+        List<ContactDto> mockSingleContactDtoResponse = AddressBookMockData.createMockSingleContactDtoResponseData();
 
         this.setupMockContactApiCall();
         
@@ -254,7 +254,7 @@ public class ContactProfileMessageHandlerTest extends BaseMessageHandlerTest {
     @Test
     public void testSuccess_FetchBusinessContactList() {
         String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactComplexSearchRequest.xml");
-        List<ContactDto> mockContactDtoListResponse = ContactMockData.createMockContactDtoResponseListData();
+        List<ContactDto> mockContactDtoListResponse = AddressBookMockData.createMockContactDtoResponseListData();
 
         this.setupMockContactApiCall();
         try {

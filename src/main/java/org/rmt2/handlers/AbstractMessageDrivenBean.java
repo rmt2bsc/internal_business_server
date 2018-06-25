@@ -10,8 +10,7 @@ import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
 import org.rmt2.constants.ApiHeaderNames;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+import org.rmt2.util.MessageHandlerHelper;
 
 import com.RMT2RuntimeException;
 import com.api.messaging.handler.MessageHandlerException;
@@ -87,9 +86,8 @@ public abstract class AbstractMessageDrivenBean {
         } catch (JMSException e) {
             throw new MessageHandlerException("Error occurred evaluating the JMS Reply To destination", e);
         } catch (Exception e) {
-            throw new MessageHandlerException(
-                    "Error occurred sending the response message to its JMS ReplyTo destinationevaluating the JMS Reply To destination",
-                    e);
+            String errMsg = "Error occurred sending the response message to its JMS ReplyTo destinationevaluating the JMS Reply To destination";
+            throw new MessageHandlerException(errMsg, e);
         }
     }
 
@@ -146,7 +144,17 @@ public abstract class AbstractMessageDrivenBean {
         ResourceBundle handlerMapping = this.getApplicationMappings(app);
 
         // Instantiate Handler class
-        MessageHandlerCommand apiHandler = this.getApiHandlerInstance(commandKey, handlerMapping);
+        MessageHandlerCommand apiHandler = null;
+        try {
+            apiHandler = this.getApiHandlerInstance(commandKey, handlerMapping);
+        } catch (Exception e) {
+            String errMsg = "Unable to determine the API that would be responsible for processing the message.  Check the header's application, module, and transaction values for possible corrections.";
+            String xml = MessageHandlerHelper.buildCommonErrorResponseMessageXml("Business Server Error was encounter", 
+                    errMsg, -101, app, module, trans);
+            MessageHandlerResults response = new MessageHandlerResults();
+            response.setPayload(xml);
+            return response;
+        }
 
         // Invoke handler.
         try {

@@ -19,7 +19,7 @@ import org.modules.contacts.ContactsApiFactory;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
-import org.rmt2.ContactMockData;
+import org.rmt2.AddressBookMockData;
 import org.rmt2.handlers.addressbook.profile.ContactProfileApiHandler;
 
 import com.api.messaging.jms.JmsClientManager;
@@ -79,7 +79,7 @@ public class ContactProfileJmsTest extends BaseMockMessageDrivenBeanTest {
     @Test
     public void fetchSingleBusinessContact() {
         String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactSimpleSearchRequest.xml");
-        List<ContactDto> mockSingleContactDtoResponse = ContactMockData.createMockSingleContactDtoResponseData();
+        List<ContactDto> mockSingleContactDtoResponse = AddressBookMockData.createMockSingleContactDtoResponseData();
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.getContact(isA(ContactDto.class))).thenReturn(mockSingleContactDtoResponse);

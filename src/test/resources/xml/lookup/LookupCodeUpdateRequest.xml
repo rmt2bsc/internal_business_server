@@ -1,7 +1,7 @@
 <LookupCodesRequest>
     <header>
         <routing>XXXXXXX</routing>
-        <application>AddressBook</application>
+        <application>addressbook</application>
         <module>lookup</module>
         <transaction>UPDATE_LOOKUP_CODE</transaction>
         <delivery_mode>XXXXXXX</delivery_mode>

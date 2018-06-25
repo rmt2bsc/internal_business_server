@@ -3,16 +3,18 @@ package org.rmt2;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dao.mapping.orm.rmt2.GeneralCodesGroup;
 import org.dao.mapping.orm.rmt2.VwBusinessAddress;
 import org.dao.mapping.orm.rmt2.Zipcode;
 import org.dto.BusinessContactDto;
 import org.dto.ContactDto;
+import org.dto.LookupGroupDto;
 import org.dto.ZipcodeDto;
 import org.dto.adapter.orm.Rmt2AddressBookDtoFactory;
 
-public class ContactMockData {
+public class AddressBookMockData {
 
-    public ContactMockData() {
+    public AddressBookMockData() {
     }
     
     /**
@@ -167,5 +169,41 @@ public class ContactMockData {
         ZipcodeDto dto = Rmt2AddressBookDtoFactory.getZipCodeInstance(obj);
         return dto;
     }
+ 
     
+   /**
+    * 
+    * @return
+    */
+    public static final List<LookupGroupDto> createMockLookupGroupDtoListResponse() {
+        List<LookupGroupDto> dtoList = new ArrayList<>();
+        
+        List<GeneralCodesGroup> list = new ArrayList<GeneralCodesGroup>();
+        GeneralCodesGroup p = new GeneralCodesGroup();
+        p.setCodeGrpId(100);
+        p.setDescription("Group1");
+        list.add(p);
+
+        p = new GeneralCodesGroup();
+        p.setCodeGrpId(101);
+        p.setDescription("Group2");
+        list.add(p);
+
+        p = new GeneralCodesGroup();
+        p.setCodeGrpId(102);
+        p.setDescription("Group3");
+        list.add(p);
+
+        p = new GeneralCodesGroup();
+        p.setCodeGrpId(103);
+        p.setDescription("Group4");
+        list.add(p);
+        
+        for (GeneralCodesGroup grp : list) {
+            LookupGroupDto dto = Rmt2AddressBookDtoFactory.getCodeInstance(grp);
+            dtoList.add(dto);
+        }
+        
+        return dtoList;
+    }
 }
