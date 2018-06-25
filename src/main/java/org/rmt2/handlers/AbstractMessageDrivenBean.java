@@ -149,10 +149,11 @@ public abstract class AbstractMessageDrivenBean {
             apiHandler = this.getApiHandlerInstance(commandKey, handlerMapping);
         } catch (Exception e) {
             String errMsg = "Unable to determine the API that would be responsible for processing the message.  Check the header's application, module, and transaction values for possible corrections.";
-            String xml = MessageHandlerHelper.buildCommonErrorResponseMessageXml("Business Server Error was encounter", 
+            String xml = MessageHandlerHelper.buildCommonErrorResponseMessageXml("RMT2 Business Server Error was encountered", 
                     errMsg, -101, app, module, trans);
             MessageHandlerResults response = new MessageHandlerResults();
             response.setPayload(xml);
+            logger.error("RMT2 Business Server Error was encountered:  " + errMsg, e);
             return response;
         }
 
