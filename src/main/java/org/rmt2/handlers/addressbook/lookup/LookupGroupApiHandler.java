@@ -210,9 +210,10 @@ public class LookupGroupApiHandler extends
         LookupDataApiFactory f = new LookupDataApiFactory();
         LookupDataApi api = f.createApi(AddressBookConstants.APP_NAME);
         int rc = 0;
+        LookupGroupDto criteriaDto = null;
         try {
             this.validateRequest(req); 
-            LookupGroupDto criteriaDto = this.extractSelectionCriteria(req.getCriteria());
+            criteriaDto = this.extractSelectionCriteria(req.getCriteria());
             
             // call api
             rc = api.deleteGroup(criteriaDto.getGrpId());
@@ -225,7 +226,7 @@ public class LookupGroupApiHandler extends
         } catch (LookupDataApiException | InvalidDataException e) {
             rs.setReturnCode(BigInteger.valueOf(-1));
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
-            rs.setMessage("Failure to delelte Lookup Group");
+            rs.setMessage("Failure to delelte Lookup Group by group id, " + criteriaDto.getGrpId());
             rs.setExtMessage(e.getMessage());
         }
         
