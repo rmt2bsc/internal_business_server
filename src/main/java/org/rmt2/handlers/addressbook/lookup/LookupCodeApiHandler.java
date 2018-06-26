@@ -70,13 +70,13 @@ public class LookupCodeApiHandler extends
         }
         switch (command) {
             case ApiTransactionCodes.LOOKUP_CODE_UPDATE:
-                 r = this.updateGroup(this.requestObj);
+                 r = this.updateCode(this.requestObj);
                 break;
             case ApiTransactionCodes.LOOKUP_CODE_DELETE:
-                 r = this.deleteGroup(this.requestObj);
+                 r = this.deleteCode(this.requestObj);
                 break;
             case ApiTransactionCodes.LOOKUP_CODE_GET:
-                r = this.fetchGroup(this.requestObj);
+                r = this.fetchCode(this.requestObj);
                 break;
             default:
                 r = this.createErrorReply(-1, ERROR_MSG_TRANS_NOT_FOUND + command);
@@ -92,7 +92,7 @@ public class LookupCodeApiHandler extends
      *            an instance of {@link LookupCodesRequest}
      * @return an instance of {@link MessageHandlerResults}
      */
-    protected MessageHandlerResults fetchGroup(LookupCodesRequest req) {
+    protected MessageHandlerResults fetchCode(LookupCodesRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
         ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
         List<CodeDetailType> cdtList = null;
@@ -135,7 +135,7 @@ public class LookupCodeApiHandler extends
      *            an instance of {@link LookupCodesRequest}
      * @return an instance of {@link MessageHandlerResults}
      */
-    protected MessageHandlerResults updateGroup(LookupCodesRequest req) {
+    protected MessageHandlerResults updateCode(LookupCodesRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
         ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
         List<CodeDetailType> cdtList = null;
@@ -189,7 +189,7 @@ public class LookupCodeApiHandler extends
      *            an instance of {@link LookupCodesRequest}
      * @return an instance of {@link MessageHandlerResults}
      */
-    protected MessageHandlerResults deleteGroup(LookupCodesRequest req) {
+    protected MessageHandlerResults deleteCode(LookupCodesRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
         ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
         
