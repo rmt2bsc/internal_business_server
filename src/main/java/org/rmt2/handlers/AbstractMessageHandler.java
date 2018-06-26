@@ -25,7 +25,7 @@ import com.api.xml.jaxb.JaxbUtil;
  *
  * @param <T1> The request type to process
  * @param <T2> The response type to process
- * @param <P> The Payload type to process
+ * @param <P> The Payload type to process for responses and/or request update data
  */
 public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base implements MessageHandlerCommand<T1, T2, P> {
 
