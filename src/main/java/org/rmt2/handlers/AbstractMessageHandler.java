@@ -111,6 +111,8 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
     protected abstract void validateRequest(T1 req) throws InvalidRequestException;
     
     /**
+     * Uses a generic payload type to build the payload response and/or the
+     * payload representing data that is to be updated in a request.
      * 
      * @param payload
      * @param replyStatus
