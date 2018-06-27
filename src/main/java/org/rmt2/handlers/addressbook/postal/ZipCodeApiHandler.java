@@ -18,6 +18,7 @@ import org.rmt2.handlers.InvalidRequestException;
 import org.rmt2.jaxb.PostalRequest;
 import org.rmt2.jaxb.PostalResponse;
 import org.rmt2.jaxb.ReplyStatusType;
+import org.rmt2.jaxb.ZipResultFormatType;
 import org.rmt2.jaxb.ZipcodeCriteriaType;
 import org.rmt2.jaxb.ZipcodeFullType;
 //import org.slf4j.Logger;
@@ -41,7 +42,7 @@ import com.api.util.assistants.VerifyException;
 public class ZipCodeApiHandler extends AbstractMessageHandler<PostalRequest, PostalResponse, List> {
     
     private static final Logger logger = Logger.getLogger(ZipCodeApiHandler.class);
-    private String queryResultFormat;
+    private ZipResultFormatType queryResultFormat;
 
     /**
      * @param payload
@@ -91,7 +92,7 @@ public class ZipCodeApiHandler extends AbstractMessageHandler<PostalRequest, Pos
 
         try {
             this.validateCriteria(req);
-            this.queryResultFormat = req.getPostalCriteria().getZipcode().getResultFormat().name();
+            this.queryResultFormat = req.getPostalCriteria().getZipcode().getResultFormat();
             ZipcodeDto criteriaDto = this.extractSelectionCriteria(req.getPostalCriteria().getZipcode());
             
             PostalApi api = PostalApiFactory.createApi(AddressBookConstants.APP_NAME);
@@ -122,7 +123,7 @@ public class ZipCodeApiHandler extends AbstractMessageHandler<PostalRequest, Pos
     
     
     private List buildJaxbListData(List<ZipcodeDto> results) {
-        if (this.queryResultFormat.equals("FULL")) {
+        if (this.queryResultFormat == ZipResultFormatType.FULL) {
             return this.buildFullResultTypeList(results);
         }
         else {
@@ -214,7 +215,7 @@ public class ZipCodeApiHandler extends AbstractMessageHandler<PostalRequest, Pos
         }
         
         if (payload != null) {
-            if (this.queryResultFormat.equals("FULL")) {
+            if (this.queryResultFormat.equals(ZipResultFormatType.FULL)) {
                 List<ZipcodeFullType> fullFormatResultList = (List<ZipcodeFullType>) ((List<?>) payload);
                 this.responseObj.getZipFull().addAll(fullFormatResultList);    
             }

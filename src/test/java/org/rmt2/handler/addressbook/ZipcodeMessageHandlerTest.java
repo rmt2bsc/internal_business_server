@@ -70,51 +70,6 @@ public class ZipcodeMessageHandlerTest extends BaseMessageHandlerTest {
       when(PostalApiFactory.createApi(eq(AddressBookConstants.APP_NAME))).thenReturn(this.mockApi);
     }
     
-//    private void setupMockForFetch() {
-//        try {
-//            when(this.mockPersistenceClient.retrieveList(any(GeneralCodesGroup.class)))
-//                    .thenReturn(this.createMockFetchAllResponse());
-//        } catch (LookupDaoException e) {
-//            e.printStackTrace();
-//            Assert.fail("All lookup code group fetch test case failed");
-//        }
-//    }
-//    
-//    private void setupMockForInsert() {
-//        try {
-//            when(this.mockPersistenceClient.insertRow(any(GeneralCodesGroup.class), any(Boolean.class)))
-//                    .thenReturn(GROUP_ID);
-//        } catch (LookupDaoException e) {
-//            e.printStackTrace();
-//            Assert.fail("Lookup Code Group insert test case failed setting up mock insert call");
-//        }
-//    }
-//    
-//    private void setupMockForUpdate() {
-//        try {
-//            when(this.mockPersistenceClient.retrieveObject(isA(GeneralCodesGroup.class)))
-//                            .thenReturn(this.createMockFetchSingleResponse());
-//        } catch (LookupDaoException e) {
-//            e.printStackTrace();
-//            Assert.fail("Lookup Code Group update test case failed setting up mock retrieve call");
-//        }
-//        try {
-//            when(this.mockPersistenceClient.updateRow(any(GeneralCodesGroup.class))).thenReturn(1);
-//        } catch (LookupDaoException e) {
-//            e.printStackTrace();
-//            Assert.fail("Lookup Code Group update test case failed setting up mock update call");
-//        }
-//    }
-//    
-//    private void setupMockForDelete() {
-//        try {
-//            when(this.mockPersistenceClient.deleteRow(isA(GeneralCodesGroup.class))).thenReturn(1);
-//        } catch (LookupDaoException e) {
-//            e.printStackTrace();
-//            Assert.fail("Lookup Code Group update test case failed setting up mock retrieve call");
-//        }
-//    }
-    
     /*
      * (non-Javadoc)
      * 
