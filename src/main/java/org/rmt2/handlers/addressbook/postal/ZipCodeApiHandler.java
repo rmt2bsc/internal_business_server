@@ -6,21 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.dto.LookupGroupDto;
 import org.dto.ZipcodeDto;
 import org.dto.adapter.orm.Rmt2AddressBookDtoFactory;
+import org.dto.converter.jaxb.ContactsJaxbFactory;
 import org.modules.AddressBookConstants;
-import org.modules.lookup.LookupDataApi;
-import org.modules.lookup.LookupDataApiException;
-import org.modules.lookup.LookupDataApiFactory;
 import org.modules.postal.PostalApi;
 import org.modules.postal.PostalApiFactory;
 import org.rmt2.constants.ApiTransactionCodes;
 import org.rmt2.handlers.AbstractMessageHandler;
 import org.rmt2.handlers.InvalidRequestException;
-import org.rmt2.handlers.addressbook.profile.InvalidRequestContactProfileException;
-import org.rmt2.jaxb.CodeGroupType;
-import org.rmt2.jaxb.LookupCodesRequest;
 import org.rmt2.jaxb.PostalRequest;
 import org.rmt2.jaxb.PostalResponse;
 import org.rmt2.jaxb.ReplyStatusType;
@@ -31,7 +25,6 @@ import org.rmt2.jaxb.ZipcodeFullType;
 import org.rmt2.jaxb.ZipcodeType;
 
 import com.InvalidDataException;
-import com.NotFoundException;
 import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.jms.handler.MessageHandlerCommandException;
 import com.api.messaging.webservice.WebServiceConstants;
@@ -55,7 +48,7 @@ public class ZipCodeApiHandler extends AbstractMessageHandler<PostalRequest, Pos
      */
     public ZipCodeApiHandler() {
         super();
-        this.responseObj = jaxbObjFactory.createLookupCodesResponse();
+        this.responseObj = jaxbObjFactory.createPostalResponse();
         logger.info(ZipCodeApiHandler.class.getName() + " was instantiated successfully");
     }
 
@@ -75,14 +68,8 @@ public class ZipCodeApiHandler extends AbstractMessageHandler<PostalRequest, Pos
             return r;
         }
         switch (command) {
-            case ApiTransactionCodes.LOOKUP_GROUP_UPDATE:
-                 r = this.updateGroup(this.requestObj);
-                break;
-            case ApiTransactionCodes.LOOKUP_GROUP_DELETE:
-                 r = this.deleteGroup(this.requestObj);
-                break;
-            case ApiTransactionCodes.LOOKUP_GROUP_GET:
-                r = this.fetchGroup(this.requestObj);
+            case ApiTransactionCodes.ZIPCODE_GET:
+                r = this.fetchZipcode(this.requestObj);
                 break;
             default:
                 r = this.createErrorReply(-1, ERROR_MSG_TRANS_NOT_FOUND + command);
@@ -91,35 +78,31 @@ public class ZipCodeApiHandler extends AbstractMessageHandler<PostalRequest, Pos
     }
 
     /**
-     * Handler for invoking the appropriate API in order to fetch one or more Lookup Group objects.
-     * <p>
-     * This method is capable of processing personal, business, or generic
-     * contact types.
+     * Handler for invoking the appropriate API in order to fetch one or more Zipcode objects.
      * 
      * @param req
      *            an instance of {@link PostalRequest}
      * @return an instance of {@link MessageHandlerResults}           
      */
-    protected MessageHandlerResults fetchGroup(PostalRequest req) {
+    protected MessageHandlerResults fetchZipcode(PostalRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
         ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
-        List<CodeGroupType> cdgList = null;
+        List queryResults = null;
 
         try {
-            this.validateRequest(req);
-            this.queryResultFormat = req.getPostalCriteria().getZipcode().getResultFormat();
+            this.validateCriteria(req);
+            this.queryResultFormat = req.getPostalCriteria().getZipcode().getResultFormat().name();
             ZipcodeDto criteriaDto = this.extractSelectionCriteria(req.getPostalCriteria().getZipcode());
             
-            PostalApiFactory f = new PostalApiFactory();
-            PostalApi api = f.createApi(AddressBookConstants.APP_NAME);
+            PostalApi api = PostalApiFactory.createApi(AddressBookConstants.APP_NAME);
             List<ZipcodeDto> dtoList = api.getZipCode(criteriaDto);
             if (dtoList == null) {
                 rs.setMessage("No Zipcode data not found!");
                 rs.setReturnCode(BigInteger.valueOf(0));
             }
             else {
-                cdgList = this.buildJaxbListData(dtoList);
-                rs.setMessage("Group Lookup record(s) found");
+                queryResults = this.buildJaxbListData(dtoList);
+                rs.setMessage("Zipcode record(s) found");
                 rs.setReturnCode(BigInteger.valueOf(dtoList.size()));
             }
             this.responseObj.setHeader(req.getHeader());
@@ -128,134 +111,40 @@ public class ZipCodeApiHandler extends AbstractMessageHandler<PostalRequest, Pos
         } catch (Exception e) {
             rs.setReturnCode(BigInteger.valueOf(-1));
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
-            rs.setMessage("Failure to retrieve Lookup Group(s)");
+            rs.setMessage("Failure to retrieve Zipcode data");
             rs.setExtMessage(e.getMessage());
         }
-        String xml = this.buildResponse(cdgList, rs);
+        results.setReturnCode(rs.getReturnCode().intValue());
+        String xml = this.buildResponse(queryResults, rs);
         results.setPayload(xml);
         return results;
     }
     
-    /**
-     * Handler for invoking the appropriate API in order to update the specified
-     * Lookup Group.
-     * 
-     * @param req
-     *            an instance of {@link LookupCodesRequest}
-     * @return an instance of {@link MessageHandlerResults}
-     */
-    protected MessageHandlerResults updateGroup(LookupCodesRequest req) {
-        MessageHandlerResults results = new MessageHandlerResults();
-        ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
-        List<CodeGroupType> cdgList = null;
-        
-        boolean newRec = false;
-        LookupDataApiFactory f = new LookupDataApiFactory();
-        LookupDataApi api = f.createApi(AddressBookConstants.APP_NAME);
-        int rc = 0;
-        try {
-            this.validateRequest(req); 
-            LookupGroupDto dataObjDto = this.extractJaxbObject(req.getGroupCodes());
-            newRec = (dataObjDto.getGrpId() == 0);
-            
-            // call api
-            rc = api.updateGroup(dataObjDto);
-            
-            // prepare response with updated contact data
-            List<LookupGroupDto> updateList = new ArrayList<>();
-            updateList.add(dataObjDto);
-            cdgList = this.buildJaxbListData(updateList);
-            
-            // Return code is either the total number of rows updated or the new group id
-            rs.setReturnCode(BigInteger.valueOf(rc));
-            rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
-            if (newRec) {
-                rs.setMessage("Lookup Group was created successfully");
-                rs.setExtMessage("The new group id is " + rc);
-            }
-            else {
-                rs.setMessage("Lookup Group was modified successfully");
-                rs.setExtMessage("Total number of rows modified: " + rc);
-            }
-        } catch (LookupDataApiException | NotFoundException | InvalidDataException e) {
-            rs.setReturnCode(BigInteger.valueOf(-1));
-            rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
-            rs.setMessage("Failure to update " + (newRec ? "new" : "existing")  + " Lookup Group");
-            rs.setExtMessage(e.getMessage());
-            cdgList = req.getGroupCodes();
-        }
-        
-        String xml = this.buildResponse(cdgList, rs);
-        results.setPayload(xml);
-        return results;
-    }
-    
-    /**
-     * Handler for invoking the appropriate API in order to delete the specified
-     * Lookup Group.
-     * 
-     * @param req
-     *            an instance of {@link LookupCodesRequest}
-     * @return an instance of {@link MessageHandlerResults}
-     */
-    protected MessageHandlerResults deleteGroup(LookupCodesRequest req) {
-        MessageHandlerResults results = new MessageHandlerResults();
-        ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
-        
-        LookupDataApiFactory f = new LookupDataApiFactory();
-        LookupDataApi api = f.createApi(AddressBookConstants.APP_NAME);
-        int rc = 0;
-        LookupGroupDto criteriaDto = null;
-        try {
-            this.validateRequest(req); 
-            criteriaDto = this.extractSelectionCriteria(req.getCriteria());
-            
-            // call api
-            rc = api.deleteGroup(criteriaDto.getGrpId());
-            
-            // Return code is either the total number of rows deleted
-            rs.setReturnCode(BigInteger.valueOf(rc));
-            rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
-            rs.setMessage("Lookup Group was deleted successfully");
-            rs.setExtMessage("Lookup Group Id deleted was " + criteriaDto.getGrpId());
-        } catch (LookupDataApiException | InvalidDataException e) {
-            rs.setReturnCode(BigInteger.valueOf(-1));
-            rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
-            rs.setMessage("Failure to delelte Lookup Group by group id, " + criteriaDto.getGrpId());
-            rs.setExtMessage(e.getMessage());
-        }
-        
-        String xml = this.buildResponse(null, rs);
-        results.setPayload(xml);
-        return results;
-    }
     
     private List buildJaxbListData(List<ZipcodeDto> results) {
-        List list = new ArrayList<>();
+        if (this.queryResultFormat.equals("FULL")) {
+            return this.buildFullResultTypeList(results);
+        }
+        else {
+            return this.buildShortResultTypeList(results);
+        }
+    }
+    
+    private List<ZipcodeFullType> buildFullResultTypeList(List<ZipcodeDto> results) {
+        List<ZipcodeFullType> list = new ArrayList<>();
         for (ZipcodeDto item : results) {
-            CodeGroupType jaxbObj = jaxbObjFactory.createCodeGroupType();
-            jaxbObj.setGroupId(BigInteger.valueOf(item.getGrpId()));
-            jaxbObj.setGroupDesc(item.getGrpDescr());
+            ZipcodeFullType jaxbObj = ContactsJaxbFactory.getZipFullTypeInstance(item);
             list.add(jaxbObj);
         }
         return list;
     }
     
-    private List buildZipcodeFullType(ZipcodeDto zipDto) {
-        ZipcodeFullType jaxbObj = jaxbObjFactory.createCodeGroupType();
-
+    private List<ZipcodeType> buildShortResultTypeList(List<ZipcodeDto> results) {
+        List<ZipcodeType> list = new ArrayList<>();
         for (ZipcodeDto item : results) {
-            ZipcodeFullType jaxbObj = jaxbObjFactory.createCodeGroupType();
-            jaxbObj.setGroupId(BigInteger.valueOf(item.getGrpId()));
-            jaxbObj.setGroupDesc(item.getGrpDescr());
+            ZipcodeType jaxbObj = ContactsJaxbFactory.getZipShortInstance(item);
             list.add(jaxbObj);
         }
-        return list;
-    }
-    
-    private List buildShortResultTypeList(List<ZipcodeDto> results) {
-        List list = new ArrayList<>();
-        
         return list;
     }
     
@@ -278,37 +167,6 @@ public class ZipCodeApiHandler extends AbstractMessageHandler<PostalRequest, Pos
        return criteriaDto;
    }
    
-   private LookupGroupDto extractJaxbObject(List<CodeGroupType> cgtList) {
-       CodeGroupType jaxbObj = this.validateJaxbData(cgtList);
-       LookupGroupDto dto = Rmt2AddressBookDtoFactory.getNewCodeGroupInstance();
-       
-       if (jaxbObj.getGroupId() != null) {
-           dto.setGrpId(jaxbObj.getGroupId().intValue());    
-       }
-       dto.setGrpDescr(jaxbObj.getGroupDesc());
-       return dto;
-   }
-   
-    /**
-     * Validates the request's list of Lookup Groups.
-     */
-    private CodeGroupType validateJaxbData(List<CodeGroupType> cgtList) {
-        try {
-            Verifier.verifyNotEmpty(cgtList);
-        }
-        catch (VerifyException e) {
-            throw new InvalidRequestContactProfileException("AddressBook Lookup Group List is required");
-        }
-        
-        try {
-            Verifier.verifyTrue(cgtList.size() == 1);
-        }
-        catch (VerifyException e) {
-            throw new InvalidDataException("Only one Lookup Group object can be updated at a time");
-        }
-        return cgtList.get(0);
-    }
-    
     
     @Override
     protected void validateRequest(PostalRequest req) throws InvalidDataException {
@@ -316,7 +174,26 @@ public class ZipCodeApiHandler extends AbstractMessageHandler<PostalRequest, Pos
             Verifier.verifyNotNull(req);
         }
         catch (VerifyException e) {
-            throw new InvalidRequestException("LookupCodes message request element is invalid");
+            throw new InvalidRequestException("PostalRequest message request element is invalid", e);
+        }
+    }
+    
+    private void validateCriteria(PostalRequest req) throws InvalidRequestException {
+        try {
+            Verifier.verifyNotNull(req.getPostalCriteria());
+            Verifier.verifyNotNull(req.getPostalCriteria().getZipcode());
+        }
+        catch (VerifyException e) {
+            throw new InvalidRequestException("PostalRequest zipcode criteria element is invalid", e);
+        }
+        
+        // Verify that the result format type is specified
+        try {
+            Verifier.verifyNotNull(req.getPostalCriteria().getZipcode().getResultFormat());
+            Verifier.verifyNotEmpty(req.getPostalCriteria().getZipcode().getResultFormat().name());
+        }
+        catch (VerifyException e) {
+            throw new InvalidRequestException("The Result Format indicator is required and must be valid", e);
         }
     }
 

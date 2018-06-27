@@ -252,4 +252,112 @@ public class AddressBookMockData {
         
         return dtoList;
     }
+    
+    public static final List<Zipcode> createMockFetchAllOrmResults() {
+        List<Zipcode> list = new ArrayList<Zipcode>();
+        Zipcode p = createMockZipcodeOrm(75231,75231, "State1", "City1", "AreaCode1", "County1", 6);
+        list.add(p);
+
+        p = createMockZipcodeOrm(75232,75232, "State2", "City2", "AreaCode2", "County2", 6);
+        list.add(p);
+
+        p = createMockZipcodeOrm(75233,75233, "State3", "City3", "AreaCode3", "County3", 6);
+        list.add(p);
+
+        p = createMockZipcodeOrm(75234,75234, "State4", "City4", "AreaCode4", "County4", 6);
+        list.add(p);
+        
+        p = createMockZipcodeOrm(75235,75235, "State5", "City5", "AreaCode5", "County5", 6);
+        list.add(p);
+        
+        return list;
+    }
+    
+    public static final List<ZipcodeDto> createMockFetchAllDtoResults() {
+        List<ZipcodeDto> list = new ArrayList<>();
+        ZipcodeDto p = createMockZipcodeDto(75231,75231, "State1", "City1", "AreaCode1", "County1", 6);
+        list.add(p);
+
+        p = createMockZipcodeDto(75232,75232, "State2", "City2", "AreaCode2", "County2", 6);
+        list.add(p);
+
+        p = createMockZipcodeDto(75233,75233, "State3", "City3", "AreaCode3", "County3", 6);
+        list.add(p);
+
+        p = createMockZipcodeDto(75234,75234, "State4", "City4", "AreaCode4", "County4", 6);
+        list.add(p);
+        
+        p = createMockZipcodeDto(75235,75235, "State5", "City5", "AreaCode5", "County5", 6);
+        list.add(p);
+        
+        return list;
+    }
+
+    public static final ZipcodeDto createMockZipcodeDto(int zipId, int zipCode, String state,
+            String city, String areaCode, String countyName, int timeZoneId) {
+        ZipcodeDto dto = Rmt2AddressBookDtoFactory.getNewZipCodeInstance();
+        dto.setId(zipId);
+        dto.setZip(zipCode);
+        dto.setStateCode(state);
+        dto.setCity(city);
+        dto.setAreaCode(areaCode);
+        dto.setCountyName(countyName);
+        dto.setTimeZoneId(timeZoneId);
+        dto.setLatitude(382372382323.3883828);
+        dto.setLongitude(48484848.4843949);
+        dto.setBlackPopulation(239000);
+        dto.setWhitePopulation(10000000);
+        dto.setHispanicPopulation(30000);
+        dto.setCityAliasName(city + "_Alias");
+        dto.setAverageHouseValue(87674.84);
+        dto.setCbsa(123.88);
+        dto.setCbsaDiv(23.88);
+        dto.setCityAliasAbbr("AAB");
+        dto.setCityTypeId("City_type");
+        dto.setCountiesArea(333);
+        dto.setCountyFips("Counties FIPS");
+        dto.setDayLightSaving("TRUE");
+        dto.setElevation(2345.89);
+        dto.setHouseholdsPerZipcode(600);
+        dto.setIncomePerHousehold(569.76);
+        dto.setMsa(757575);
+        dto.setPersonsPerHousehold(4);
+        dto.setPmsa(123);
+        dto.setZipPopulation(25000);
+        return dto;
+    }
+
+    public static final Zipcode createMockZipcodeOrm(int zipId, int zipCode, String state,
+            String city, String areaCode, String countyName, int timeZoneId) {
+        Zipcode dto = new Zipcode();
+        dto.setZipId(zipId);
+        dto.setZip(zipCode);
+        dto.setState(state);
+        dto.setCity(city);
+        dto.setAreaCode(areaCode);
+        dto.setCountyName(countyName);
+        dto.setTimeZoneId(timeZoneId);
+        dto.setLatitude(382372382323.3883828);
+        dto.setLongitude(48484848.4843949);
+        dto.setBlackPopulation(239000);
+        dto.setWhitePopulation(10000000);
+        dto.setHispanicPopulation(30000);
+        dto.setCityAliasName(city + "_Alias");
+        dto.setAverageHouseValue(87674.84);
+        dto.setCbsa(123.88);
+        dto.setCbsaDiv(23.88);
+        dto.setCityAliasAbbr("AAB");
+        dto.setCityTypeId("City_type");
+        dto.setCountiesArea(333);
+        dto.setCountyFips("Counties FIPS");
+        dto.setDayLightSaving("TRUE");
+        dto.setElevation(2345.89);
+        dto.setHouseholdsPerZipcode(600);
+        dto.setIncomePerHousehold(569.76);
+        dto.setMsa(757575);
+        dto.setPersonsPerHousehold(4);
+        dto.setPmsa(123);
+        dto.setZipcodePopulation(25000);
+        return dto;
+    }
 }
