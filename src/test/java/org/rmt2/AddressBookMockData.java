@@ -9,8 +9,10 @@ import org.dao.mapping.orm.rmt2.VwBusinessAddress;
 import org.dao.mapping.orm.rmt2.Zipcode;
 import org.dto.BusinessContactDto;
 import org.dto.ContactDto;
+import org.dto.CountryDto;
 import org.dto.LookupCodeDto;
 import org.dto.LookupGroupDto;
+import org.dto.RegionDto;
 import org.dto.ZipcodeDto;
 import org.dto.adapter.orm.Rmt2AddressBookDtoFactory;
 
@@ -273,7 +275,7 @@ public class AddressBookMockData {
         return list;
     }
     
-    public static final List<ZipcodeDto> createMockFetchAllDtoResults() {
+    public static final List<ZipcodeDto> createMockFetchZipDtoResults() {
         List<ZipcodeDto> list = new ArrayList<>();
         ZipcodeDto p = createMockZipcodeDto(75231,75231, "State1", "City1", "AreaCode1", "County1", 6);
         list.add(p);
@@ -359,5 +361,80 @@ public class AddressBookMockData {
         dto.setPmsa(123);
         dto.setZipcodePopulation(25000);
         return dto;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public static final List<CountryDto> createMockCountryDto() {
+        List<CountryDto> list = new ArrayList<>();
+        CountryDto o = Rmt2AddressBookDtoFactory.getNewCountryInstance();
+        o.setCountryId(100);
+        o.setCountryName("CountryName1");
+        o.setCountryCode("CountryCode1");
+        list.add(o);
+
+        o = Rmt2AddressBookDtoFactory.getNewCountryInstance();
+        o.setCountryId(101);
+        o.setCountryName("CountryName2");
+        o.setCountryCode("CountryCode2");
+        list.add(o);
+
+        o = Rmt2AddressBookDtoFactory.getNewCountryInstance();
+        o.setCountryId(102);
+        o.setCountryName("CountryName3");
+        o.setCountryCode("CountryCode3");
+        list.add(o);
+
+        o = Rmt2AddressBookDtoFactory.getNewCountryInstance();
+        o.setCountryId(103);
+        o.setCountryName("CountryName4");
+        o.setCountryCode("CountryCode4");
+        list.add(o);
+        return list;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public static final List<RegionDto> createMockRegionDto() {
+        List<RegionDto> list = new ArrayList<RegionDto>();
+        RegionDto o = Rmt2AddressBookDtoFactory.getNewRegionInstance();
+        o.setStateId(10);
+        o.setStateCode("AbbrCode1");
+        o.setStateName("StateName1");
+        o.setCountryId(100);
+        list.add(o);
+
+        o = Rmt2AddressBookDtoFactory.getNewRegionInstance();
+        o.setStateId(11);
+        o.setStateCode("AbbrCode2");
+        o.setStateName("StateName2");
+        o.setCountryId(100);
+        list.add(o);
+        
+        o = Rmt2AddressBookDtoFactory.getNewRegionInstance();
+        o.setStateId(12);
+        o.setStateCode("AbbrCode3");
+        o.setStateName("StateName3");
+        o.setCountryId(100);
+        list.add(o);
+        
+        o = Rmt2AddressBookDtoFactory.getNewRegionInstance();
+        o.setStateId(13);
+        o.setStateCode("AbbrCode4");
+        o.setStateName("StateName4");
+        o.setCountryId(100);
+        list.add(o);
+        
+        o = Rmt2AddressBookDtoFactory.getNewRegionInstance();
+        o.setStateId(14);
+        o.setStateCode("AbbrCode5");
+        o.setStateName("StateName5");
+        o.setCountryId(100);
+        list.add(o);
+        return list;
     }
 }
