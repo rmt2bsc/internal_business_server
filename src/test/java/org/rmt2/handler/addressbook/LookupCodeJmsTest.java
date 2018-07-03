@@ -103,12 +103,6 @@ public class LookupCodeJmsTest extends BaseMockMessageDrivenBeanTest {
         List<LookupCodeDto> mockDtoDataResponse = AddressBookMockData.createMockLookupCodeDtoListResponse();
         this.setupMocks(DESTINATION, request);
         try {
-            when(this.mockApi.getCode(isA(LookupCodeDto.class))).thenReturn(mockDtoDataResponse);
-        } catch (LookupDataApiException e) {
-
-        }
-
-        try {
             this.startTest();    
         }
         catch (Exception e) {

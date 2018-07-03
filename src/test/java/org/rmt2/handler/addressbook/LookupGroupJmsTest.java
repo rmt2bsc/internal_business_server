@@ -18,8 +18,8 @@ import org.modules.lookup.LookupDataApiException;
 import org.modules.lookup.LookupDataApiFactory;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.AddressBookMockData;
+import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.handlers.addressbook.profile.ContactProfileApiHandler;
 
 import com.api.messaging.jms.JmsClientManager;
@@ -102,12 +102,6 @@ public class LookupGroupJmsTest extends BaseMockMessageDrivenBeanTest {
         String request = RMT2File.getFileContentsAsString("xml/lookup/LookupGroupIncorrectTransRequest.xml");
         List<LookupGroupDto> mockDtoDataResponse = AddressBookMockData.createMockLookupGroupDtoListResponse();
         this.setupMocks(DESTINATION, request);
-        try {
-            when(this.mockApi.getGroup(isA(LookupGroupDto.class))).thenReturn(mockDtoDataResponse);
-        } catch (LookupDataApiException e) {
-
-        }
-
         try {
             this.startTest();    
         }

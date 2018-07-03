@@ -75,7 +75,7 @@ public class ZipcodeJmsTest extends BaseMockMessageDrivenBeanTest {
     @Test
     public void invokeHandelrSuccess_Fetch() {
         String request = RMT2File.getFileContentsAsString("xml/postal/ZipcodeSearchShortRequest.xml");
-        List<ZipcodeDto> apiResults = AddressBookMockData.createMockFetchAllDtoResults();
+        List<ZipcodeDto> apiResults = AddressBookMockData.createMockFetchZipDtoResults();
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.getZipCode(isA(ZipcodeDto.class))).thenReturn(apiResults);
@@ -97,15 +97,8 @@ public class ZipcodeJmsTest extends BaseMockMessageDrivenBeanTest {
     @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
         String request = RMT2File.getFileContentsAsString("xml/postal/ZipcodeIncorrectTransCodeRequest.xml");
-        List<ZipcodeDto> apiResults = AddressBookMockData.createMockFetchAllDtoResults();
+        List<ZipcodeDto> apiResults = AddressBookMockData.createMockFetchZipDtoResults();
         this.setupMocks(DESTINATION, request);
-        try {
-            when(this.mockApi.getZipCode(isA(ZipcodeDto.class))).thenReturn(apiResults);
-        } catch (PostalApiException e) {
-            e.printStackTrace();
-            Assert.fail("All zipcode fetch test case failed");
-        }
-
         try {
             this.startTest();    
         }
