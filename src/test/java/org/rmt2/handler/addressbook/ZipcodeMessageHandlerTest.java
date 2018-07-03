@@ -87,7 +87,7 @@ public class ZipcodeMessageHandlerTest extends BaseMessageHandlerTest {
         String request = RMT2File.getFileContentsAsString("xml/postal/ZipcodeSearchFullRequest.xml");
         
         try {
-            List<ZipcodeDto> apiResults = AddressBookMockData.createMockFetchAllDtoResults();
+            List<ZipcodeDto> apiResults = AddressBookMockData.createMockFetchZipDtoResults();
             when(this.mockApi.getZipCode(isA(ZipcodeDto.class))).thenReturn(apiResults);
         } catch (PostalApiException e) {
             e.printStackTrace();
@@ -139,7 +139,7 @@ public class ZipcodeMessageHandlerTest extends BaseMessageHandlerTest {
         String request = RMT2File.getFileContentsAsString("xml/postal/ZipcodeSearchShortRequest.xml");
         
         try {
-            List<ZipcodeDto> apiResults = AddressBookMockData.createMockFetchAllDtoResults();
+            List<ZipcodeDto> apiResults = AddressBookMockData.createMockFetchZipDtoResults();
             when(this.mockApi.getZipCode(isA(ZipcodeDto.class))).thenReturn(apiResults);
         } catch (PostalApiException e) {
             e.printStackTrace();
@@ -186,7 +186,7 @@ public class ZipcodeMessageHandlerTest extends BaseMessageHandlerTest {
         String request = RMT2File.getFileContentsAsString("xml/postal/ZipcodeSearchResultFormatDefaultRequest.xml");
         
         try {
-            List<ZipcodeDto> apiResults = AddressBookMockData.createMockFetchAllDtoResults();
+            List<ZipcodeDto> apiResults = AddressBookMockData.createMockFetchZipDtoResults();
             when(this.mockApi.getZipCode(isA(ZipcodeDto.class))).thenReturn(apiResults);
         } catch (PostalApiException e) {
             e.printStackTrace();
@@ -288,7 +288,7 @@ public class ZipcodeMessageHandlerTest extends BaseMessageHandlerTest {
         String request = RMT2File.getFileContentsAsString("xml/postal/ZipcodeSearchResultFormatNotIncludedRequest.xml");
         
         try {
-            List<ZipcodeDto> apiResults = AddressBookMockData.createMockFetchAllDtoResults();
+            List<ZipcodeDto> apiResults = AddressBookMockData.createMockFetchZipDtoResults();
             when(this.mockApi.getZipCode(isA(ZipcodeDto.class))).thenReturn(apiResults);
         } catch (PostalApiException e) {
             e.printStackTrace();
@@ -320,7 +320,7 @@ public class ZipcodeMessageHandlerTest extends BaseMessageHandlerTest {
         String request = RMT2File.getFileContentsAsString("xml/postal/ZipcodeSearchInvalidResultFormatRequest.xml");
         
         try {
-            List<ZipcodeDto> apiResults = AddressBookMockData.createMockFetchAllDtoResults();
+            List<ZipcodeDto> apiResults = AddressBookMockData.createMockFetchZipDtoResults();
             when(this.mockApi.getZipCode(isA(ZipcodeDto.class))).thenReturn(apiResults);
         } catch (PostalApiException e) {
             e.printStackTrace();
