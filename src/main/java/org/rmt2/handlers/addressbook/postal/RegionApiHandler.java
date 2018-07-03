@@ -1,0 +1,192 @@
+package org.rmt2.handlers.addressbook.postal;
+
+import java.io.Serializable;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.dto.RegionDto;
+import org.dto.adapter.orm.Rmt2AddressBookDtoFactory;
+import org.dto.converter.jaxb.ContactsJaxbFactory;
+import org.modules.AddressBookConstants;
+import org.modules.postal.PostalApi;
+import org.modules.postal.PostalApiFactory;
+import org.rmt2.constants.ApiTransactionCodes;
+import org.rmt2.handlers.AbstractMessageHandler;
+import org.rmt2.handlers.InvalidRequestException;
+import org.rmt2.jaxb.PostalRequest;
+import org.rmt2.jaxb.PostalResponse;
+import org.rmt2.jaxb.ReplyStatusType;
+import org.rmt2.jaxb.StateType;
+import org.rmt2.jaxb.StatesCriteriaType;
+
+import com.InvalidDataException;
+import com.api.messaging.handler.MessageHandlerResults;
+import com.api.messaging.jms.handler.MessageHandlerCommandException;
+import com.api.messaging.webservice.WebServiceConstants;
+import com.api.util.assistants.Verifier;
+import com.api.util.assistants.VerifyException;
+
+/**
+ * Handles and routes Region/State/Province related messages to the AddressBook
+ * API.
+ * 
+ * @author roy.terrell
+ *
+ */
+public class RegionApiHandler extends AbstractMessageHandler<PostalRequest, PostalResponse, List<StateType>> {
+    
+    private static final Logger logger = Logger.getLogger(RegionApiHandler.class);
+
+    /**
+     * @param payload
+     */
+    public RegionApiHandler() {
+        super();
+        this.responseObj = jaxbObjFactory.createPostalResponse();
+        logger.info(RegionApiHandler.class.getName() + " was instantiated successfully");
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.api.messaging.jms.handler.AbstractMessageHandler#processRequest(java
+     * .lang.String, java.io.Serializable)
+     */
+    @Override
+    public MessageHandlerResults processMessage(String command, Serializable payload) throws MessageHandlerCommandException {
+        MessageHandlerResults r = super.processMessage(command, payload);
+
+        if (r != null) {
+            // This means an error occurred.
+            return r;
+        }
+        switch (command) {
+            case ApiTransactionCodes.REGION_GET:
+                r = this.fetchStateRegion(this.requestObj);
+                break;
+            default:
+                r = this.createErrorReply(-1, ERROR_MSG_TRANS_NOT_FOUND + command);
+        }
+        return r;
+    }
+
+    /**
+     * Handler for invoking the appropriate API in order to fetch one or more Zipcode objects.
+     * 
+     * @param req
+     *            an instance of {@link PostalRequest}
+     * @return an instance of {@link MessageHandlerResults}           
+     */
+    protected MessageHandlerResults fetchStateRegion(PostalRequest req) {
+        MessageHandlerResults results = new MessageHandlerResults();
+        ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
+        List<StateType> queryResults = null;
+
+        try {
+            this.validateCriteria(req);
+            RegionDto criteriaDto = this.extractSelectionCriteria(req.getPostalCriteria().getProvince());
+            
+            PostalApi api = PostalApiFactory.createApi(AddressBookConstants.APP_NAME);
+            List<RegionDto> dtoList = api.getRegion(criteriaDto);
+            if (dtoList == null) {
+                rs.setMessage("No Region/State/Province data found!");
+                rs.setReturnCode(BigInteger.valueOf(0));
+            }
+            else {
+                queryResults = this.buildJaxbListData(dtoList);
+                rs.setMessage("Region/State/Province record(s) found");
+                rs.setReturnCode(BigInteger.valueOf(dtoList.size()));
+            }
+            this.responseObj.setHeader(req.getHeader());
+            // Set reply status
+            rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
+        } catch (Exception e) {
+            rs.setReturnCode(BigInteger.valueOf(-1));
+            rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
+            rs.setMessage("Failure to retrieve Region/State/Province data");
+            rs.setExtMessage(e.getMessage());
+        }
+        results.setReturnCode(rs.getReturnCode().intValue());
+        String xml = this.buildResponse(queryResults, rs);
+        results.setPayload(xml);
+        return results;
+    }
+    
+    
+    private List<StateType> buildJaxbListData(List<RegionDto> results) {
+        List<StateType> list = new ArrayList<>();
+        for (RegionDto item : results) {
+            StateType jaxbObj = ContactsJaxbFactory.createStateTypeInstance(item.getStateId(), 
+                    item.getStateName(), item.getStateCode(), item.getCountryId(), 
+                    item.getCountryName());
+            list.add(jaxbObj);
+        }
+        return list;
+    }
+    
+   /**
+    * 
+    * @param criteria
+    * @return
+    */
+   private RegionDto extractSelectionCriteria(StatesCriteriaType criteria) {
+       RegionDto criteriaDto = Rmt2AddressBookDtoFactory.getNewRegionInstance();
+       if (criteria != null) {
+            if (criteria.getCountryId() != null) {
+                criteriaDto.setCountryId(criteria.getCountryId().intValue());
+            }
+            if (criteria.getStateId() != null) {
+                criteriaDto.setStateId(criteria.getStateId().intValue());
+            }
+            criteriaDto.setStateName(criteria.getStateName());
+            criteriaDto.setStateCode(criteria.getStateCode());
+       }
+       return criteriaDto;
+   }
+   
+    
+    @Override
+    protected void validateRequest(PostalRequest req) throws InvalidDataException {
+        try {
+            Verifier.verifyNotNull(req);
+        }
+        catch (VerifyException e) {
+            throw new InvalidRequestException("PostalRequest message request element is invalid", e);
+        }
+    }
+    
+    private void validateCriteria(PostalRequest req) throws InvalidRequestException {
+        try {
+            Verifier.verifyNotNull(req.getPostalCriteria());
+            Verifier.verifyNotNull(req.getPostalCriteria().getProvince());
+        }
+        catch (VerifyException e) {
+            throw new InvalidRequestException("PostalRequest stae/province criteria element is invalid", e);
+        }
+    }
+
+    /**
+     * Builds the response payload as a List<CountryType> type.
+     * 
+     * @param payload
+     *            a raw List masked as a List<CountryType>.
+     * @param replyStatus
+     * @return XML String
+     */
+    @Override
+    protected String buildResponse(List<StateType> payload,  ReplyStatusType replyStatus) {
+        if (replyStatus != null) {
+            this.responseObj.setReplyStatus(replyStatus);    
+        }
+        
+        if (payload != null) {
+            this.responseObj.getStates().addAll(payload);  
+        }
+        
+        String xml = this.jaxb.marshalMessage(this.responseObj);
+        return xml;
+    }
+}
