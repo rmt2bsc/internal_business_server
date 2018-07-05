@@ -32,8 +32,8 @@ import org.rmt2.constants.ApiTransactionCodes;
 import org.rmt2.handlers.addressbook.profile.ContactProfileApiHandler;
 import org.rmt2.jaxb.AddressBookResponse;
 
+import com.api.messaging.handler.MessageHandlerCommandException;
 import com.api.messaging.handler.MessageHandlerResults;
-import com.api.messaging.jms.handler.MessageHandlerCommandException;
 import com.api.persistence.AbstractDaoClientImpl;
 import com.api.persistence.db.orm.Rmt2OrmClientFactory;
 import com.api.util.RMT2File;

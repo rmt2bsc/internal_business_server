@@ -25,8 +25,8 @@ import org.rmt2.constants.ApiTransactionCodes;
 import org.rmt2.handlers.addressbook.lookup.LookupCodeApiHandler;
 import org.rmt2.jaxb.LookupCodesResponse;
 
+import com.api.messaging.handler.MessageHandlerCommandException;
 import com.api.messaging.handler.MessageHandlerResults;
-import com.api.messaging.jms.handler.MessageHandlerCommandException;
 import com.api.messaging.webservice.WebServiceConstants;
 import com.api.persistence.AbstractDaoClientImpl;
 import com.api.persistence.DatabaseException;

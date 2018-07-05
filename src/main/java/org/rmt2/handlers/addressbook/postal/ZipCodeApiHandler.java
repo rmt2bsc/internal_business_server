@@ -26,8 +26,8 @@ import org.rmt2.jaxb.ZipcodeFullType;
 import org.rmt2.jaxb.ZipcodeType;
 
 import com.InvalidDataException;
+import com.api.messaging.handler.MessageHandlerCommandException;
 import com.api.messaging.handler.MessageHandlerResults;
-import com.api.messaging.jms.handler.MessageHandlerCommandException;
 import com.api.messaging.webservice.WebServiceConstants;
 import com.api.util.assistants.Verifier;
 import com.api.util.assistants.VerifyException;

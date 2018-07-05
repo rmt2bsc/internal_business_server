@@ -14,12 +14,12 @@ import org.apache.log4j.Logger;
 //import org.slf4j.LoggerFactory;
 
 import com.RMT2RuntimeException;
+import com.api.messaging.handler.MessageHandlerCommand;
+import com.api.messaging.handler.MessageHandlerCommandException;
 import com.api.messaging.handler.MessageHandlerException;
 import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.jms.JmsClientManager;
 import com.api.messaging.jms.JmsConstants;
-import com.api.messaging.jms.handler.MessageHandlerCommand;
-import com.api.messaging.jms.handler.MessageHandlerCommandException;
 import com.api.util.RMT2File;
 import com.api.util.RMT2Utility;
 import com.api.xml.RMT2XmlUtility;
