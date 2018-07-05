@@ -10,7 +10,7 @@ import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
 import org.rmt2.constants.ApiHeaderNames;
-import org.rmt2.util.MessageHandlerHelper;
+import org.rmt2.util.JaxbPayloadFactory;
 
 import com.RMT2RuntimeException;
 import com.api.messaging.handler.MessageHandlerCommand;
@@ -124,7 +124,7 @@ public abstract class AbstractMessageDrivenBean {
                 requestPayload = ((TextMessage) message).getText();
             } catch (JMSException e) {
                 String errMsg = "Error occurred extracting content from JMS TextMessage object";
-                String xml = MessageHandlerHelper.buildCommonErrorResponseMessageXml(BUS_SERVER_ERROR, 
+                String xml = JaxbPayloadFactory.buildCommonErrorResponseMessageXml(BUS_SERVER_ERROR, 
                         errMsg, -101, "unknow application code", "unknow module", "unknown transaction");
                 MessageHandlerResults response = new MessageHandlerResults();
                 response.setPayload(xml);
@@ -157,7 +157,7 @@ public abstract class AbstractMessageDrivenBean {
             apiHandler = this.getApiHandlerInstance(commandKey, handlerMapping);
         } catch (Exception e) {
             String errMsg = "Unable to determine the API that would be responsible for processing the message.  Check the header's application, module, and transaction values for possible corrections.";
-            String xml = MessageHandlerHelper.buildCommonErrorResponseMessageXml(BUS_SERVER_ERROR, 
+            String xml = JaxbPayloadFactory.buildCommonErrorResponseMessageXml(BUS_SERVER_ERROR, 
                     errMsg, -101, app, module, trans);
             MessageHandlerResults response = new MessageHandlerResults();
             response.setPayload(xml);

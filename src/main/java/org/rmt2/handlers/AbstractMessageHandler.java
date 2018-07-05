@@ -7,7 +7,7 @@ import javax.xml.transform.TransformerException;
 import org.apache.log4j.Logger;
 import org.rmt2.jaxb.ObjectFactory;
 import org.rmt2.jaxb.ReplyStatusType;
-import org.rmt2.util.MessageHandlerHelper;
+import org.rmt2.util.JaxbPayloadFactory;
 
 import com.RMT2Base;
 import com.api.config.ConfigConstants;
@@ -84,7 +84,7 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
         try {
             this.validateRequest(this.requestObj);
         } catch (Exception e) {
-            ReplyStatusType rs = MessageHandlerHelper.createReplyStatus(1,
+            ReplyStatusType rs = JaxbPayloadFactory.createReplyStatus(1,
                     WebServiceConstants.RETURN_STATUS_ERROR, e.getMessage(), null);
             String respXml = this.buildResponse(null,rs);
             results = new MessageHandlerResults();
@@ -138,7 +138,7 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
      */
     protected MessageHandlerResults createErrorReply(int errorCode, String msg) {
         MessageHandlerResults results = new MessageHandlerResults();
-        ReplyStatusType rs = MessageHandlerHelper.createReplyStatus(errorCode, WebServiceConstants.RETURN_STATUS_ERROR, msg, null);
+        ReplyStatusType rs = JaxbPayloadFactory.createReplyStatus(errorCode, WebServiceConstants.RETURN_STATUS_ERROR, msg, null);
         String xml = this.buildResponse(null, rs);
         results.setPayload(xml);
         return results;
