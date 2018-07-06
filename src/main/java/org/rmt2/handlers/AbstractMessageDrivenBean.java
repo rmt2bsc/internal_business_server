@@ -34,7 +34,7 @@ import com.api.xml.RMT2XmlUtility;
 public abstract class AbstractMessageDrivenBean {
     private static Logger logger = Logger.getLogger(AbstractMessageDrivenBean.class);
     
-    protected static final String BUS_SERVER_ERROR = "RMT2 Business Server Error was encountered";
+    protected static final String BUS_SERVER_ERROR = "Business API Server Error was encountered";
 
     protected ResourceBundle mappings;
 
