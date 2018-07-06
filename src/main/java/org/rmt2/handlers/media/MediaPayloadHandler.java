@@ -1,6 +1,5 @@
 package org.rmt2.handlers.media;
 
-import org.rmt2.handlers.AbstractMessageHandler;
 import org.rmt2.jaxb.MimeContentType;
 import org.rmt2.jaxb.MultimediaRequest;
 import org.rmt2.jaxb.MultimediaResponse;
@@ -11,13 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.api.messaging.InvalidRequestException;
+import com.api.messaging.handler.AbstractJaxbMessageHandler;
 import com.api.messaging.handler.MessageHandlerCommonReplyStatus;
 
 /**
  * @author appdev
  *
  */
-public class MediaPayloadHandler extends AbstractMessageHandler<MultimediaRequest, MultimediaResponse, MimeContentType> {
+public class MediaPayloadHandler extends AbstractJaxbMessageHandler<MultimediaRequest, MultimediaResponse, MimeContentType> {
     private static final Logger logger = LoggerFactory.getLogger(MediaPayloadHandler.class);
     private ObjectFactory jaxbObjFactory;
 

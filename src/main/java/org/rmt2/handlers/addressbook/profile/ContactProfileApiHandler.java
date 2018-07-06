@@ -18,7 +18,6 @@ import org.modules.contacts.ContactsApiException;
 import org.modules.contacts.ContactsApiFactory;
 import org.rmt2.constants.ApiTransactionCodes;
 import org.rmt2.constants.MessagingConstants;
-import org.rmt2.handlers.AbstractMessageHandler;
 import org.rmt2.jaxb.AddressBookRequest;
 import org.rmt2.jaxb.AddressBookResponse;
 import org.rmt2.jaxb.BusinessContactCriteria;
@@ -38,6 +37,7 @@ import org.rmt2.util.MessageHandlerUtility;
 import com.InvalidDataException;
 import com.NotFoundException;
 import com.api.messaging.InvalidRequestException;
+import com.api.messaging.handler.AbstractJaxbMessageHandler;
 import com.api.messaging.handler.MessageHandlerCommandException;
 import com.api.messaging.handler.MessageHandlerCommonReplyStatus;
 import com.api.messaging.handler.MessageHandlerResults;
@@ -53,7 +53,7 @@ import com.api.util.assistants.VerifyException;
  *
  */
 public class ContactProfileApiHandler extends 
-                  AbstractMessageHandler<AddressBookRequest, AddressBookResponse, ContactDetailGroup> {
+                  AbstractJaxbMessageHandler<AddressBookRequest, AddressBookResponse, ContactDetailGroup> {
     
     private static final Logger logger = Logger.getLogger(ContactProfileApiHandler.class);
     private ObjectFactory jaxbObjFactory;

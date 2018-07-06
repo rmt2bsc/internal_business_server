@@ -13,7 +13,6 @@ import org.modules.postal.PostalApi;
 import org.modules.postal.PostalApiFactory;
 import org.rmt2.constants.ApiTransactionCodes;
 import org.rmt2.constants.MessagingConstants;
-import org.rmt2.handlers.AbstractMessageHandler;
 import org.rmt2.jaxb.ObjectFactory;
 import org.rmt2.jaxb.PostalRequest;
 import org.rmt2.jaxb.PostalResponse;
@@ -24,6 +23,7 @@ import org.rmt2.util.MessageHandlerUtility;
 
 import com.InvalidDataException;
 import com.api.messaging.InvalidRequestException;
+import com.api.messaging.handler.AbstractJaxbMessageHandler;
 import com.api.messaging.handler.MessageHandlerCommandException;
 import com.api.messaging.handler.MessageHandlerCommonReplyStatus;
 import com.api.messaging.handler.MessageHandlerResults;
@@ -38,7 +38,7 @@ import com.api.util.assistants.VerifyException;
  * @author roy.terrell
  *
  */
-public class RegionApiHandler extends AbstractMessageHandler<PostalRequest, PostalResponse, List<StateType>> {
+public class RegionApiHandler extends AbstractJaxbMessageHandler<PostalRequest, PostalResponse, List<StateType>> {
     
     private static final Logger logger = Logger.getLogger(RegionApiHandler.class);
     private ObjectFactory jaxbObjFactory;

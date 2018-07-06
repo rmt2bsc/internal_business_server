@@ -14,7 +14,6 @@ import org.modules.lookup.LookupDataApiException;
 import org.modules.lookup.LookupDataApiFactory;
 import org.rmt2.constants.ApiTransactionCodes;
 import org.rmt2.constants.MessagingConstants;
-import org.rmt2.handlers.AbstractMessageHandler;
 import org.rmt2.handlers.addressbook.profile.InvalidRequestContactProfileException;
 import org.rmt2.jaxb.CodeDetailType;
 import org.rmt2.jaxb.LookupCodeCriteriaType;
@@ -29,6 +28,7 @@ import org.rmt2.util.MessageHandlerUtility;
 import com.InvalidDataException;
 import com.NotFoundException;
 import com.api.messaging.InvalidRequestException;
+import com.api.messaging.handler.AbstractJaxbMessageHandler;
 import com.api.messaging.handler.MessageHandlerCommandException;
 import com.api.messaging.handler.MessageHandlerCommonReplyStatus;
 import com.api.messaging.handler.MessageHandlerResults;
@@ -44,7 +44,7 @@ import com.api.util.assistants.VerifyException;
  *
  */
 public class LookupCodeApiHandler extends 
-                  AbstractMessageHandler<LookupCodesRequest, LookupCodesResponse, List<CodeDetailType>> {
+                  AbstractJaxbMessageHandler<LookupCodesRequest, LookupCodesResponse, List<CodeDetailType>> {
     
     private static final Logger logger = Logger.getLogger(LookupCodeApiHandler.class);
     private ObjectFactory jaxbObjFactory;
