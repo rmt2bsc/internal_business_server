@@ -5,9 +5,6 @@ import java.io.Serializable;
 import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
-import org.rmt2.jaxb.ObjectFactory;
-import org.rmt2.jaxb.ReplyStatusType;
-import org.rmt2.util.JaxbPayloadFactory;
 
 import com.RMT2Base;
 import com.api.config.ConfigConstants;
@@ -15,19 +12,30 @@ import com.api.config.SystemConfigurator;
 import com.api.messaging.InvalidRequestException;
 import com.api.messaging.handler.MessageHandlerCommand;
 import com.api.messaging.handler.MessageHandlerCommandException;
+import com.api.messaging.handler.MessageHandlerCommonReplyStatus;
 import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.webservice.WebServiceConstants;
 import com.api.xml.RMT2XmlUtility;
 import com.api.xml.jaxb.JaxbUtil;
 
 /**
+ * Abstract class containing common logic for receiving, unmarshaling,
+ * validating message payloads.
+ * <p>
+ * This class uses JAXB to manage incoming message payloads
  * 
  * @author roy.terrell
  *
- * @param <T1> The request type to process
- * @param <T2> The response type to process
- * @param <P> The Payload type to process for responses and/or request update data
+ * @param <T1>
+ *            The request type to process
+ * @param <T2>
+ *            The response type to process
+ * @param <P>
+ *            The Payload type to process for responses and/or request update
+ *            data
  */
+
+// TODO:  rename class to AbstractJaxbMessageHandler
 public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base implements MessageHandlerCommand<T1, T2, P> {
 
     private static final Logger logger = Logger.getLogger(AbstractMessageHandler.class);
@@ -38,27 +46,32 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
 
     protected JaxbUtil jaxb;
 
-    protected ObjectFactory jaxbObjFactory;
+//    protected ObjectFactory jaxbObjFactory;
 
     protected T1 requestObj;
     
     protected T2 responseObj;
 
     /**
-     * 
+     * Creates a AbstractMessageHandler 
      */
     public AbstractMessageHandler() {
         this.jaxb = SystemConfigurator.getJaxb(ConfigConstants.JAXB_CONTEXNAME_DEFAULT);
-        this.jaxbObjFactory = new ObjectFactory();
+//        this.jaxbObjFactory = new ObjectFactory();
         return;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Unmarshals the payload and verifies that the payload is valid.
      * 
-     * @see
-     * com.api.messaging.jms.handler.MessageHandlerCommand#processRequest(java
-     * .lang.String, java.io.Serializable)
+     * @param command
+     *            The command that best describes <i>payload</i> represents
+     * @param payload
+     *            The message that is to be processed. Typically this will be a
+     *            String of XML or JSON
+     * @return MessageHandlerResults
+     * @throws MessageHandlerCommandException
+     *             <i>payload</i> is deemed invalid.
      */
     @Override
     public MessageHandlerResults processMessage(String command, Serializable payload) throws MessageHandlerCommandException {
@@ -85,8 +98,12 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
         try {
             this.validateRequest(this.requestObj);
         } catch (Exception e) {
-            ReplyStatusType rs = JaxbPayloadFactory.createReplyStatus(1,
-                    WebServiceConstants.RETURN_STATUS_ERROR, e.getMessage(), null);
+//            ReplyStatusType rs = JaxbPayloadFactory.createReplyStatus(1,
+//                    WebServiceConstants.RETURN_STATUS_ERROR, e.getMessage(), null);
+            MessageHandlerCommonReplyStatus rs = new MessageHandlerCommonReplyStatus();
+            rs.setReturnCode(WebServiceConstants.RETURN_CODE_SUCCESS);
+            rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
+            rs.setMessage(e.getMessage());
             String respXml = this.buildResponse(null,rs);
             results = new MessageHandlerResults();
             results.setPayload(respXml);
@@ -106,8 +123,10 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
     }
     
     /**
+     * Validates the payload in its unmarshalled form
      * 
      * @param req
+     *            instance of {@link T1}
      */
     protected abstract void validateRequest(T1 req) throws InvalidRequestException;
     
@@ -116,10 +135,12 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
      * payload representing data that is to be updated in a request.
      * 
      * @param payload
+     *            an instance of {@link P}
      * @param replyStatus
-     * @return
+     *            an instance of {@value MessageHandlerCommonReplyStatus}
+     * @return the response payload
      */
-    protected abstract String buildResponse(P payload, ReplyStatusType replyStatus);
+    protected abstract String buildResponse(P payload, MessageHandlerCommonReplyStatus replyStatus);
 
     /**
      * Return payload as a String.
@@ -133,13 +154,17 @@ public abstract class AbstractMessageHandler<T1, T2, P> extends RMT2Base impleme
     /**
      * Creates an error reply as XML String
      * 
-     * @param errorCode
+     * @param errorCode 
      * @param msg
      * @return
      */
     protected MessageHandlerResults createErrorReply(int errorCode, String msg) {
         MessageHandlerResults results = new MessageHandlerResults();
-        ReplyStatusType rs = JaxbPayloadFactory.createReplyStatus(errorCode, WebServiceConstants.RETURN_STATUS_ERROR, msg, null);
+        MessageHandlerCommonReplyStatus rs = new MessageHandlerCommonReplyStatus();
+        rs.setReturnCode(errorCode);
+        rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
+        rs.setMessage(msg);
+//        ReplyStatusType rs = JaxbPayloadFactory.createReplyStatus(errorCode, WebServiceConstants.RETURN_STATUS_ERROR, msg, null);
         String xml = this.buildResponse(null, rs);
         results.setPayload(xml);
         return results;
