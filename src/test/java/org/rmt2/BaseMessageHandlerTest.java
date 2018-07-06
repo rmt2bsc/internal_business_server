@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.rmt2.constants.MessagingConstants;
-import org.rmt2.handlers.AbstractMessageDrivenBean;
+import org.rmt2.listeners.mdb.AbstractJaxbMessageDrivenBean;
 
 import com.api.config.ConfigConstants;
 import com.api.config.SystemConfigurator;
@@ -23,7 +23,7 @@ import com.api.xml.jaxb.JaxbUtil;
  * @author royterrell
  *
  */
-public class BaseMessageHandlerTest extends AbstractMessageDrivenBean {
+public class BaseMessageHandlerTest extends AbstractJaxbMessageDrivenBean {
 
     private static String APP_CONFIG_FILENAME;
     protected JaxbUtil jaxb;
