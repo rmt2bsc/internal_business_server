@@ -1,13 +1,14 @@
 package org.rmt2.handlers.media;
 
 import org.rmt2.handlers.AbstractMessageHandler;
-import org.rmt2.handlers.InvalidRequestException;
 import org.rmt2.jaxb.MimeContentType;
 import org.rmt2.jaxb.MultimediaRequest;
 import org.rmt2.jaxb.MultimediaResponse;
 import org.rmt2.jaxb.ReplyStatusType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.api.messaging.InvalidRequestException;
 
 /**
  * @author appdev

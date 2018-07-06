@@ -19,7 +19,6 @@ import org.modules.contacts.ContactsApiException;
 import org.modules.contacts.ContactsApiFactory;
 import org.rmt2.constants.ApiTransactionCodes;
 import org.rmt2.handlers.AbstractMessageHandler;
-import org.rmt2.handlers.InvalidRequestException;
 import org.rmt2.jaxb.AddressBookRequest;
 import org.rmt2.jaxb.AddressBookResponse;
 import org.rmt2.jaxb.BusinessContactCriteria;
@@ -36,6 +35,7 @@ import org.rmt2.jaxb.ReplyStatusType;
 
 import com.InvalidDataException;
 import com.NotFoundException;
+import com.api.messaging.InvalidRequestException;
 import com.api.messaging.handler.MessageHandlerCommandException;
 import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.webservice.WebServiceConstants;

@@ -14,7 +14,6 @@ import org.modules.postal.PostalApi;
 import org.modules.postal.PostalApiFactory;
 import org.rmt2.constants.ApiTransactionCodes;
 import org.rmt2.handlers.AbstractMessageHandler;
-import org.rmt2.handlers.InvalidRequestException;
 import org.rmt2.jaxb.PostalRequest;
 import org.rmt2.jaxb.PostalResponse;
 import org.rmt2.jaxb.ReplyStatusType;
@@ -22,6 +21,7 @@ import org.rmt2.jaxb.StateType;
 import org.rmt2.jaxb.StatesCriteriaType;
 
 import com.InvalidDataException;
+import com.api.messaging.InvalidRequestException;
 import com.api.messaging.handler.MessageHandlerCommandException;
 import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.webservice.WebServiceConstants;

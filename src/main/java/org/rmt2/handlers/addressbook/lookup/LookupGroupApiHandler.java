@@ -14,7 +14,6 @@ import org.modules.lookup.LookupDataApiException;
 import org.modules.lookup.LookupDataApiFactory;
 import org.rmt2.constants.ApiTransactionCodes;
 import org.rmt2.handlers.AbstractMessageHandler;
-import org.rmt2.handlers.InvalidRequestException;
 import org.rmt2.handlers.addressbook.profile.InvalidRequestContactProfileException;
 import org.rmt2.jaxb.CodeGroupType;
 import org.rmt2.jaxb.LookupCodeCriteriaType;
@@ -26,6 +25,7 @@ import org.rmt2.jaxb.ReplyStatusType;
 
 import com.InvalidDataException;
 import com.NotFoundException;
+import com.api.messaging.InvalidRequestException;
 import com.api.messaging.handler.MessageHandlerCommandException;
 import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.webservice.WebServiceConstants;
