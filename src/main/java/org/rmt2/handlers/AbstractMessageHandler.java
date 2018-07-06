@@ -12,6 +12,7 @@ import org.rmt2.util.JaxbPayloadFactory;
 import com.RMT2Base;
 import com.api.config.ConfigConstants;
 import com.api.config.SystemConfigurator;
+import com.api.messaging.InvalidRequestException;
 import com.api.messaging.handler.MessageHandlerCommand;
 import com.api.messaging.handler.MessageHandlerCommandException;
 import com.api.messaging.handler.MessageHandlerResults;
