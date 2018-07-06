@@ -4,11 +4,14 @@ import org.rmt2.handlers.AbstractMessageHandler;
 import org.rmt2.jaxb.AccountingGeneralLedgerRequest;
 import org.rmt2.jaxb.AccountingGeneralLedgerResponse;
 import org.rmt2.jaxb.GlDetailGroup;
+import org.rmt2.jaxb.ObjectFactory;
 import org.rmt2.jaxb.ReplyStatusType;
+import org.rmt2.util.MessageHandlerUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.api.messaging.InvalidRequestException;
+import com.api.messaging.handler.MessageHandlerCommonReplyStatus;
 
 /**
  * 
@@ -18,12 +21,14 @@ import com.api.messaging.InvalidRequestException;
 public class GeneralLedgerPayloadHandler extends
         AbstractMessageHandler<AccountingGeneralLedgerRequest, AccountingGeneralLedgerResponse, GlDetailGroup> {
     private static final Logger logger = LoggerFactory.getLogger(GeneralLedgerPayloadHandler.class);
+    private ObjectFactory jaxbObjFactory;
 
     /**
      * @param payload
      */
     public GeneralLedgerPayloadHandler() {
         super();
+        this.jaxbObjFactory = new ObjectFactory();
         this.responseObj = jaxbObjFactory.createAccountingGeneralLedgerResponse();
         logger.info(GeneralLedgerPayloadHandler.class.getName() + " was instantiated successfully");
     }
@@ -36,9 +41,10 @@ public class GeneralLedgerPayloadHandler extends
     }
 
     @Override
-    protected String buildResponse(GlDetailGroup payload, ReplyStatusType replyStatus) {
+    protected String buildResponse(GlDetailGroup payload, MessageHandlerCommonReplyStatus replyStatus) {
         if (replyStatus != null) {
-            this.responseObj.setReplyStatus(replyStatus);    
+            ReplyStatusType rs = MessageHandlerUtility.createReplyStatus(replyStatus);
+            this.responseObj.setReplyStatus(rs);    
         }
         
         if (payload != null) {

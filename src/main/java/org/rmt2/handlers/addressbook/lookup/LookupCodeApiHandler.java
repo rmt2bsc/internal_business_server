@@ -13,20 +13,24 @@ import org.modules.lookup.LookupDataApi;
 import org.modules.lookup.LookupDataApiException;
 import org.modules.lookup.LookupDataApiFactory;
 import org.rmt2.constants.ApiTransactionCodes;
+import org.rmt2.constants.MessagingConstants;
 import org.rmt2.handlers.AbstractMessageHandler;
 import org.rmt2.handlers.addressbook.profile.InvalidRequestContactProfileException;
 import org.rmt2.jaxb.CodeDetailType;
 import org.rmt2.jaxb.LookupCodeCriteriaType;
 import org.rmt2.jaxb.LookupCodesRequest;
 import org.rmt2.jaxb.LookupCodesResponse;
+import org.rmt2.jaxb.ObjectFactory;
 import org.rmt2.jaxb.ReplyStatusType;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
+import org.rmt2.util.MessageHandlerUtility;
 
 import com.InvalidDataException;
 import com.NotFoundException;
 import com.api.messaging.InvalidRequestException;
 import com.api.messaging.handler.MessageHandlerCommandException;
+import com.api.messaging.handler.MessageHandlerCommonReplyStatus;
 import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.webservice.WebServiceConstants;
 import com.api.util.assistants.Verifier;
@@ -43,12 +47,14 @@ public class LookupCodeApiHandler extends
                   AbstractMessageHandler<LookupCodesRequest, LookupCodesResponse, List<CodeDetailType>> {
     
     private static final Logger logger = Logger.getLogger(LookupCodeApiHandler.class);
+    private ObjectFactory jaxbObjFactory;
 
     /**
      * @param payload
      */
     public LookupCodeApiHandler() {
         super();
+        this.jaxbObjFactory = new ObjectFactory();
         this.responseObj = jaxbObjFactory.createLookupCodesResponse();
         logger.info(LookupCodeApiHandler.class.getName() + " was instantiated successfully");
     }
@@ -94,7 +100,7 @@ public class LookupCodeApiHandler extends
      */
     protected MessageHandlerResults fetchCode(LookupCodesRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
-        ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
+        MessageHandlerCommonReplyStatus rs = new MessageHandlerCommonReplyStatus();
         List<CodeDetailType> cdtList = null;
 
         try {
@@ -106,18 +112,18 @@ public class LookupCodeApiHandler extends
             List<LookupCodeDto> dtoList = api.getCode(criteriaDto);
             if (dtoList == null) {
                 rs.setMessage("Code Detail Lookup data not found!");
-                rs.setReturnCode(BigInteger.valueOf(0));
+                rs.setReturnCode(0);
             }
             else {
                 cdtList = this.buildJaxbListData(dtoList);
                 rs.setMessage("Code Detail Lookup record(s) found");
-                rs.setReturnCode(BigInteger.valueOf(dtoList.size()));
+                rs.setReturnCode(dtoList.size());
             }
             this.responseObj.setHeader(req.getHeader());
             // Set reply status
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
         } catch (Exception e) {
-            rs.setReturnCode(BigInteger.valueOf(-1));
+            rs.setReturnCode(MessagingConstants.RETURN_CODE_FAILURE);
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
             rs.setMessage("Failure to retrieve Lookup Code Detail(s)");
             rs.setExtMessage(e.getMessage());
@@ -137,7 +143,7 @@ public class LookupCodeApiHandler extends
      */
     protected MessageHandlerResults updateCode(LookupCodesRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
-        ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
+        MessageHandlerCommonReplyStatus rs = new MessageHandlerCommonReplyStatus();
         List<CodeDetailType> cdtList = null;
         
         boolean newRec = false;
@@ -158,8 +164,8 @@ public class LookupCodeApiHandler extends
             cdtList = this.buildJaxbListData(updateList);
             
             // Return code is either the total number of rows updated or the new code id
-            rs.setReturnCode(BigInteger.valueOf(rc));
-            rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
+            rs.setReturnCode(rc);
+            rs.setReturnStatus(MessagingConstants.RETURN_STATUS_SUCCESS);
             if (newRec) {
                 rs.setMessage("Lookup Code was created successfully");
                 rs.setExtMessage("The new code id is " + rc);
@@ -169,7 +175,7 @@ public class LookupCodeApiHandler extends
                 rs.setExtMessage("Total number of rows modified: " + rc);
             }
         } catch (LookupDataApiException | NotFoundException | InvalidDataException e) {
-            rs.setReturnCode(BigInteger.valueOf(-1));
+            rs.setReturnCode(MessagingConstants.RETURN_CODE_FAILURE);
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
             rs.setMessage("Failure to update " + (newRec ? "new" : "existing")  + " Lookup Code");
             rs.setExtMessage(e.getMessage());
@@ -191,7 +197,7 @@ public class LookupCodeApiHandler extends
      */
     protected MessageHandlerResults deleteCode(LookupCodesRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
-        ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
+        MessageHandlerCommonReplyStatus rs = new MessageHandlerCommonReplyStatus();
         
         LookupDataApiFactory f = new LookupDataApiFactory();
         LookupDataApi api = f.createApi(AddressBookConstants.APP_NAME);
@@ -205,12 +211,12 @@ public class LookupCodeApiHandler extends
             rc = api.deleteCode(criteriaDto.getCodeId());
             
             // Return code is either the total number of rows deleted
-            rs.setReturnCode(BigInteger.valueOf(rc));
-            rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
+            rs.setReturnCode(rc);
+            rs.setReturnStatus(MessagingConstants.RETURN_STATUS_SUCCESS);
             rs.setMessage("Lookup Code was deleted successfully");
             rs.setExtMessage("Lookup Code Id deleted was " + criteriaDto.getCodeId());
         } catch (LookupDataApiException | InvalidDataException e) {
-            rs.setReturnCode(BigInteger.valueOf(-1));
+            rs.setReturnCode(MessagingConstants.RETURN_CODE_FAILURE);
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
             rs.setMessage("Failure to delelte Lookup Code by code id, " + criteriaDto.getCodeId());
             rs.setExtMessage(e.getMessage());
@@ -300,9 +306,10 @@ public class LookupCodeApiHandler extends
     }
 
     @Override
-    protected String buildResponse(List<CodeDetailType> payload,  ReplyStatusType replyStatus) {
+    protected String buildResponse(List<CodeDetailType> payload,  MessageHandlerCommonReplyStatus replyStatus) {
         if (replyStatus != null) {
-            this.responseObj.setReplyStatus(replyStatus);    
+            ReplyStatusType rs = MessageHandlerUtility.createReplyStatus(replyStatus);
+            this.responseObj.setReplyStatus(rs);    
         }
         
         if (payload != null) {

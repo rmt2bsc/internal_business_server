@@ -1,7 +1,6 @@
 package org.rmt2.handlers.addressbook.profile;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -18,6 +17,7 @@ import org.modules.contacts.ContactsApi;
 import org.modules.contacts.ContactsApiException;
 import org.modules.contacts.ContactsApiFactory;
 import org.rmt2.constants.ApiTransactionCodes;
+import org.rmt2.constants.MessagingConstants;
 import org.rmt2.handlers.AbstractMessageHandler;
 import org.rmt2.jaxb.AddressBookRequest;
 import org.rmt2.jaxb.AddressBookResponse;
@@ -27,16 +27,19 @@ import org.rmt2.jaxb.CommonContactCriteria;
 import org.rmt2.jaxb.CommonContactType;
 import org.rmt2.jaxb.ContactCriteriaGroup;
 import org.rmt2.jaxb.ContactDetailGroup;
+import org.rmt2.jaxb.ObjectFactory;
 import org.rmt2.jaxb.PersonContactCriteria;
 import org.rmt2.jaxb.PersonType;
 import org.rmt2.jaxb.ReplyStatusType;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
+import org.rmt2.util.MessageHandlerUtility;
 
 import com.InvalidDataException;
 import com.NotFoundException;
 import com.api.messaging.InvalidRequestException;
 import com.api.messaging.handler.MessageHandlerCommandException;
+import com.api.messaging.handler.MessageHandlerCommonReplyStatus;
 import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.webservice.WebServiceConstants;
 import com.api.util.assistants.Verifier;
@@ -53,6 +56,7 @@ public class ContactProfileApiHandler extends
                   AbstractMessageHandler<AddressBookRequest, AddressBookResponse, ContactDetailGroup> {
     
     private static final Logger logger = Logger.getLogger(ContactProfileApiHandler.class);
+    private ObjectFactory jaxbObjFactory;
     protected ContactsApiFactory cf;
     protected ContactsApi api;
 
@@ -61,6 +65,7 @@ public class ContactProfileApiHandler extends
      */
     public ContactProfileApiHandler() {
         super();
+        this.jaxbObjFactory = new ObjectFactory();
         this.responseObj = jaxbObjFactory.createAddressBookResponse();
         this.cf = new ContactsApiFactory();
         this.api = cf.createApi();
@@ -110,7 +115,7 @@ public class ContactProfileApiHandler extends
      */
     protected MessageHandlerResults fetchContact(AddressBookRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
-        ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
+        MessageHandlerCommonReplyStatus rs = new MessageHandlerCommonReplyStatus();
         ContactDetailGroup cdg = null;
 
         try {
@@ -122,18 +127,18 @@ public class ContactProfileApiHandler extends
             List<ContactDto> dtoList = api.getContact(criteriaDto);
             if (dtoList == null) {
                 rs.setMessage("Contact data not found!");
-                rs.setReturnCode(BigInteger.valueOf(0));
+                rs.setReturnCode(0);
             }
             else {
                 cdg = this.buildContactDetailGroup(dtoList);
                 rs.setMessage("Contact record(s) found");
-                rs.setReturnCode(BigInteger.valueOf(dtoList.size()));
+                rs.setReturnCode(dtoList.size());
             }
             this.responseObj.setHeader(req.getHeader());
             // Set reply status
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
         } catch (Exception e) {
-            rs.setReturnCode(BigInteger.valueOf(-1));
+            rs.setReturnCode(MessagingConstants.RETURN_CODE_FAILURE);
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
             rs.setMessage("Failure to retrieve contact(s)");
             rs.setExtMessage(e.getMessage());
@@ -156,7 +161,7 @@ public class ContactProfileApiHandler extends
      */
     protected MessageHandlerResults updateContact(AddressBookRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
-        ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
+        MessageHandlerCommonReplyStatus rs = new MessageHandlerCommonReplyStatus();
         ContactDetailGroup cdg = null;
         
         boolean newContact = false;
@@ -177,7 +182,7 @@ public class ContactProfileApiHandler extends
             cdg = this.buildContactDetailGroup(updateList);
             
             // Return code is either the total number of rows updated or the business id of the contact created
-            rs.setReturnCode(BigInteger.valueOf(rc));
+            rs.setReturnCode(rc);
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
             if (newContact) {
                 rs.setMessage("Contact was created successfully");
@@ -188,7 +193,7 @@ public class ContactProfileApiHandler extends
                 rs.setExtMessage("Total number of rows modified: " + rc);
             }
         } catch (ContactsApiException | NotFoundException | InvalidDataException e) {
-            rs.setReturnCode(BigInteger.valueOf(-1));
+            rs.setReturnCode(MessagingConstants.RETURN_CODE_FAILURE);
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
             rs.setMessage("Failure to update " + (newContact ? "new" : "existing")  + " contact");
             rs.setExtMessage(e.getMessage());
@@ -213,7 +218,7 @@ public class ContactProfileApiHandler extends
      */
     protected MessageHandlerResults deleteContact(AddressBookRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
-        ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
+        MessageHandlerCommonReplyStatus rs = new MessageHandlerCommonReplyStatus();
         
         ContactsApiFactory cf = new ContactsApiFactory();
         ContactsApi api = cf.createApi();
@@ -226,12 +231,12 @@ public class ContactProfileApiHandler extends
             rc = api.deleteContact(criteriaDto);
             
             // Return code is either the total number of rows deleted
-            rs.setReturnCode(BigInteger.valueOf(rc));
+            rs.setReturnCode(rc);
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
             rs.setMessage("Contact was deleted successfully");
             rs.setExtMessage("Contact Id deleted was " + criteriaDto.getContactId());
         } catch (ContactsApiException | InvalidDataException e) {
-            rs.setReturnCode(BigInteger.valueOf(-1));
+            rs.setReturnCode(MessagingConstants.RETURN_CODE_FAILURE);
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
             rs.setMessage("Failure to delelte contact");
             rs.setExtMessage(e.getMessage());
@@ -400,9 +405,10 @@ public class ContactProfileApiHandler extends
     }
 
     @Override
-    protected String buildResponse(ContactDetailGroup payload,  ReplyStatusType replyStatus) {
+    protected String buildResponse(ContactDetailGroup payload,  MessageHandlerCommonReplyStatus replyStatus) {
         if (replyStatus != null) {
-            this.responseObj.setReplyStatus(replyStatus);    
+            ReplyStatusType rs = MessageHandlerUtility.createReplyStatus(replyStatus);
+            this.responseObj.setReplyStatus(rs);      
         }
         
         if (payload != null) {

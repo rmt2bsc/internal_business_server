@@ -1,7 +1,6 @@
 package org.rmt2.handlers.addressbook.postal;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,9 @@ import org.modules.AddressBookConstants;
 import org.modules.postal.PostalApi;
 import org.modules.postal.PostalApiFactory;
 import org.rmt2.constants.ApiTransactionCodes;
+import org.rmt2.constants.MessagingConstants;
 import org.rmt2.handlers.AbstractMessageHandler;
+import org.rmt2.jaxb.ObjectFactory;
 import org.rmt2.jaxb.PostalRequest;
 import org.rmt2.jaxb.PostalResponse;
 import org.rmt2.jaxb.ReplyStatusType;
@@ -23,10 +24,12 @@ import org.rmt2.jaxb.ZipcodeFullType;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import org.rmt2.jaxb.ZipcodeType;
+import org.rmt2.util.MessageHandlerUtility;
 
 import com.InvalidDataException;
 import com.api.messaging.InvalidRequestException;
 import com.api.messaging.handler.MessageHandlerCommandException;
+import com.api.messaging.handler.MessageHandlerCommonReplyStatus;
 import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.webservice.WebServiceConstants;
 import com.api.util.assistants.Verifier;
@@ -42,6 +45,7 @@ import com.api.util.assistants.VerifyException;
 public class ZipCodeApiHandler extends AbstractMessageHandler<PostalRequest, PostalResponse, List> {
     
     private static final Logger logger = Logger.getLogger(ZipCodeApiHandler.class);
+    private ObjectFactory jaxbObjFactory;
     private ZipResultFormatType queryResultFormat;
 
     /**
@@ -49,6 +53,7 @@ public class ZipCodeApiHandler extends AbstractMessageHandler<PostalRequest, Pos
      */
     public ZipCodeApiHandler() {
         super();
+        this.jaxbObjFactory = new ObjectFactory();
         this.responseObj = jaxbObjFactory.createPostalResponse();
         logger.info(ZipCodeApiHandler.class.getName() + " was instantiated successfully");
     }
@@ -87,7 +92,7 @@ public class ZipCodeApiHandler extends AbstractMessageHandler<PostalRequest, Pos
      */
     protected MessageHandlerResults fetchZipcode(PostalRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
-        ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
+        MessageHandlerCommonReplyStatus rs = new MessageHandlerCommonReplyStatus();
         List queryResults = null;
 
         try {
@@ -99,23 +104,23 @@ public class ZipCodeApiHandler extends AbstractMessageHandler<PostalRequest, Pos
             List<ZipcodeDto> dtoList = api.getZipCode(criteriaDto);
             if (dtoList == null) {
                 rs.setMessage("No Zipcode data not found!");
-                rs.setReturnCode(BigInteger.valueOf(0));
+                rs.setReturnCode(0);
             }
             else {
                 queryResults = this.buildJaxbListData(dtoList);
                 rs.setMessage("Zipcode record(s) found");
-                rs.setReturnCode(BigInteger.valueOf(dtoList.size()));
+                rs.setReturnCode(dtoList.size());
             }
             this.responseObj.setHeader(req.getHeader());
             // Set reply status
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
         } catch (Exception e) {
-            rs.setReturnCode(BigInteger.valueOf(-1));
+            rs.setReturnCode(MessagingConstants.RETURN_CODE_FAILURE);
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
             rs.setMessage("Failure to retrieve Zipcode data");
             rs.setExtMessage(e.getMessage());
         }
-        results.setReturnCode(rs.getReturnCode().intValue());
+        results.setReturnCode(rs.getReturnCode());
         String xml = this.buildResponse(queryResults, rs);
         results.setPayload(xml);
         return results;
@@ -209,9 +214,10 @@ public class ZipCodeApiHandler extends AbstractMessageHandler<PostalRequest, Pos
      * @return XML String
      */
     @Override
-    protected String buildResponse(List payload,  ReplyStatusType replyStatus) {
+    protected String buildResponse(List payload,  MessageHandlerCommonReplyStatus replyStatus) {
         if (replyStatus != null) {
-            this.responseObj.setReplyStatus(replyStatus);    
+            ReplyStatusType rs = MessageHandlerUtility.createReplyStatus(replyStatus);
+            this.responseObj.setReplyStatus(rs);
         }
         
         if (payload != null) {

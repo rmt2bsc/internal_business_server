@@ -1,7 +1,6 @@
 package org.rmt2.handlers.addressbook.postal;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,16 +12,20 @@ import org.modules.AddressBookConstants;
 import org.modules.postal.PostalApi;
 import org.modules.postal.PostalApiFactory;
 import org.rmt2.constants.ApiTransactionCodes;
+import org.rmt2.constants.MessagingConstants;
 import org.rmt2.handlers.AbstractMessageHandler;
 import org.rmt2.jaxb.CountryCriteriaType;
 import org.rmt2.jaxb.CountryType;
+import org.rmt2.jaxb.ObjectFactory;
 import org.rmt2.jaxb.PostalRequest;
 import org.rmt2.jaxb.PostalResponse;
 import org.rmt2.jaxb.ReplyStatusType;
+import org.rmt2.util.MessageHandlerUtility;
 
 import com.InvalidDataException;
 import com.api.messaging.InvalidRequestException;
 import com.api.messaging.handler.MessageHandlerCommandException;
+import com.api.messaging.handler.MessageHandlerCommonReplyStatus;
 import com.api.messaging.handler.MessageHandlerResults;
 import com.api.messaging.webservice.WebServiceConstants;
 import com.api.util.assistants.Verifier;
@@ -38,12 +41,14 @@ import com.api.util.assistants.VerifyException;
 public class CountryApiHandler extends AbstractMessageHandler<PostalRequest, PostalResponse, List<CountryType>> {
     
     private static final Logger logger = Logger.getLogger(CountryApiHandler.class);
+    private ObjectFactory jaxbObjFactory;
 
     /**
      * @param payload
      */
     public CountryApiHandler() {
         super();
+        this.jaxbObjFactory = new ObjectFactory();
         this.responseObj = jaxbObjFactory.createPostalResponse();
         logger.info(CountryApiHandler.class.getName() + " was instantiated successfully");
     }
@@ -83,7 +88,7 @@ public class CountryApiHandler extends AbstractMessageHandler<PostalRequest, Pos
      */
     protected MessageHandlerResults fetchCountry(PostalRequest req) {
         MessageHandlerResults results = new MessageHandlerResults();
-        ReplyStatusType rs = jaxbObjFactory.createReplyStatusType();
+        MessageHandlerCommonReplyStatus rs = new MessageHandlerCommonReplyStatus();
         List<CountryType> queryResults = null;
 
         try {
@@ -94,23 +99,23 @@ public class CountryApiHandler extends AbstractMessageHandler<PostalRequest, Pos
             List<CountryDto> dtoList = api.getCountry(criteriaDto);
             if (dtoList == null) {
                 rs.setMessage("No Country data found!");
-                rs.setReturnCode(BigInteger.valueOf(0));
+                rs.setReturnCode(0);
             }
             else {
                 queryResults = this.buildJaxbListData(dtoList);
                 rs.setMessage("Country record(s) found");
-                rs.setReturnCode(BigInteger.valueOf(dtoList.size()));
+                rs.setReturnCode(dtoList.size());
             }
             this.responseObj.setHeader(req.getHeader());
             // Set reply status
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_SUCCESS);
         } catch (Exception e) {
-            rs.setReturnCode(BigInteger.valueOf(-1));
+            rs.setReturnCode(MessagingConstants.RETURN_CODE_FAILURE);
             rs.setReturnStatus(WebServiceConstants.RETURN_STATUS_ERROR);
             rs.setMessage("Failure to retrieve Country data");
             rs.setExtMessage(e.getMessage());
         }
-        results.setReturnCode(rs.getReturnCode().intValue());
+        results.setReturnCode(rs.getReturnCode());
         String xml = this.buildResponse(queryResults, rs);
         results.setPayload(xml);
         return results;
@@ -170,9 +175,10 @@ public class CountryApiHandler extends AbstractMessageHandler<PostalRequest, Pos
      * @return XML String
      */
     @Override
-    protected String buildResponse(List<CountryType> payload,  ReplyStatusType replyStatus) {
+    protected String buildResponse(List<CountryType> payload,  MessageHandlerCommonReplyStatus replyStatus) {
         if (replyStatus != null) {
-            this.responseObj.setReplyStatus(replyStatus);    
+            ReplyStatusType rs = MessageHandlerUtility.createReplyStatus(replyStatus);
+            this.responseObj.setReplyStatus(rs);   
         }
         
         if (payload != null) {
