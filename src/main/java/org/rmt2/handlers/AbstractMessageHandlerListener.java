@@ -52,6 +52,8 @@ import com.api.xml.RMT2XmlUtility;
  * <p>
  * A relpy is sent to the caller in the event the incoming message is associated
  * with a ReplyTo Destination.
+ * 
+ * @deprecated replaced by AbstractMessageDrivenBean.java
  */
 public abstract class AbstractMessageHandlerListener {
     private static Logger logger = Logger.getLogger(AbstractMessageHandlerListener.class);
