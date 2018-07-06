@@ -28,6 +28,27 @@ import com.api.xml.RMT2XmlUtility;
  * template and command patterns for processing JMS messages that are retrieved
  * from either a queue or topic destinations.
  * <p>
+ * This implementation dynamically identifies the designated message handler,
+ * passes the message to the handler, and accepts the results of the message
+ * handler. The message handler is required to be of type
+ * {@link MessageHandlerCommand} and is identified by use of a command key.
+ * <p>
+ * The command key is a calculated value, and its properties can be found
+ * embedded in the message. It is comprised of the following three properties:
+ * <i>application</i>, <i>module</i>, and <i>transaction</i>. These three
+ * properties are combined together as a String in the format of
+ * <i>application.module.transaction</i>. In order to identify and instantiate
+ * the MessageHandlerCommand instance, a transaction file, which contains the
+ * mappings needed to identify the handler's class name that is associated with
+ * the command key, must be loaded as a ResourceBundle object.
+ * <p>
+ * The ResouceBundle is identified by the <i>application</i> property of the
+ * command key. The name of a typical messaging transaction ResourceBundle file
+ * will be as such: <i>HandlerMappings_<application>.properties</i>. For
+ * example, the mapping file for the accounting and address book applications
+ * would be identified as <i>HandlerMappings_accounting.properties</i> and
+ * <i>HandlerMappings_contacts.properties</i>, respectively.
+ * <p>
  * A relpy is sent to the caller in the event the incoming message is associated
  * with a ReplyTo Destination.
  */
