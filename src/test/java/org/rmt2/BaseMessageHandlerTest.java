@@ -21,6 +21,7 @@ import com.api.xml.jaxb.JaxbUtil;
  * <p>
  * 
  * @author royterrell
+ * @deprecated This class is not needed.  Will be deleted from project.
  *
  */
 public class BaseMessageHandlerTest extends AbstractJaxbMessageDrivenBean {

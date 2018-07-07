@@ -18,9 +18,9 @@ import org.modules.contacts.ContactsApiException;
 import org.modules.contacts.ContactsApiFactory;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.AddressBookMockData;
-import org.rmt2.handlers.addressbook.profile.ContactProfileApiHandler;
+import org.rmt2.BaseMockMessageDrivenBeanTest;
+import org.rmt2.api.handlers.contacts.ContactProfileApiHandler;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
