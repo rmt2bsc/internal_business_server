@@ -30,6 +30,8 @@ import com.api.util.RMT2File;
 
 
 /**
+ * the idenity and invocation of the Zipcode API Message Handler.
+ * 
  * @author appdev
  *
  */

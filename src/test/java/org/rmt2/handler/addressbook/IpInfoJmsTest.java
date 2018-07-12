@@ -27,6 +27,8 @@ import com.api.util.RMT2File;
 
 
 /**
+ * Test the idenity and invocation of the IP Infomation API Message Handler.
+ * 
  * @author appdev
  *
  */
