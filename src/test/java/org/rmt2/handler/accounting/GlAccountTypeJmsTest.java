@@ -6,7 +6,7 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 import java.util.List;
 
-import org.dto.AccountDto;
+import org.dto.AccountTypeDto;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -34,7 +34,7 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JmsClientManager.class })
-public class GlAccountJmsTest extends BaseMockMessageDrivenBeanTest {
+public class GlAccountTypeJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "Test-Accounting-Queue";
     private GeneralLedgerApiFactory mockApiFactory;
@@ -44,7 +44,7 @@ public class GlAccountJmsTest extends BaseMockMessageDrivenBeanTest {
     /**
      * 
      */
-    public GlAccountJmsTest() {
+    public GlAccountTypeJmsTest() {
     }
 
     /*
@@ -79,11 +79,11 @@ public class GlAccountJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandelrSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/generalledger/AccountFetchRequest.xml");
-        List<AccountDto> mockDtoDataResponse = AccountingMockData.createMockGlAccounts();
+        String request = RMT2File.getFileContentsAsString("xml/generalledger/AccountTypeFetchRequest.xml");
+        List<AccountTypeDto> mockDtoDataResponse = AccountingMockData.createMockGlAccountTypes();
         this.setupMocks(DESTINATION, request);
         try {
-            when(this.mockApi.getAccount(isA(AccountDto.class))).thenReturn(mockDtoDataResponse);
+            when(this.mockApi.getAccountType(isA(AccountTypeDto.class))).thenReturn(mockDtoDataResponse);
         } catch (GeneralLedgerApiException e) {
 
         }
@@ -100,7 +100,7 @@ public class GlAccountJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/generalledger/AccountFetchIncorrectTransCodeRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/generalledger/AccountTypeFetchIncorrectTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();    
