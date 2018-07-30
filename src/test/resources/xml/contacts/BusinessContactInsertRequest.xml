@@ -2,7 +2,7 @@
     <header>
         <routing>XXXXXXX</routing>
         <application>App Name</application>
-        <module>unknown</module>
+        <module>profile</module>
         <transaction>UPDATE_CONTACT</transaction>
         <delivery_mode>XXXXXXX</delivery_mode>
         <message_mode>REQUEST</message_mode>

@@ -6,10 +6,12 @@ import java.util.List;
 import org.dao.mapping.orm.rmt2.GeneralCodes;
 import org.dao.mapping.orm.rmt2.GeneralCodesGroup;
 import org.dao.mapping.orm.rmt2.VwBusinessAddress;
+import org.dao.mapping.orm.rmt2.VwStateCountry;
 import org.dao.mapping.orm.rmt2.Zipcode;
 import org.dto.BusinessContactDto;
 import org.dto.ContactDto;
 import org.dto.CountryDto;
+import org.dto.CountryRegionDto;
 import org.dto.IpLocationDto;
 import org.dto.LookupCodeDto;
 import org.dto.LookupGroupDto;
@@ -501,5 +503,86 @@ public class AddressBookMockData {
         dto.setTimeZoneDescr("Timezone5");
         list.add(dto);
         return list;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public static final List<CountryRegionDto> createMockCountryRegionList() {
+        List<CountryRegionDto> list = new ArrayList<>();
+        VwStateCountry o = new VwStateCountry();
+        CountryRegionDto dto = null;
+        o.setStateId(10);
+        o.setStateCode("StateCode1");
+        o.setStateName("StateName1");
+        o.setCountryId(100);
+        o.setCountryName("United States");
+        dto = createMockCountryRegionDto(o.getCountryId(), o.getCountryName(),
+                null, o.getStateId(), o.getStateName(), o.getStateCode());
+        list.add(dto);
+
+        o = new VwStateCountry();
+        o.setStateId(11);
+        o.setStateCode("StateCode2");
+        o.setStateName("StateName2");
+        o.setCountryId(100);
+        o.setCountryName("United States");
+        dto = createMockCountryRegionDto(o.getCountryId(), o.getCountryName(),
+                null, o.getStateId(), o.getStateName(), o.getStateCode());
+        list.add(dto);
+        
+        o = new VwStateCountry();
+        o.setStateId(12);
+        o.setStateCode("StateCode3");
+        o.setStateName("StateName3");
+        o.setCountryId(100);
+        o.setCountryName("United States");
+        dto = createMockCountryRegionDto(o.getCountryId(), o.getCountryName(),
+                null, o.getStateId(), o.getStateName(), o.getStateCode());
+        list.add(dto);
+        
+        o = new VwStateCountry();
+        o.setStateId(13);
+        o.setStateCode("StateCode4");
+        o.setStateName("StateName4");
+        o.setCountryId(100);
+        o.setCountryName("United States");
+        dto = createMockCountryRegionDto(o.getCountryId(), o.getCountryName(),
+                null, o.getStateId(), o.getStateName(), o.getStateCode());
+        list.add(dto);
+        
+        o = new VwStateCountry();
+        o.setStateId(14);
+        o.setStateCode("StateCode5");
+        o.setStateName("StateName5");
+        o.setCountryId(100);
+        o.setCountryName("United States");
+        dto = createMockCountryRegionDto(o.getCountryId(), o.getCountryName(),
+                null, o.getStateId(), o.getStateName(), o.getStateCode());
+        list.add(dto);
+        return list;
+    }
+
+    /**
+     * 
+     * @param countryId
+     * @param countryName
+     * @param countryCode
+     * @param stateId
+     * @param stateName
+     * @param stateCode
+     * @return
+     */
+    public static final CountryRegionDto createMockCountryRegionDto(int countryId, String countryName, 
+            String countryCode, int stateId, String stateName, String stateCode) {
+        CountryRegionDto dto = Rmt2AddressBookDtoFactory.getNewCountryRegionInstance();
+        dto.setStateId(stateId);
+        dto.setStateCode(stateCode);
+        dto.setStateName(stateName);
+        dto.setCountryId(countryId);
+        dto.setCountryName(countryName);
+        dto.setCountryCode(countryCode);
+        return dto;
     }
 }

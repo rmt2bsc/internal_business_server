@@ -20,6 +20,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AccountingMockData;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
+import org.rmt2.api.handlers.generalledger.GlAccountCategoryApiHandler;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -33,7 +34,7 @@ import com.api.util.RMT2File;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ JmsClientManager.class })
+@PrepareForTest({ JmsClientManager.class, GlAccountCategoryApiHandler.class, GeneralLedgerApiFactory.class })
 public class GlAccountCategoryJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "Test-Accounting-Queue";

@@ -20,7 +20,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AddressBookMockData;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
-import org.rmt2.api.handlers.contacts.ContactProfileApiHandler;
+import org.rmt2.api.handlers.lookup.LookupGroupApiHandler;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -34,7 +34,7 @@ import com.api.util.RMT2File;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ ContactProfileApiHandler.class, JmsClientManager.class })
+@PrepareForTest({ LookupGroupApiHandler.class, LookupDataApiFactory.class, JmsClientManager.class })
 public class LookupGroupJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "Test-AddressBook-Queue";
@@ -64,7 +64,7 @@ public class LookupGroupJmsTest extends BaseMockMessageDrivenBeanTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        when(this.mockApiFactory.createApi()).thenReturn(this.mockApi);
+        when(this.mockApiFactory.createApi(isA(String.class))).thenReturn(this.mockApi);
         return;
     }
 

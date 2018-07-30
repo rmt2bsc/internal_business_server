@@ -4,9 +4,11 @@ import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.dto.ContactDto;
+import org.dto.ZipcodeDto;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,6 +18,9 @@ import org.mockito.Mockito;
 import org.modules.contacts.ContactsApi;
 import org.modules.contacts.ContactsApiException;
 import org.modules.contacts.ContactsApiFactory;
+import org.modules.postal.PostalApi;
+import org.modules.postal.PostalApiFactory;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AddressBookMockData;
@@ -34,7 +39,7 @@ import com.api.util.RMT2File;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ ContactProfileApiHandler.class, JmsClientManager.class })
+@PrepareForTest({ ContactProfileApiHandler.class, ContactsApiFactory.class, PostalApiFactory.class, JmsClientManager.class })
 public class ContactProfileJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "Test-AddressBook-Queue";
@@ -65,6 +70,14 @@ public class ContactProfileJmsTest extends BaseMockMessageDrivenBeanTest {
             e.printStackTrace();
         }
         when(this.mockContactsApiFactory.createApi()).thenReturn(this.mockApi);
+        
+        List<ZipcodeDto> list = new ArrayList<>();
+        ZipcodeDto p = AddressBookMockData.createMockZipcodeDto(75231,75231, "State1", "City1", "AreaCode1", "County1", 6);
+
+        PowerMockito.mockStatic(PostalApiFactory.class);
+        PostalApi mockPostalApi = Mockito.mock(PostalApi.class);
+        when(PostalApiFactory.createApi()).thenReturn(mockPostalApi);
+        when(mockPostalApi.getZipCode(isA(Integer.class))).thenReturn(p);
         return;
     }
 

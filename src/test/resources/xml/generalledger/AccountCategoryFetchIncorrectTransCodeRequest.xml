@@ -2,7 +2,7 @@
     <header>
         <routing>XXXXXXX</routing>
         <application>accounting</application>
-        <module>unknown</module>
+        <module>generalledger</module>
         <transaction>INCORRECT_TRANS_CODE</transaction>
         <delivery_mode>XXXXXXX</delivery_mode>
         <message_mode>REQUEST</message_mode>
