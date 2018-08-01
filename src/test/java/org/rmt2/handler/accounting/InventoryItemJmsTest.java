@@ -139,6 +139,25 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
     }
     
     @Test
+    public void invokeHandelrSuccess_Activate() {
+        String request = RMT2File.getFileContentsAsString("xml/inventory/ItemActivateRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.activateItemMaster(isA(Integer.class))).thenReturn(1);
+        } catch (InventoryApiException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            this.startTest();    
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
+    
+    @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
         String request = RMT2File.getFileContentsAsString("xml/inventory/ItemFetchIncorrectTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
