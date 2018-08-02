@@ -8,11 +8,13 @@ import org.dao.mapping.orm.rmt2.GlAccountCategory;
 import org.dao.mapping.orm.rmt2.GlAccountTypes;
 import org.dao.mapping.orm.rmt2.GlAccounts;
 import org.dao.mapping.orm.rmt2.ItemMaster;
+import org.dao.mapping.orm.rmt2.ItemMasterStatus;
 import org.dao.mapping.orm.rmt2.ItemMasterStatusHist;
 import org.dto.AccountCategoryDto;
 import org.dto.AccountDto;
 import org.dto.AccountTypeDto;
 import org.dto.ItemMasterDto;
+import org.dto.ItemMasterStatusDto;
 import org.dto.ItemMasterStatusHistDto;
 import org.dto.adapter.orm.account.generalledger.Rmt2AccountDtoFactory;
 import org.dto.adapter.orm.inventory.Rmt2InventoryDtoFactory;
@@ -291,6 +293,47 @@ public class AccountingMockData {
                104, 1004, 16.50, 3, "2017-01-05", "2017-03-05",
                "Item Status History Description 5");
        p = Rmt2InventoryDtoFactory.createItemStatusHistoryInstance(o);
+       list.add(p);
+       return list;
+   }
+   
+   /**
+    * 
+    * @param id
+    * @param description
+    * @return
+    */
+   public static final ItemMasterStatus createMockOrmItemMasterStatus(int id, String description) {
+       ItemMasterStatus i = new ItemMasterStatus();
+       i.setItemStatusId(id);
+       i.setDescription(description);
+       return i;
+   }
+
+   /**
+    * 
+    * @return
+    */
+   public static final List<ItemMasterStatusDto> createMockItemStatus() {
+       List<ItemMasterStatusDto> list = new ArrayList<>();
+       ItemMasterStatus o = AccountingMockData.createMockOrmItemMasterStatus(100, "Item Status #1");
+       ItemMasterStatusDto p = Rmt2InventoryDtoFactory.createItemStatusInstance(o);
+       list.add(p);
+
+       o = AccountingMockData.createMockOrmItemMasterStatus(101, "Item Status #2");
+       p = Rmt2InventoryDtoFactory.createItemStatusInstance(o);
+       list.add(p);
+
+       o = AccountingMockData.createMockOrmItemMasterStatus(102, "Item Status #3");
+       p = Rmt2InventoryDtoFactory.createItemStatusInstance(o);
+       list.add(p);
+
+       o = AccountingMockData.createMockOrmItemMasterStatus(103, "Item Status #4");
+       p = Rmt2InventoryDtoFactory.createItemStatusInstance(o);
+       list.add(p);
+
+       o = AccountingMockData.createMockOrmItemMasterStatus(104, "Item Status #5");
+       p = Rmt2InventoryDtoFactory.createItemStatusInstance(o);
        list.add(p);
        return list;
    }
