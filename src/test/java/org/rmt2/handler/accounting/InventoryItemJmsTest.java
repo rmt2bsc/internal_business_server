@@ -79,7 +79,7 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
     }
 
     @Test
-    public void invokeHandelrSuccess_Fetch() {
+    public void invokeHandlerSuccess_FetchItems() {
         String request = RMT2File.getFileContentsAsString("xml/inventory/ItemFetchRequest.xml");
         List<ItemMasterDto> mockDtoDataResponse = AccountingMockData.createMockItemMasterList();
         this.setupMocks(DESTINATION, request);
@@ -96,7 +96,26 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
         }
-        
+    }
+    
+    @Test
+    public void invokeHandlerSuccess_FetchVendorUnassignedItems() {
+        String request = RMT2File.getFileContentsAsString("xml/inventory/VendorUnassignedItemFetchRequest.xml");
+        List<ItemMasterDto> mockDtoDataResponse = AccountingMockData.createMockItemMasterList();
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.getVendorUnassignItems(isA(Integer.class))).thenReturn(mockDtoDataResponse);
+        } catch (InventoryApiException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            this.startTest();    
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
     }
     
     @Test

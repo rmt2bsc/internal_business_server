@@ -79,12 +79,33 @@ public class VendorItemJmsTest extends BaseMockMessageDrivenBeanTest {
     }
 
     @Test
-    public void invokeHandlerSuccess_Fetch() {
+    public void invokeHandlerSuccess_FetchVendorItems() {
         String request = RMT2File.getFileContentsAsString("xml/inventory/VendorItemFetchRequest.xml");
         List<VendorItemDto> mockListData = AccountingMockData.createMockVendorItem();
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.getVendorItem(isA(Integer.class), isA(Integer.class))).thenReturn(mockListData);
+        } catch (InventoryApiException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            this.startTest();    
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+        
+    }
+    
+    @Test
+    public void invokeHandlerSuccess_Fetch_VendorAssignedItems() {
+        String request = RMT2File.getFileContentsAsString("xml/inventory/VendorAssignedItemFetchRequest.xml");
+        List<VendorItemDto> mockListData = AccountingMockData.createMockVendorItem();
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.getVendorAssignItems(isA(Integer.class))).thenReturn(mockListData);
         } catch (InventoryApiException e) {
             e.printStackTrace();
         }
