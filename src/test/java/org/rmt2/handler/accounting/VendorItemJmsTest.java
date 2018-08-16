@@ -152,8 +152,26 @@ public class VendorItemJmsTest extends BaseMockMessageDrivenBeanTest {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
         }
-        
     }
     
-   
+    @Test
+    public void invokeHandlerSuccess_RemoveVendorItems() {
+        String request = RMT2File.getFileContentsAsString("xml/inventory/RemoveVendorItemsRequest.xml");
+        int rc = 3;
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.removeVendorItems(isA(Integer.class), isA(Integer[].class)))
+            .thenReturn(rc);
+        } catch (InventoryApiException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            this.startTest();    
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
 }
