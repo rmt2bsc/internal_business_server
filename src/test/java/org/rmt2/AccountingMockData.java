@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.dao.mapping.orm.rmt2.Customer;
 import org.dao.mapping.orm.rmt2.GlAccountCategory;
 import org.dao.mapping.orm.rmt2.GlAccountTypes;
 import org.dao.mapping.orm.rmt2.GlAccounts;
@@ -11,16 +12,20 @@ import org.dao.mapping.orm.rmt2.ItemMaster;
 import org.dao.mapping.orm.rmt2.ItemMasterStatus;
 import org.dao.mapping.orm.rmt2.ItemMasterStatusHist;
 import org.dao.mapping.orm.rmt2.ItemMasterType;
+import org.dao.mapping.orm.rmt2.VwCustomerXactHist;
 import org.dao.mapping.orm.rmt2.VwVendorItems;
 import org.dto.AccountCategoryDto;
 import org.dto.AccountDto;
 import org.dto.AccountTypeDto;
+import org.dto.CustomerDto;
+import org.dto.CustomerXactHistoryDto;
 import org.dto.ItemMasterDto;
 import org.dto.ItemMasterStatusDto;
 import org.dto.ItemMasterStatusHistDto;
 import org.dto.ItemMasterTypeDto;
 import org.dto.VendorItemDto;
 import org.dto.adapter.orm.account.generalledger.Rmt2AccountDtoFactory;
+import org.dto.adapter.orm.account.subsidiary.Rmt2SubsidiaryDtoFactory;
 import org.dto.adapter.orm.inventory.Rmt2InventoryDtoFactory;
 
 import com.SystemException;
@@ -441,6 +446,125 @@ public class AccountingMockData {
                "555-555-555", "5555555", 1234, "Item # 5", 55, 32.99);
        p = Rmt2InventoryDtoFactory.createVendorItemInstance(o);
        list.add(p);
+       return list;
+   }
+   
+   /**
+    * 
+    * @param id
+    * @param businessId
+    * @param personId
+    * @param acctId
+    * @param acctNo
+    * @param description
+    * @return
+    */
+   public static final Customer createMockOrmCustomer(int id, int businessId,
+           int personId, int acctId, String acctNo, String description) {
+       Customer o = new Customer();
+       o.setCustomerId(id);
+       o.setBusinessId(businessId);
+       o.setPersonId(personId);
+       o.setAcctId(acctId);
+       o.setAccountNo(acctNo);
+       o.setDescription(description);
+       o.setCreditLimit(10000);
+       o.setActive(1);
+       o.setDateCreated(new Date());
+       o.setDateUpdated(o.getDateCreated());
+       o.setUserId("testuser");
+       o.setIpCreated("111.222.101.100");
+       o.setIpUpdated(o.getIpCreated());
+       return o;
+   }
+   
+   /**
+    * 
+    * @return
+    */
+   public static final List<CustomerDto> createMockCustomers() {
+       List<CustomerDto> list = new ArrayList<>();
+       Customer o = AccountingMockData.createMockOrmCustomer(200, 1351, 0,
+               333, "C1234580", "Customer 1");
+       CustomerDto d = Rmt2SubsidiaryDtoFactory.createCustomerInstance(o, null);
+       list.add(d);
+       
+       o = AccountingMockData.createMockOrmCustomer(201, 1352, 0,
+               333, "C1234581", "Customer 2");
+       d = Rmt2SubsidiaryDtoFactory.createCustomerInstance(o, null);
+       list.add(d);
+       
+       o = AccountingMockData.createMockOrmCustomer(202, 1353, 0,
+               333, "C1234582", "Customer 3");
+       d = Rmt2SubsidiaryDtoFactory.createCustomerInstance(o, null);
+       list.add(d);
+       
+       o = AccountingMockData.createMockOrmCustomer(203, 1354, 0,
+               333, "C1234583", "Customer 4");
+       d = Rmt2SubsidiaryDtoFactory.createCustomerInstance(o, null);
+       list.add(d);
+       
+       o = AccountingMockData.createMockOrmCustomer(204, 1355, 0,
+               333, "C1234584", "Customer 5");
+       d = Rmt2SubsidiaryDtoFactory.createCustomerInstance(o, null);
+       list.add(d);
+       return list;
+   }
+   
+   public static final VwCustomerXactHist createMockOrmCustomerXactHistory(
+           int xactId, int customerId, int businessId, int personId,
+           String acctNo, double xactAmt, Date xactDate, int xactTypeId) {
+       VwCustomerXactHist o = new VwCustomerXactHist();
+       o.setXactId(xactId);
+       o.setCustomerId(customerId);
+       o.setBusinessId(businessId);
+       o.setPersonId(personId);
+       o.setAccountNo(acctNo);
+       o.setXactAmount(xactAmt);
+       o.setXactDate(xactDate);
+       o.setXactTypeId(xactTypeId);
+       o.setReason("Transaction History for customer, " + customerId);
+       o.setActive(1);
+       o.setCreditLimit(5000.00);
+       o.setXactSubtypeId(1);
+       o.setXactTypeName("Xact Type Name" + xactId);
+       o.setConfirmNo(String.valueOf(xactDate.getTime()));
+       o.setDocumentId(xactId + customerId);
+       o.setCustomerActivityId(xactId * customerId);
+       o.setCustomerActivityAmount(xactAmt);
+       return o;
+   }
+   
+   /**
+    * 
+    * @return
+    */
+   public static final List<CustomerXactHistoryDto> createMockCustomerXactHistory() {
+       List<CustomerXactHistoryDto> list = new ArrayList<>();
+       VwCustomerXactHist o = AccountingMockData.createMockOrmCustomerXactHistory(1200, 100, 1351, 0, "C8434", 1000.00,
+                       new Date(), 1);
+       CustomerXactHistoryDto d = Rmt2SubsidiaryDtoFactory.createCustomerTransactionInstance(o);
+       list.add(d);
+
+       o = AccountingMockData.createMockOrmCustomerXactHistory(1201, 100, 1351, 0, "C8434", 1000.00,
+               new Date(), 1);
+       d = Rmt2SubsidiaryDtoFactory.createCustomerTransactionInstance(o);
+       list.add(d);
+
+       o = AccountingMockData.createMockOrmCustomerXactHistory(1202, 100, 1351, 0, "C8434", 2000.00,
+               new Date(), 2);
+       d = Rmt2SubsidiaryDtoFactory.createCustomerTransactionInstance(o);
+       list.add(d);
+
+       o = AccountingMockData.createMockOrmCustomerXactHistory(1203, 100, 1351, 0, "C8434", 3000.00,
+               new Date(), 3);
+       d = Rmt2SubsidiaryDtoFactory.createCustomerTransactionInstance(o);
+       list.add(d);
+
+       o = AccountingMockData.createMockOrmCustomerXactHistory(1204, 100, 1351, 0, "C8434", 4000.00,
+               new Date(), 4);
+       d = Rmt2SubsidiaryDtoFactory.createCustomerTransactionInstance(o);
+       list.add(d);
        return list;
    }
 }
