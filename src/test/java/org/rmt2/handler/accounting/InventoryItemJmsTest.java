@@ -90,7 +90,8 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
         }
 
         try {
-            this.startTest();    
+            this.startTest();   
+            Mockito.verify(this.mockApi).getItem(isA(ItemMasterDto.class));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -110,7 +111,8 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
         }
 
         try {
-            this.startTest();    
+            this.startTest();  
+            Mockito.verify(this.mockApi).getVendorUnassignItems(isA(Integer.class));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -121,16 +123,16 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
     @Test
     public void invokeHandelrSuccess_Update() {
         String request = RMT2File.getFileContentsAsString("xml/inventory/ItemUpdateExistingRequest.xml");
-        List<ItemMasterDto> mockDtoDataResponse = AccountingMockData.createMockItemMasterList();
         this.setupMocks(DESTINATION, request);
         try {
-            when(this.mockApi.getItem(isA(ItemMasterDto.class))).thenReturn(mockDtoDataResponse);
+            when(this.mockApi.updateItemMaster(isA(ItemMasterDto.class))).thenReturn(1);
         } catch (InventoryApiException e) {
             e.printStackTrace();
         }
 
         try {
-            this.startTest();    
+            this.startTest(); 
+            Mockito.verify(this.mockApi).updateItemMaster(isA(ItemMasterDto.class));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -149,7 +151,8 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
         }
 
         try {
-            this.startTest();    
+            this.startTest();  
+            Mockito.verify(this.mockApi).deleteItemMaster(isA(Integer.class));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -168,7 +171,8 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
         }
 
         try {
-            this.startTest();    
+            this.startTest();  
+            Mockito.verify(this.mockApi).activateItemMaster(isA(Integer.class));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -187,7 +191,8 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
         }
 
         try {
-            this.startTest();    
+            this.startTest();  
+            Mockito.verify(this.mockApi).deactivateItemMaster(isA(Integer.class));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -206,7 +211,8 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
         }
 
         try {
-            this.startTest();    
+            this.startTest();  
+            Mockito.verify(this.mockApi).addInventoryOverride(isA(Integer.class), isA(Integer[].class));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -225,7 +231,8 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
         }
 
         try {
-            this.startTest();    
+            this.startTest(); 
+            Mockito.verify(this.mockApi).removeInventoryOverride(isA(Integer.class), isA(Integer[].class));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -244,8 +251,6 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
         }
-        
     }
-    
    
 }

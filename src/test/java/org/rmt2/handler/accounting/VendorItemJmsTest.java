@@ -90,7 +90,8 @@ public class VendorItemJmsTest extends BaseMockMessageDrivenBeanTest {
         }
 
         try {
-            this.startTest();    
+            this.startTest(); 
+            Mockito.verify(this.mockApi).getVendorItem(isA(Integer.class), isA(Integer.class));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -112,6 +113,7 @@ public class VendorItemJmsTest extends BaseMockMessageDrivenBeanTest {
 
         try {
             this.startTest();    
+            Mockito.verify(this.mockApi).getVendorAssignItems(isA(Integer.class));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -146,7 +148,8 @@ public class VendorItemJmsTest extends BaseMockMessageDrivenBeanTest {
         }
 
         try {
-            this.startTest();    
+            this.startTest();   
+            Mockito.verify(this.mockApi).assignVendorItems(isA(Integer.class), isA(Integer[].class));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -168,6 +171,7 @@ public class VendorItemJmsTest extends BaseMockMessageDrivenBeanTest {
 
         try {
             this.startTest();    
+            Mockito.verify(this.mockApi).removeVendorItems(isA(Integer.class), isA(Integer[].class));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -188,6 +192,7 @@ public class VendorItemJmsTest extends BaseMockMessageDrivenBeanTest {
 
         try {
             this.startTest();    
+            Mockito.verify(this.mockApi).updateVendorItem(isA(VendorItemDto.class));
         }
         catch (Exception e) {
             e.printStackTrace();

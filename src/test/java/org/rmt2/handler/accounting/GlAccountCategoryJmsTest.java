@@ -91,6 +91,7 @@ public class GlAccountCategoryJmsTest extends BaseMockMessageDrivenBeanTest {
 
         try {
             this.startTest();    
+            Mockito.verify(this.mockApi).getAccountCategory(isA(AccountCategoryDto.class));
         }
         catch (Exception e) {
             e.printStackTrace();

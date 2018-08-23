@@ -91,6 +91,7 @@ public class InventoryItemTypeJmsTest extends BaseMockMessageDrivenBeanTest {
 
         try {
             this.startTest();    
+            Mockito.verify(this.mockApi).getItemType(isA(ItemMasterTypeDto.class));
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -91,6 +91,7 @@ public class InventoryItemStatusHistoryJmsTest extends BaseMockMessageDrivenBean
 
         try {
             this.startTest();    
+            Mockito.verify(this.mockApi).getItemStatusHist(isA(ItemMasterStatusHistDto.class));
         }
         catch (Exception e) {
             e.printStackTrace();

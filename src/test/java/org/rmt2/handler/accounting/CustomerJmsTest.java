@@ -93,6 +93,7 @@ public class CustomerJmsTest extends BaseMockMessageDrivenBeanTest {
 
         try {
             this.startTest();    
+            Mockito.verify(this.mockApi).getExt(isA(CustomerDto.class));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -114,6 +115,7 @@ public class CustomerJmsTest extends BaseMockMessageDrivenBeanTest {
 
         try {
             this.startTest();    
+            Mockito.verify(this.mockApi).getTransactionHistory(isA(Integer.class));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -146,7 +148,7 @@ public class CustomerJmsTest extends BaseMockMessageDrivenBeanTest {
         String request = RMT2File.getFileContentsAsString("xml/subsidiary/CustomerHandlerInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
-            this.startTest();    
+            this.startTest(); 
         }
         catch (Exception e) {
             e.printStackTrace();
