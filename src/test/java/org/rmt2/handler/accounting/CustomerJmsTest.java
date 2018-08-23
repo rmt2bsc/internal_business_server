@@ -24,6 +24,7 @@ import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.subsidiary.CustomerApiHandler;
 
 import com.api.messaging.jms.JmsClientManager;
+import com.api.messaging.webservice.WebServiceConstants;
 import com.api.util.RMT2File;
 
 
@@ -113,6 +114,26 @@ public class CustomerJmsTest extends BaseMockMessageDrivenBeanTest {
 
         try {
             this.startTest();    
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
+    
+    @Test
+    public void invokeHandlerSuccess_UpdateCustomer() {
+        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CustomerUpdateRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.update(isA(CustomerDto.class))).thenReturn(WebServiceConstants.RETURN_CODE_SUCCESS);
+        } catch (CustomerApiException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            this.startTest();    
+            Mockito.verify(this.mockApi).update(isA(CustomerDto.class));
         }
         catch (Exception e) {
             e.printStackTrace();
