@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.dao.mapping.orm.rmt2.Creditor;
 import org.dao.mapping.orm.rmt2.Customer;
 import org.dao.mapping.orm.rmt2.GlAccountCategory;
 import org.dao.mapping.orm.rmt2.GlAccountTypes;
@@ -12,11 +13,14 @@ import org.dao.mapping.orm.rmt2.ItemMaster;
 import org.dao.mapping.orm.rmt2.ItemMasterStatus;
 import org.dao.mapping.orm.rmt2.ItemMasterStatusHist;
 import org.dao.mapping.orm.rmt2.ItemMasterType;
+import org.dao.mapping.orm.rmt2.VwCreditorXactHist;
 import org.dao.mapping.orm.rmt2.VwCustomerXactHist;
 import org.dao.mapping.orm.rmt2.VwVendorItems;
 import org.dto.AccountCategoryDto;
 import org.dto.AccountDto;
 import org.dto.AccountTypeDto;
+import org.dto.CreditorDto;
+import org.dto.CreditorXactHistoryDto;
 import org.dto.CustomerDto;
 import org.dto.CustomerXactHistoryDto;
 import org.dto.ItemMasterDto;
@@ -564,6 +568,141 @@ public class AccountingMockData {
        o = AccountingMockData.createMockOrmCustomerXactHistory(1204, 100, 1351, 0, "C8434", 4000.00,
                new Date(), 4);
        d = Rmt2SubsidiaryDtoFactory.createCustomerTransactionInstance(o);
+       list.add(d);
+       return list;
+   }
+   
+   /**
+    * 
+    * @param id
+    * @param businessId
+    * @param acctId
+    * @param acctNo
+    * @param extAcctNo
+    * @param creditorTypeId
+    * @return
+    */
+   public static final Creditor createMockOrmCreditor(int id, int businessId,
+           int acctId, String acctNo, String extAcctNo, int creditorTypeId) {
+       Creditor o = new Creditor();
+       o.setCreditorId(id);
+       o.setBusinessId(businessId);
+       o.setAcctId(acctId);
+       o.setAccountNumber(acctNo);
+       o.setExtAccountNumber(extAcctNo);
+       o.setCreditorTypeId(creditorTypeId);
+       o.setCreditLimit(10000);
+       o.setApr(12.5);
+       o.setActive(1);
+       o.setDateCreated(new Date());
+       o.setDateUpdated(o.getDateCreated());
+       o.setUserId("testuser");
+       o.setIpCreated("111.222.101.100");
+       o.setIpUpdated(o.getIpCreated());
+       return o;
+   }
+   
+   /**
+    * 
+    * @return
+    */
+   public static final List<CreditorDto> createMockCreditors() {
+       List<CreditorDto> list = new ArrayList<>();
+       Creditor o = AccountingMockData.createMockOrmCreditor(200, 1351,
+               330, "C1234580", "7437437JDJD8480", 22);
+       CreditorDto d = Rmt2SubsidiaryDtoFactory.createCreditorInstance(o, null);
+       list.add(d);
+       
+       o = AccountingMockData.createMockOrmCreditor(201, 1352,
+               331, "C1234581", "7437437JDJD8481", 22);
+       d = Rmt2SubsidiaryDtoFactory.createCreditorInstance(o, null);
+       list.add(d);
+       
+       o = AccountingMockData.createMockOrmCreditor(202, 1353,
+               332, "C1234582", "7437437JDJD8482", 22);
+       d = Rmt2SubsidiaryDtoFactory.createCreditorInstance(o, null);
+       list.add(d);
+       
+       o = AccountingMockData.createMockOrmCreditor(203, 1354,
+               333, "C1234583", "7437437JDJD8483", 22);
+       d = Rmt2SubsidiaryDtoFactory.createCreditorInstance(o, null);
+       list.add(d);
+       
+       o = AccountingMockData.createMockOrmCreditor(204, 1355,
+               334, "C1234584", "7437437JDJD8484", 22);
+       d = Rmt2SubsidiaryDtoFactory.createCreditorInstance(o, null);
+       list.add(d);
+       return list;
+   }
+   
+   /**
+    * 
+    * @param xactId
+    * @param creditorId
+    * @param acctNo
+    * @param xactAmt
+    * @param xactDate
+    * @param xactTypeId
+    * @return
+    */
+   public static final VwCreditorXactHist createMockOrmCreditorXactHistory(
+           int xactId, int creditorId, String acctNo, double xactAmt,
+           Date xactDate, int xactTypeId) {
+       VwCreditorXactHist o = new VwCreditorXactHist();
+       o.setXactId(xactId);
+       o.setCreditorTypeId(creditorId);
+       o.setAccountNumber(acctNo);
+       o.setXactAmount(xactAmt);
+       o.setXactDate(xactDate);
+       o.setXactTypeId(xactTypeId);
+       o.setReason("Transaction History for creditor, " + creditorId);
+       o.setDateCreated(new Date());
+       o.setUserId("testuser");
+       o.setActive(1);
+       o.setApr(1.56);
+       o.setCreditLimit(5000.00);
+       o.setCreditorTypeDescription(
+               "Creditor type description for creditor, " + creditorId);
+       o.setXactSubtypeId(1);
+       o.setXactTypeName("Xact Type Name" + xactId);
+       o.setConfirmNo(String.valueOf(o.getDateCreated().getTime()));
+       o.setTenderId(35);
+       o.setDocumentId(xactId + creditorId);
+       o.setCreditorActivityId(xactId * o.getTenderId());
+       o.setCreditorActivityAmount(xactAmt);
+       return o;
+   }
+
+   /**
+    * 
+    * @return
+    */
+   public static final List<CreditorXactHistoryDto> createMockCreditorXactHistory() {
+       List<CreditorXactHistoryDto> list = new ArrayList<>();
+       VwCreditorXactHist o = AccountingMockData
+               .createMockOrmCreditorXactHistory(1200, 100, "C8434", 1000.00,
+                       new Date(), 1);
+       CreditorXactHistoryDto d = Rmt2SubsidiaryDtoFactory.createCreditorTransactionInstance(o);
+       list.add(d);
+
+       o = AccountingMockData.createMockOrmCreditorXactHistory(1201,
+               100, "C8434", 32.00, new Date(), 1);
+       d = Rmt2SubsidiaryDtoFactory.createCreditorTransactionInstance(o);
+       list.add(d);
+
+       o = AccountingMockData.createMockOrmCreditorXactHistory(1202,
+               100, "C8434", 1223.00, new Date(), 2);
+       d = Rmt2SubsidiaryDtoFactory.createCreditorTransactionInstance(o);
+       list.add(d);
+
+       o = AccountingMockData.createMockOrmCreditorXactHistory(1203,
+               100, "C8434", 25.67, new Date(), 1);
+       d = Rmt2SubsidiaryDtoFactory.createCreditorTransactionInstance(o);
+       list.add(d);
+
+       o = AccountingMockData.createMockOrmCreditorXactHistory(1204,
+               100, "C8434", 745.59, new Date(), 3);
+       d = Rmt2SubsidiaryDtoFactory.createCreditorTransactionInstance(o);
        list.add(d);
        return list;
    }
