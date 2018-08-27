@@ -7,6 +7,7 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 import java.util.List;
 
 import org.dto.CreditorDto;
+import org.dto.CreditorXactHistoryDto;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -100,27 +101,27 @@ public class CreditorJmsTest extends BaseMockMessageDrivenBeanTest {
     }
     
 
-//    @Test
-//    public void invokeHandlerSuccess_FetchCustomerTransactionHistory() {
-//        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CustomerTranHistQueryRequest.xml");
-//        List<CustomerXactHistoryDto> mockListData = AccountingMockData.createMockCustomerXactHistory();
-//        this.setupMocks(DESTINATION, request);
-//        try {
-//            when(this.mockApi.getTransactionHistory(isA(Integer.class))).thenReturn(mockListData);
-//        } catch (CustomerApiException e) {
-//            e.printStackTrace();
-//        }
-//
-//        try {
-//            this.startTest();    
-//            Mockito.verify(this.mockApi).getTransactionHistory(isA(Integer.class));
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//            Assert.fail("An unexpected exception was thrown");
-//        }
-//    }
-//    
+    @Test
+    public void invokeHandlerSuccess_FetchCreditorTransactionHistory() {
+        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CreditorTransHistQueryRequest.xml");
+        List<CreditorXactHistoryDto> mockListData = AccountingMockData.createMockCreditorXactHistory();
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.getTransactionHistory(isA(Integer.class))).thenReturn(mockListData);
+        } catch (CreditorApiException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            this.startTest();    
+            Mockito.verify(this.mockApi).getTransactionHistory(isA(Integer.class));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
+    
 //    @Test
 //    public void invokeHandlerSuccess_UpdateCustomer() {
 //        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CustomerUpdateRequest.xml");
