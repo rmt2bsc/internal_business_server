@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.dao.mapping.orm.rmt2.Creditor;
+import org.dao.mapping.orm.rmt2.CreditorType;
 import org.dao.mapping.orm.rmt2.Customer;
 import org.dao.mapping.orm.rmt2.GlAccountCategory;
 import org.dao.mapping.orm.rmt2.GlAccountTypes;
@@ -20,6 +21,7 @@ import org.dto.AccountCategoryDto;
 import org.dto.AccountDto;
 import org.dto.AccountTypeDto;
 import org.dto.CreditorDto;
+import org.dto.CreditorTypeDto;
 import org.dto.CreditorXactHistoryDto;
 import org.dto.CustomerDto;
 import org.dto.CustomerXactHistoryDto;
@@ -703,6 +705,50 @@ public class AccountingMockData {
        o = AccountingMockData.createMockOrmCreditorXactHistory(1204,
                100, "C8434", 745.59, new Date(), 3);
        d = Rmt2SubsidiaryDtoFactory.createCreditorTransactionInstance(o);
+       list.add(d);
+       return list;
+   }
+   
+   /**
+    * 
+    * @param id
+    * @param description
+    * @return
+    */
+   public static final CreditorType createMockOrmCreditorType(int id, String description) {
+       CreditorType o = new CreditorType();
+       o.setCreditorTypeId(id);
+       o.setDescription(description);
+       o.setDateCreated(new Date());
+       o.setDateUpdated(o.getDateCreated());
+       o.setUserId("testuser");
+       return o;
+   }
+   
+   /**
+    * 
+    * @return
+    */
+   public static final List<CreditorTypeDto> createMockCreditorTypes() {
+       List<CreditorTypeDto> list = new ArrayList<>();
+       CreditorType o = AccountingMockData.createMockOrmCreditorType(100, "Creditor Type 1");
+       CreditorTypeDto d = Rmt2SubsidiaryDtoFactory.createCreditorTypeInstance(o);
+       list.add(d);
+       
+       o = AccountingMockData.createMockOrmCreditorType(200, "Creditor Type 2");
+       d = Rmt2SubsidiaryDtoFactory.createCreditorTypeInstance(o);
+       list.add(d);
+       
+       o = AccountingMockData.createMockOrmCreditorType(300, "Creditor Type 3");
+       d = Rmt2SubsidiaryDtoFactory.createCreditorTypeInstance(o);
+       list.add(d);
+       
+       o = AccountingMockData.createMockOrmCreditorType(400, "Creditor Type 4");
+       d = Rmt2SubsidiaryDtoFactory.createCreditorTypeInstance(o);
+       list.add(d);
+       
+       o = AccountingMockData.createMockOrmCreditorType(500, "Creditor Type 5");
+       d = Rmt2SubsidiaryDtoFactory.createCreditorTypeInstance(o);
        list.add(d);
        return list;
    }
