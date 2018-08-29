@@ -143,25 +143,25 @@ public class CreditorJmsTest extends BaseMockMessageDrivenBeanTest {
         }
     }
     
-//    @Test
-//    public void invokeHandlerSuccess_DeleteCustomer() {
-//        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CustomerDeleteRequest.xml");
-//        this.setupMocks(DESTINATION, request);
-//        try {
-//            when(this.mockApi.delete(isA(CustomerDto.class))).thenReturn(WebServiceConstants.RETURN_CODE_SUCCESS);
-//        } catch (CustomerApiException e) {
-//            e.printStackTrace();
-//        }
-//
-//        try {
-//            this.startTest();    
-//            Mockito.verify(this.mockApi).delete(isA(CustomerDto.class));
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//            Assert.fail("An unexpected exception was thrown");
-//        }
-//    }
+    @Test
+    public void invokeHandlerSuccess_DeleteCreditor() {
+        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CreditorDeleteRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.delete(isA(CreditorDto.class))).thenReturn(WebServiceConstants.RETURN_CODE_SUCCESS);
+        } catch (CreditorApiException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            this.startTest();    
+            Mockito.verify(this.mockApi).delete(isA(CreditorDto.class));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
     
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
