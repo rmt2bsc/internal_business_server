@@ -17,6 +17,7 @@ import org.dao.mapping.orm.rmt2.ItemMasterType;
 import org.dao.mapping.orm.rmt2.VwCreditorXactHist;
 import org.dao.mapping.orm.rmt2.VwCustomerXactHist;
 import org.dao.mapping.orm.rmt2.VwVendorItems;
+import org.dao.mapping.orm.rmt2.XactCodeGroup;
 import org.dto.AccountCategoryDto;
 import org.dto.AccountDto;
 import org.dto.AccountTypeDto;
@@ -30,9 +31,11 @@ import org.dto.ItemMasterStatusDto;
 import org.dto.ItemMasterStatusHistDto;
 import org.dto.ItemMasterTypeDto;
 import org.dto.VendorItemDto;
+import org.dto.XactCodeGroupDto;
 import org.dto.adapter.orm.account.generalledger.Rmt2AccountDtoFactory;
 import org.dto.adapter.orm.account.subsidiary.Rmt2SubsidiaryDtoFactory;
 import org.dto.adapter.orm.inventory.Rmt2InventoryDtoFactory;
+import org.dto.adapter.orm.transaction.Rmt2XactDtoFactory;
 
 import com.SystemException;
 import com.api.util.RMT2Date;
@@ -751,5 +754,50 @@ public class AccountingMockData {
        d = Rmt2SubsidiaryDtoFactory.createCreditorTypeInstance(o);
        list.add(d);
        return list;
+   }
+   
+   /**
+    * 
+    * @return
+    */
+   public static final List<XactCodeGroupDto> createMockXactGroup() {
+       List<XactCodeGroupDto> list = new ArrayList<>();
+       XactCodeGroup o = createMockOrmXactCodeGroup(101, "Group 1");
+       XactCodeGroupDto d = Rmt2XactDtoFactory.createXactCodeGroupInstance(o);
+       list.add(d);
+       
+       o = createMockOrmXactCodeGroup(102, "Group 2");
+       d = Rmt2XactDtoFactory.createXactCodeGroupInstance(o);
+       list.add(d);
+       
+       o = createMockOrmXactCodeGroup(103, "Group 3");
+       d = Rmt2XactDtoFactory.createXactCodeGroupInstance(o);
+       list.add(d);
+       
+       o = createMockOrmXactCodeGroup(104, "Group 4");
+       d = Rmt2XactDtoFactory.createXactCodeGroupInstance(o);
+       list.add(d);
+       
+       o = createMockOrmXactCodeGroup(105, "Group 5");
+       d = Rmt2XactDtoFactory.createXactCodeGroupInstance(o);
+       list.add(d);
+       return list;
+   }
+   
+   /**
+    * 
+    * @param xactGroupId
+    * @param description
+    * @return
+    */
+   public static final XactCodeGroup createMockOrmXactCodeGroup(
+           int xactGroupId, String description) {
+       XactCodeGroup o = new XactCodeGroup();
+       o.setDescription(description);
+       o.setXactCodeGrpId(xactGroupId);
+       o.setDateCreated(new Date());
+       o.setDateUpdated(o.getDateCreated());
+       o.setUserId("testuser");
+       return o;
    }
 }
