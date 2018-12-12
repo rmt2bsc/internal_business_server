@@ -18,6 +18,7 @@ import org.dao.mapping.orm.rmt2.VwCreditorXactHist;
 import org.dao.mapping.orm.rmt2.VwCustomerXactHist;
 import org.dao.mapping.orm.rmt2.VwVendorItems;
 import org.dao.mapping.orm.rmt2.XactCodeGroup;
+import org.dao.mapping.orm.rmt2.XactCodes;
 import org.dto.AccountCategoryDto;
 import org.dto.AccountDto;
 import org.dto.AccountTypeDto;
@@ -31,6 +32,7 @@ import org.dto.ItemMasterStatusDto;
 import org.dto.ItemMasterStatusHistDto;
 import org.dto.ItemMasterTypeDto;
 import org.dto.VendorItemDto;
+import org.dto.XactCodeDto;
 import org.dto.XactCodeGroupDto;
 import org.dto.adapter.orm.account.generalledger.Rmt2AccountDtoFactory;
 import org.dto.adapter.orm.account.subsidiary.Rmt2SubsidiaryDtoFactory;
@@ -793,6 +795,53 @@ public class AccountingMockData {
    public static final XactCodeGroup createMockOrmXactCodeGroup(
            int xactGroupId, String description) {
        XactCodeGroup o = new XactCodeGroup();
+       o.setDescription(description);
+       o.setXactCodeGrpId(xactGroupId);
+       o.setDateCreated(new Date());
+       o.setDateUpdated(o.getDateCreated());
+       o.setUserId("testuser");
+       return o;
+   }
+   
+   /**
+    * 
+    * @return
+    */
+   public static final List<XactCodeDto> createMockXactCode() {
+       List<XactCodeDto> list = new ArrayList<>();
+       XactCodes o = createMockOrmXactCode(201, 101, "Code 1");
+       XactCodeDto d = Rmt2XactDtoFactory.createXactCodeInstance(o);
+       list.add(d);
+       
+       o = createMockOrmXactCode(202, 102, "Code 2");
+       d = Rmt2XactDtoFactory.createXactCodeInstance(o);
+       list.add(d);
+       
+       o = createMockOrmXactCode(203, 103, "Code 3");
+       d = Rmt2XactDtoFactory.createXactCodeInstance(o);
+       list.add(d);
+       
+       o = createMockOrmXactCode(204, 104, "Code 4");
+       d = Rmt2XactDtoFactory.createXactCodeInstance(o);
+       list.add(d);
+       
+       o = createMockOrmXactCode(205, 105, "Code 5");
+       d = Rmt2XactDtoFactory.createXactCodeInstance(o);
+       list.add(d);
+       return list;
+   }
+   
+   /**
+    * 
+    * @param xactCodeId
+    * @param xactGroupId
+    * @param description
+    * @return
+    */
+   public static final XactCodes createMockOrmXactCode(int xactCodeId,
+           int xactGroupId, String description) {
+       XactCodes o = new XactCodes();
+       o.setXactCodeId(xactCodeId);
        o.setDescription(description);
        o.setXactCodeGrpId(xactGroupId);
        o.setDateCreated(new Date());
