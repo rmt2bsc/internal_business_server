@@ -31,7 +31,7 @@ import com.api.util.RMT2File;
 
 
 /**
- * Test the idenity and invocation of the Transaction Code Groupt API Message Handler.
+ * Test the idenity and invocation of the Transaction Group API Message Handler.
  * 
  * @author appdev
  *
