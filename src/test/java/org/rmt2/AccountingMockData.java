@@ -17,8 +17,10 @@ import org.dao.mapping.orm.rmt2.ItemMasterType;
 import org.dao.mapping.orm.rmt2.VwCreditorXactHist;
 import org.dao.mapping.orm.rmt2.VwCustomerXactHist;
 import org.dao.mapping.orm.rmt2.VwVendorItems;
+import org.dao.mapping.orm.rmt2.VwXactList;
 import org.dao.mapping.orm.rmt2.XactCodeGroup;
 import org.dao.mapping.orm.rmt2.XactCodes;
+import org.dao.mapping.orm.rmt2.XactTypeItemActivity;
 import org.dto.AccountCategoryDto;
 import org.dto.AccountDto;
 import org.dto.AccountTypeDto;
@@ -34,10 +36,13 @@ import org.dto.ItemMasterTypeDto;
 import org.dto.VendorItemDto;
 import org.dto.XactCodeDto;
 import org.dto.XactCodeGroupDto;
+import org.dto.XactDto;
+import org.dto.XactTypeItemActivityDto;
 import org.dto.adapter.orm.account.generalledger.Rmt2AccountDtoFactory;
 import org.dto.adapter.orm.account.subsidiary.Rmt2SubsidiaryDtoFactory;
 import org.dto.adapter.orm.inventory.Rmt2InventoryDtoFactory;
 import org.dto.adapter.orm.transaction.Rmt2XactDtoFactory;
+import org.modules.transaction.XactConst;
 
 import com.SystemException;
 import com.api.util.RMT2Date;
@@ -849,4 +854,103 @@ public class AccountingMockData {
        o.setUserId("testuser");
        return o;
    }
+   
+   /**
+    * 
+    * @return
+    */
+   public static final List<XactDto> createMockSingleCommonTransactions() {
+       List<XactDto> list = new ArrayList<XactDto>();
+       VwXactList o = createMockOrmXact(111111, XactConst.XACT_TYPE_CASH_DISBURSE,
+               XactConst.XACT_SUBTYPE_NOT_ASSIGNED, RMT2Date.stringToDate("2017-01-13"), 100.00, 200, "1111-1111-1111-1111");
+       XactDto d = Rmt2XactDtoFactory.createXactInstance(o);
+       list.add(d);
+       return list;
+   }
+   
+   /**
+    * 
+    * @param xactId
+    * @param xactTypeId
+    * @param xactSubType
+    * @param xactDate
+    * @param xactAmount
+    * @param tenderId
+    * @param negInstrNo
+    * @return
+    */
+   public static final VwXactList createMockOrmXact(int xactId, int xactTypeId,
+           int xactSubType, Date xactDate, double xactAmount, int tenderId, String negInstrNo) {
+       VwXactList o = new VwXactList();
+       o.setId(xactId);
+       o.setReason("reason for transaction id " + xactId);
+       o.setXactTypeId(xactTypeId);
+       o.setXactSubtypeId(xactSubType);
+       o.setXactDate(xactDate);
+       o.setXactAmount(xactAmount);
+       o.setTenderId(tenderId);
+       o.setNegInstrNo(negInstrNo);
+       o.setPostedDate(xactDate);
+       o.setConfirmNo(String.valueOf(xactDate.getTime()));
+       o.setDocumentId(xactId + tenderId);
+       return o;
+   }
+   
+   /**
+    * 
+    * @return
+    */
+   public static final List<XactTypeItemActivityDto> createMockXactItems() {
+       List<XactTypeItemActivityDto> list = new ArrayList<XactTypeItemActivityDto>();
+       XactTypeItemActivity o = createMockOrmXactTypeItemActivity(7001, 111111, 601, 31.11,
+                       "Item1");
+       XactTypeItemActivityDto d = Rmt2XactDtoFactory.createXactTypeItemActivityInstance(o);
+       list.add(d);
+
+       o = createMockOrmXactTypeItemActivity(7002,
+               111111, 602, 20.00, "Item2");
+       d = Rmt2XactDtoFactory.createXactTypeItemActivityInstance(o);
+       list.add(d);
+
+       o = createMockOrmXactTypeItemActivity(7003,
+               111111, 603, 20.00, "Item3");
+       d = Rmt2XactDtoFactory.createXactTypeItemActivityInstance(o);
+       list.add(d);
+
+       o = createMockOrmXactTypeItemActivity(7004,
+               111111, 604, 20.00, "Item4");
+       d = Rmt2XactDtoFactory.createXactTypeItemActivityInstance(o);
+       list.add(d);
+
+       o = createMockOrmXactTypeItemActivity(7005,
+               111111, 605, 20.00, "Item5");
+       d = Rmt2XactDtoFactory.createXactTypeItemActivityInstance(o);
+       list.add(d);
+       return list;
+   }
+   
+   /**
+    * 
+    * @param xactTypeItemActvId
+    * @param xactId
+    * @param xactItemId
+    * @param amount
+    * @param desctiption
+    * @return
+    */
+   public static final XactTypeItemActivity createMockOrmXactTypeItemActivity(
+           int xactTypeItemActvId, int xactId, int xactItemId, double amount,
+           String desctiption) {
+       XactTypeItemActivity o = new XactTypeItemActivity();
+       o.setXactTypeItemActvId(xactTypeItemActvId);
+       o.setXactId(xactId);
+       o.setXactItemId(xactItemId);
+       o.setDescription(desctiption);
+       o.setAmount(amount);
+       o.setDateCreated(new Date());
+       o.setDateUpdated(o.getDateCreated());
+       o.setUserId("testuser");
+       return o;
+   }
+
 }
