@@ -44,6 +44,8 @@ public class XactCommonJmsTest extends BaseMockMessageDrivenBeanTest {
     private static final String DESTINATION = "Test-Accounting-Queue";
     private XactApi mockApi;
     private DaoClient mockDaoClient;
+    
+    public static final int NEW_XACT_ID = 1234567;
 
 
     /**
@@ -109,6 +111,25 @@ public class XactCommonJmsTest extends BaseMockMessageDrivenBeanTest {
         }
     }
   
+    @Test
+    public void invokeHandlerSuccess_Create() {
+        String request = RMT2File.getFileContentsAsString("xml/transaction/common/TransactionCommonCreateRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.update(isA(XactDto.class), isA(List.class))).thenReturn(NEW_XACT_ID);
+        } catch (XactApiException e) {
+            Assert.fail("Unable to setup mock stub for creating a transaction");
+        }
+        
+        try {
+            this.startTest();    
+            Mockito.verify(this.mockApi).update(isA(XactDto.class), isA(List.class));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
     
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
