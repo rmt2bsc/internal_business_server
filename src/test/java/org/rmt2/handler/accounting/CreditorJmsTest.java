@@ -105,8 +105,15 @@ public class CreditorJmsTest extends BaseMockMessageDrivenBeanTest {
     @Test
     public void invokeHandlerSuccess_FetchCreditorTransactionHistory() {
         String request = RMT2File.getFileContentsAsString("xml/subsidiary/CreditorTransHistQueryRequest.xml");
+        List<CreditorDto> mockCredData = AccountingMockData.createMockCreditor();
         List<CreditorXactHistoryDto> mockListData = AccountingMockData.createMockCreditorXactHistory();
         this.setupMocks(DESTINATION, request);
+        
+        try {
+            when(this.mockApi.getExt(isA(CreditorDto.class))).thenReturn(mockCredData);
+        } catch (CreditorApiException e) {
+            Assert.fail("Unable to setup mock stub for fetching a creditor");
+        }
         try {
             when(this.mockApi.getTransactionHistory(isA(Integer.class))).thenReturn(mockListData);
         } catch (CreditorApiException e) {

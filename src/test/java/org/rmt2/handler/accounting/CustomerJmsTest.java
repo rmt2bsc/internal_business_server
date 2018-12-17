@@ -105,8 +105,15 @@ public class CustomerJmsTest extends BaseMockMessageDrivenBeanTest {
     @Test
     public void invokeHandlerSuccess_FetchCustomerTransactionHistory() {
         String request = RMT2File.getFileContentsAsString("xml/subsidiary/CustomerTranHistQueryRequest.xml");
+        List<CustomerDto> mockCustData = AccountingMockData.createMockCustomer();
         List<CustomerXactHistoryDto> mockListData = AccountingMockData.createMockCustomerXactHistory();
         this.setupMocks(DESTINATION, request);
+        
+        try {
+            when(this.mockApi.getExt(isA(CustomerDto.class))).thenReturn(mockCustData);
+        } catch (CustomerApiException e) {
+            Assert.fail("Unable to setup mock stub for fetching a customer");
+        }
         try {
             when(this.mockApi.getTransactionHistory(isA(Integer.class))).thenReturn(mockListData);
         } catch (CustomerApiException e) {

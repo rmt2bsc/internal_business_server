@@ -494,6 +494,16 @@ public class AccountingMockData {
        return o;
    }
    
+   public static final List<CustomerDto> createMockCustomer() {
+       List<CustomerDto> list = new ArrayList<>();
+       Customer o = AccountingMockData.createMockOrmCustomer(100, 1351, 0,
+               333, "C1234580", "Customer 1");
+       CustomerDto d = Rmt2SubsidiaryDtoFactory.createCustomerInstance(o, null);
+       list.add(d);
+       
+       return list;
+   }
+   
    /**
     * 
     * @return
@@ -644,6 +654,20 @@ public class AccountingMockData {
                334, "C1234584", "7437437JDJD8484", 22);
        d = Rmt2SubsidiaryDtoFactory.createCreditorInstance(o, null);
        list.add(d);
+       return list;
+   }
+   
+   /**
+    * 
+    * @return
+    */
+   public static final List<CreditorDto> createMockCreditor() {
+       List<CreditorDto> list = new ArrayList<>();
+       Creditor o = AccountingMockData.createMockOrmCreditor(100, 1351,
+               330, "C1234580", "7437437JDJD8480", 22);
+       CreditorDto d = Rmt2SubsidiaryDtoFactory.createCreditorInstance(o, null);
+       list.add(d);
+     
        return list;
    }
    
