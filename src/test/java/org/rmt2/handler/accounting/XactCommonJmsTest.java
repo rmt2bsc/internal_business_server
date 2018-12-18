@@ -132,6 +132,26 @@ public class XactCommonJmsTest extends BaseMockMessageDrivenBeanTest {
     }
     
     @Test
+    public void invokeHandlerSuccess_Reverse() {
+        String request = RMT2File.getFileContentsAsString("xml/transaction/common/TransactionReverseRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.reverse(isA(XactDto.class), isA(List.class))).thenReturn(NEW_XACT_ID);
+        } catch (XactApiException e) {
+            Assert.fail("Unable to setup mock stub for reversing a transaction");
+        }
+        
+        try {
+            this.startTest();    
+            Mockito.verify(this.mockApi).reverse(isA(XactDto.class), isA(List.class));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
+    
+    @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
         String request = RMT2File.getFileContentsAsString("xml/transaction/common/TransactionCommonQueryInvalidTranCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
