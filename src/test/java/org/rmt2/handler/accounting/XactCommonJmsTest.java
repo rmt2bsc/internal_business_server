@@ -84,7 +84,7 @@ public class XactCommonJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/common/TransactionCommonQueryRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/transaction/common/TransactionQueryRequest.xml");
         List<XactDto> mockListData = AccountingMockData.createMockSingleCommonTransactions();
         List<XactTypeItemActivityDto> mockItemListData = AccountingMockData.createMockXactItems();
         this.setupMocks(DESTINATION, request);
@@ -113,7 +113,7 @@ public class XactCommonJmsTest extends BaseMockMessageDrivenBeanTest {
   
     @Test
     public void invokeHandlerSuccess_Create() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/common/TransactionCommonCreateRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/transaction/common/TransactionCreateRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.update(isA(XactDto.class), isA(List.class))).thenReturn(NEW_XACT_ID);
@@ -153,7 +153,7 @@ public class XactCommonJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/common/TransactionCommonQueryInvalidTranCodeRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/transaction/common/TransactionQueryInvalidTranCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest(); 
