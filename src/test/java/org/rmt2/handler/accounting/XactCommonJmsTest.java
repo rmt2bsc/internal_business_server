@@ -23,10 +23,9 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AccountingMockData;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
-import org.rmt2.api.handlers.transaction.XactGroupApiHandler;
+import org.rmt2.api.handlers.transaction.XactApiHandler;
 
 import com.api.messaging.jms.JmsClientManager;
-import com.api.persistence.DaoClient;
 import com.api.util.RMT2File;
 
 
@@ -38,12 +37,11 @@ import com.api.util.RMT2File;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ JmsClientManager.class, XactGroupApiHandler.class, XactApiFactory.class })
+@PrepareForTest({ JmsClientManager.class, XactApiHandler.class, XactApiFactory.class })
 public class XactCommonJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "Test-Accounting-Queue";
     private XactApi mockApi;
-    private DaoClient mockDaoClient;
     
     public static final int NEW_XACT_ID = 1234567;
 
