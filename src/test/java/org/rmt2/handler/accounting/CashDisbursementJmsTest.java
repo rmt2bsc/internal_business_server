@@ -1,5 +1,6 @@
 package org.rmt2.handler.accounting;
 
+import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -75,9 +76,11 @@ public class CashDisbursementJmsTest extends BaseMockMessageDrivenBeanTest {
         when(mockXactDaoFactory.createRmt2OrmXactDao(isA(String.class))).thenReturn(mockDao);
         
         // Setup Xact API mocks
+        XactCustomCriteriaDto mockCustomCriteriaDto = XactApiFactory.createCustomCriteriaInstance();
         XactApi mockXactApi = Mockito.mock(XactApi.class);
         PowerMockito.mockStatic(XactApiFactory.class);
         PowerMockito.when(XactApiFactory.createDefaultXactApi()).thenReturn(mockXactApi);
+        PowerMockito.when(XactApiFactory.createCustomCriteriaInstance()).thenReturn(mockCustomCriteriaDto);
         
         // Setup Cash Disbursement API Mocks
         mockCashDisbApi = Mockito.mock(DisbursementsApi.class);
@@ -98,8 +101,39 @@ public class CashDisbursementJmsTest extends BaseMockMessageDrivenBeanTest {
     }
 
     @Test
-    public void invokeHandlerSuccess_Fetch() {
+    public void invokeHandlerWithoutCustomCriteriaSuccess_Fetch() {
         String request = RMT2File.getFileContentsAsString("xml/transaction/cashdisbursement/CashDisbursementBasicQueryRequestFull.xml");
+        List<XactDto> mockListData = AccountingMockData.createMockSingleCommonTransactions();
+        List<XactTypeItemActivityDto> mockItemListData = AccountingMockData.createMockXactItems();
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockCashDisbApi.get(isA(XactDto.class), eq((XactCustomCriteriaDto) null)))
+                            .thenReturn(mockListData);
+        } catch (XactApiException e) {
+            Assert.fail("Unable to setup mock stub for fetching a cash disbursement header transaction");
+        }
+        
+        try {
+            when(this.mockCashDisbApi.getItems(isA(XactTypeItemActivityDto.class), eq((XactCustomCriteriaDto) null)))
+                            .thenReturn(mockItemListData);
+        } catch (XactApiException e) {
+            Assert.fail("Unable to setup mock stub for fetching cash disbursement transaction line items");
+        }
+        
+        try {
+            this.startTest();    
+            Mockito.verify(this.mockCashDisbApi).get(isA(XactDto.class), eq((XactCustomCriteriaDto) null));
+            Mockito.verify(this.mockCashDisbApi).getItems(isA(XactTypeItemActivityDto.class), eq((XactCustomCriteriaDto) null));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
+    
+    @Test
+    public void invokeHandlerWithCustomCriteriaSuccess_Fetch() {
+        String request = RMT2File.getFileContentsAsString("xml/transaction/cashdisbursement/CashDisbursementCustomQueryRequestHeader.xml");
         List<XactDto> mockListData = AccountingMockData.createMockSingleCommonTransactions();
         List<XactTypeItemActivityDto> mockItemListData = AccountingMockData.createMockXactItems();
         this.setupMocks(DESTINATION, request);
