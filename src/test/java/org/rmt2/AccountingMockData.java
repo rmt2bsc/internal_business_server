@@ -48,7 +48,8 @@ import com.SystemException;
 import com.api.util.RMT2Date;
 
 public class AccountingMockData {
-
+    public static final int NEW_XACT_ID = 1234567;
+    
     public AccountingMockData() {
     }
     
