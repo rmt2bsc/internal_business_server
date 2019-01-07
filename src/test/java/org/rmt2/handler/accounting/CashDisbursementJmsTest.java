@@ -183,6 +183,27 @@ public class CashDisbursementJmsTest extends BaseMockMessageDrivenBeanTest {
         }
     }
     
+    @Test
+    public void invokeHandlerSuccess_CreateForCreditor() {
+        String request = RMT2File.getFileContentsAsString("xml/transaction/cashdisbursement/CashDisbursementCreditorCreateRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockCashDisbApi.updateTrans(isA(XactDto.class), isA(List.class)))
+                    .thenReturn(AccountingMockData.NEW_XACT_ID);
+        } catch (XactApiException e) {
+            Assert.fail("Unable to setup mock stub for creating a creditor cash disbursement transaction");
+        }
+        
+        try {
+            this.startTest();    
+            Mockito.verify(this.mockCashDisbApi).updateTrans(isA(XactDto.class),
+                    isA(List.class), isA(Integer.class));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
     
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
