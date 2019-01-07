@@ -1,4 +1,4 @@
-package org.rmt2.handler.accounting;
+package org.rmt2.handler.accounting.generalledger;
 
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.when;
@@ -6,21 +6,21 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 import java.util.List;
 
-import org.dto.ItemMasterTypeDto;
+import org.dto.AccountTypeDto;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.modules.inventory.InventoryApi;
-import org.modules.inventory.InventoryApiException;
-import org.modules.inventory.InventoryApiFactory;
+import org.modules.generalledger.GeneralLedgerApiException;
+import org.modules.generalledger.GeneralLedgerApiFactory;
+import org.modules.generalledger.GlAccountApi;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AccountingMockData;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
-import org.rmt2.api.handlers.inventory.ItemTypeApiHandler;
+import org.rmt2.api.handlers.generalledger.GlAccountTypeApiHandler;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -28,24 +28,24 @@ import com.api.util.RMT2File;
 
 
 /**
- * Test the idenity and invocation of the Inventory Item Type API Message Handler.
+ * Test the idenity and invocation of the GL Account API Message Handler.
  * 
  * @author appdev
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ JmsClientManager.class, ItemTypeApiHandler.class, InventoryApiFactory.class })
-public class InventoryItemTypeJmsTest extends BaseMockMessageDrivenBeanTest {
+@PrepareForTest({ JmsClientManager.class, GlAccountTypeApiHandler.class, GeneralLedgerApiFactory.class })
+public class GlAccountTypeJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "Test-Accounting-Queue";
-    private InventoryApiFactory mockApiFactory;
-    private InventoryApi mockApi;
+    private GeneralLedgerApiFactory mockApiFactory;
+    private GlAccountApi mockApi;
 
 
     /**
      * 
      */
-    public InventoryItemTypeJmsTest() {
+    public GlAccountTypeJmsTest() {
     }
 
     /*
@@ -57,10 +57,10 @@ public class InventoryItemTypeJmsTest extends BaseMockMessageDrivenBeanTest {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        this.mockApiFactory = Mockito.mock(InventoryApiFactory.class);
-        this.mockApi = Mockito.mock(InventoryApi.class);
+        this.mockApiFactory = Mockito.mock(GeneralLedgerApiFactory.class);
+        this.mockApi = Mockito.mock(GlAccountApi.class);
         try {
-            whenNew(InventoryApiFactory.class).withNoArguments().thenReturn(this.mockApiFactory);
+            whenNew(GeneralLedgerApiFactory.class).withNoArguments().thenReturn(this.mockApiFactory);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,19 +79,19 @@ public class InventoryItemTypeJmsTest extends BaseMockMessageDrivenBeanTest {
     }
 
     @Test
-    public void invokeHandlerSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/ItemtypeFetchRequest.xml");
-        List<ItemMasterTypeDto> mockListData = AccountingMockData.createMockItemType();
+    public void invokeHandelrSuccess_Fetch() {
+        String request = RMT2File.getFileContentsAsString("xml/generalledger/AccountTypeFetchRequest.xml");
+        List<AccountTypeDto> mockDtoDataResponse = AccountingMockData.createMockGlAccountTypes();
         this.setupMocks(DESTINATION, request);
         try {
-            when(this.mockApi.getItemType(isA(ItemMasterTypeDto.class))).thenReturn(mockListData);
-        } catch (InventoryApiException e) {
-            e.printStackTrace();
+            when(this.mockApi.getAccountType(isA(AccountTypeDto.class))).thenReturn(mockDtoDataResponse);
+        } catch (GeneralLedgerApiException e) {
+
         }
 
         try {
             this.startTest();    
-            Mockito.verify(this.mockApi).getItemType(isA(ItemMasterTypeDto.class));
+            Mockito.verify(this.mockApi).getAccountType(isA(AccountTypeDto.class));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -102,7 +102,7 @@ public class InventoryItemTypeJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/ItemtypeFetchIncorrectTransCodeRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/generalledger/AccountTypeFetchIncorrectTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();    

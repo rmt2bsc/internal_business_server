@@ -1,4 +1,4 @@
-package org.rmt2.handler.accounting;
+package org.rmt2.handler.accounting.transaction;
 
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.when;
@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.dao.transaction.XactDao;
 import org.dao.transaction.XactDaoFactory;
-import org.dto.XactCodeDto;
+import org.dto.XactCodeGroupDto;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,7 +22,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AccountingMockData;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
-import org.rmt2.api.handlers.transaction.XactCodeApiHandler;
+import org.rmt2.api.handlers.transaction.XactGroupApiHandler;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.persistence.DaoClient;
@@ -31,14 +31,14 @@ import com.api.util.RMT2File;
 
 
 /**
- * Test the idenity and invocation of the Transaction Code API Message Handler.
+ * Test the idenity and invocation of the Transaction Group API Message Handler.
  * 
  * @author appdev
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ JmsClientManager.class, XactCodeApiHandler.class, XactApiFactory.class })
-public class XactCodeJmsTest extends BaseMockMessageDrivenBeanTest {
+@PrepareForTest({ JmsClientManager.class, XactGroupApiHandler.class, XactApiFactory.class })
+public class XactGroupJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "Test-Accounting-Queue";
     private XactApi mockApi;
@@ -48,7 +48,7 @@ public class XactCodeJmsTest extends BaseMockMessageDrivenBeanTest {
     /**
      * 
      */
-    public XactCodeJmsTest() {
+    public XactGroupJmsTest() {
     }
 
     /*
@@ -81,18 +81,18 @@ public class XactCodeJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_FetchTransactionGroups() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/codes/TransactionCodeQueryRequest.xml");
-        List<XactCodeDto> mockListData = AccountingMockData.createMockXactCode();
+        String request = RMT2File.getFileContentsAsString("xml/transaction/codes/TransactionGroupQueryRequest.xml");
+        List<XactCodeGroupDto> mockListData = AccountingMockData.createMockXactGroup();
         this.setupMocks(DESTINATION, request);
         try {
-            when(this.mockApi.getCodes(isA(XactCodeDto.class))).thenReturn(mockListData);
+            when(this.mockApi.getGroup(isA(XactCodeGroupDto.class))).thenReturn(mockListData);
         } catch (XactApiException e) {
-            Assert.fail("Unable to setup mock stub for fetching a transaction codes");
+            Assert.fail("Unable to setup mock stub for fetching a transaction groups");
         }
 
         try {
             this.startTest();    
-            Mockito.verify(this.mockApi).getCodes(isA(XactCodeDto.class));
+            Mockito.verify(this.mockApi).getGroup(isA(XactCodeGroupDto.class));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -103,7 +103,7 @@ public class XactCodeJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/codes/TransactionCodeQueryInvalidTransCodeRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/transaction/codes/TransactionGroupQueryInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest(); 

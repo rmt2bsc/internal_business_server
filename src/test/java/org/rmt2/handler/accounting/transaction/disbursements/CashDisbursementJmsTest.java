@@ -1,4 +1,4 @@
-package org.rmt2.handler.accounting;
+package org.rmt2.handler.accounting.transaction.disbursements;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;

@@ -1,4 +1,4 @@
-package org.rmt2.handler.accounting;
+package org.rmt2.handler.accounting.subsidiary;
 
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.when;
@@ -6,21 +6,21 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 import java.util.List;
 
-import org.dto.AccountDto;
+import org.dto.CreditorTypeDto;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.modules.generalledger.GeneralLedgerApiException;
-import org.modules.generalledger.GeneralLedgerApiFactory;
-import org.modules.generalledger.GlAccountApi;
+import org.modules.subsidiary.CreditorApi;
+import org.modules.subsidiary.CreditorApiException;
+import org.modules.subsidiary.SubsidiaryApiFactory;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AccountingMockData;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
-import org.rmt2.api.handlers.generalledger.GlAccountApiHandler;
+import org.rmt2.api.handlers.subsidiary.CreditorTypeApiHandler;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -28,24 +28,24 @@ import com.api.util.RMT2File;
 
 
 /**
- * Test the idenity and invocation of the GL Account API Message Handler.
+ * Test the idenity and invocation of the Creditor Type API Message Handler.
  * 
  * @author appdev
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ JmsClientManager.class, GlAccountApiHandler.class, GeneralLedgerApiFactory.class })
-public class GlAccountJmsTest extends BaseMockMessageDrivenBeanTest {
+@PrepareForTest({ JmsClientManager.class, CreditorTypeApiHandler.class, SubsidiaryApiFactory.class })
+public class CreditorTypeJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "Test-Accounting-Queue";
-    private GeneralLedgerApiFactory mockApiFactory;
-    private GlAccountApi mockApi;
+    private SubsidiaryApiFactory mockApiFactory;
+    private CreditorApi mockApi;
 
 
     /**
      * 
      */
-    public GlAccountJmsTest() {
+    public CreditorTypeJmsTest() {
     }
 
     /*
@@ -57,14 +57,14 @@ public class GlAccountJmsTest extends BaseMockMessageDrivenBeanTest {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        this.mockApiFactory = Mockito.mock(GeneralLedgerApiFactory.class);
-        this.mockApi = Mockito.mock(GlAccountApi.class);
+        this.mockApiFactory = Mockito.mock(SubsidiaryApiFactory.class);
+        this.mockApi = Mockito.mock(CreditorApi.class);
         try {
-            whenNew(GeneralLedgerApiFactory.class).withNoArguments().thenReturn(this.mockApiFactory);
+            whenNew(SubsidiaryApiFactory.class).withNoArguments().thenReturn(this.mockApiFactory);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        when(mockApiFactory.createApi(isA(String.class))).thenReturn(mockApi);
+        when(mockApiFactory.createCreditorApi(isA(String.class))).thenReturn(mockApi);
         return;
     }
 
@@ -79,38 +79,38 @@ public class GlAccountJmsTest extends BaseMockMessageDrivenBeanTest {
     }
 
     @Test
-    public void invokeHandelrSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/generalledger/AccountFetchRequest.xml");
-        List<AccountDto> mockDtoDataResponse = AccountingMockData.createMockGlAccounts();
+    public void invokeHandlerSuccess_FetchCreditorTypes() {
+        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CreditorTypeQueryRequest.xml");
+        List<CreditorTypeDto> mockListData = AccountingMockData.createMockCreditorTypes();
         this.setupMocks(DESTINATION, request);
         try {
-            when(this.mockApi.getAccount(isA(AccountDto.class))).thenReturn(mockDtoDataResponse);
-        } catch (GeneralLedgerApiException e) {
-
+            when(this.mockApi.getCreditorType(isA(CreditorTypeDto.class))).thenReturn(mockListData);
+        } catch (CreditorApiException e) {
+            e.printStackTrace();
         }
 
         try {
             this.startTest();    
-            Mockito.verify(this.mockApi).getAccount(isA(AccountDto.class));
+            Mockito.verify(this.mockApi).getCreditorType(isA(CreditorTypeDto.class));
         }
         catch (Exception e) {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
         }
-        
     }
     
+
     @Test
-    public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/generalledger/AccountFetchIncorrectTransCodeRequest.xml");
+    public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
+        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CreditorTypeHandlerInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
-            this.startTest();    
+            this.startTest(); 
         }
         catch (Exception e) {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
         }
-        
     }
+  
 }
