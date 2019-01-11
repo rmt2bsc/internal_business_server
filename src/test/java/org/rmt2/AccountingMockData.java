@@ -17,6 +17,7 @@ import org.dao.mapping.orm.rmt2.ItemMasterType;
 import org.dao.mapping.orm.rmt2.VwCreditorXactHist;
 import org.dao.mapping.orm.rmt2.VwCustomerXactHist;
 import org.dao.mapping.orm.rmt2.VwVendorItems;
+import org.dao.mapping.orm.rmt2.VwXactCreditChargeList;
 import org.dao.mapping.orm.rmt2.VwXactList;
 import org.dao.mapping.orm.rmt2.XactCodeGroup;
 import org.dao.mapping.orm.rmt2.XactCodes;
@@ -36,12 +37,14 @@ import org.dto.ItemMasterTypeDto;
 import org.dto.VendorItemDto;
 import org.dto.XactCodeDto;
 import org.dto.XactCodeGroupDto;
+import org.dto.XactCreditChargeDto;
 import org.dto.XactDto;
 import org.dto.XactTypeItemActivityDto;
 import org.dto.adapter.orm.account.generalledger.Rmt2AccountDtoFactory;
 import org.dto.adapter.orm.account.subsidiary.Rmt2SubsidiaryDtoFactory;
 import org.dto.adapter.orm.inventory.Rmt2InventoryDtoFactory;
 import org.dto.adapter.orm.transaction.Rmt2XactDtoFactory;
+import org.dto.adapter.orm.transaction.purchases.creditor.Rmt2CreditChargeDtoFactory;
 import org.modules.transaction.XactConst;
 
 import com.SystemException;
@@ -978,4 +981,106 @@ public class AccountingMockData {
        return o;
    }
 
+   
+   public static final List<XactCreditChargeDto> createMockCreditPurchaseHeader() {
+       List<XactCreditChargeDto> list = new ArrayList<>();
+       VwXactCreditChargeList o = createMockOrmXVwXactCreditChargeList(
+               NEW_XACT_ID, 
+               111111, 
+               1351,
+               XactConst.XACT_TYPE_CREDITOR_PURCHASE, 
+               "1111",
+               XactConst.XACT_SUBTYPE_NOT_ASSIGNED, 
+               100.00,
+               "2017-01-01", 
+               XactConst.TENDER_CREDITCARD,
+               "1111-0000-0000-0000");
+       XactCreditChargeDto dto = Rmt2CreditChargeDtoFactory.createCreditChargeInstance(o, null);
+       list.add(dto);
+       return list;
+   }
+   
+   /**
+    * 
+    * @param xactId
+    * @param creditorId
+    * @param businessId
+    * @param xactTypeId
+    * @param acctNo
+    * @param xactSubType
+    * @param xactDate
+    * @param xactAmount
+    * @param tenderId
+    * @param negInstrNo
+    * @return
+    */
+   public static final VwXactCreditChargeList createMockOrmXVwXactCreditChargeList(
+           int xactId, int creditorId, int businessId, int xactTypeId,
+           String acctNo, int xactSubType, double xactAmount, String xactDate,
+           int tenderId, String negInstrNo) {
+       VwXactCreditChargeList o = new VwXactCreditChargeList();
+       o.setCreditorId(creditorId);
+       o.setBusinessId(businessId);
+       o.setAccountNo(acctNo);
+       o.setCreditorTypeDescription("creditor");
+       o.setXactId(xactId);
+       o.setReason("reason for transaction id " + creditorId);
+       o.setXactTypeId(xactTypeId);
+       o.setXactTypeName("XactTypeName" + xactTypeId);
+       o.setXactSubtypeId(xactSubType);
+       o.setXactDate(RMT2Date.stringToDate(xactDate));
+       o.setXactAmount(xactAmount);
+       o.setTenderId(tenderId);
+       o.setTenderDescription("TenderDescription" + tenderId);
+       o.setNegInstrNo(negInstrNo);
+       o.setPostedDate(o.getXactDate());
+       o.setConfirmNo(String.valueOf(o.getXactDate().getTime()));
+       o.setDocumentId(xactId + tenderId);
+       o.setXactEntryDate(o.getXactDate());
+       o.setCreditorDateCreated(o.getXactDate());
+       o.setCreditLimit(1500.50);
+       o.setApr(1.5);
+       o.setBalance(500.00);
+
+       o.setToMultiplier(1);
+       o.setFromMultiplier(-1);
+       o.setToAcctTypeId(888);
+       o.setFromAcctTypeId(999);
+       o.setToAcctCatgId(777);
+
+       o.setFromAcctCatgId(666);
+       o.setHasSubsidiary(1);
+
+       return o;
+   }
+   
+   /**
+    * 
+    * @return
+    */
+   public static final List<XactTypeItemActivityDto> createMockCreditPurchaseDetails() {
+       List<XactTypeItemActivityDto> list = new ArrayList<XactTypeItemActivityDto>();
+       XactTypeItemActivity o = createMockOrmXactTypeItemActivity(NEW_XACT_ID, 111111, 601, 20.00, "Item1");
+       XactTypeItemActivityDto d = Rmt2XactDtoFactory.createXactTypeItemActivityInstance(o);
+       list.add(d);
+
+       o = createMockOrmXactTypeItemActivity(NEW_XACT_ID, 111111, 602, 20.00, "Item2");
+       d = Rmt2XactDtoFactory.createXactTypeItemActivityInstance(o);
+       list.add(d);
+
+       o = createMockOrmXactTypeItemActivity(NEW_XACT_ID, 111111, 603, 20.00, "Item3");
+       d = Rmt2XactDtoFactory.createXactTypeItemActivityInstance(o);
+       list.add(d);
+
+       o = createMockOrmXactTypeItemActivity(NEW_XACT_ID, 111111, 604, 20.00, "Item4");
+       d = Rmt2XactDtoFactory.createXactTypeItemActivityInstance(o);
+       list.add(d);
+
+       o = createMockOrmXactTypeItemActivity(NEW_XACT_ID, 111111, 605, 20.00, "Item5");
+       d = Rmt2XactDtoFactory.createXactTypeItemActivityInstance(o);
+       list.add(d);
+       return list;
+   }
+   
+   
 }
