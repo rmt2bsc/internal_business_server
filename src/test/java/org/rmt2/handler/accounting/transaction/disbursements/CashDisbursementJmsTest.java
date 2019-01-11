@@ -36,7 +36,7 @@ import com.api.util.RMT2File;
 
 
 /**
- * Test the idenity and invocation of the Transaction Group API Message Handler.
+ * Test the idenity and invocation of the Cash Disbursement Transaction API Message Handler.
  * 
  * @author appdev
  *
