@@ -111,15 +111,16 @@ public class CreditorPurchasesJmsTest extends BaseMockMessageDrivenBeanTest {
             Assert.fail("Unable to setup mock stub for fetching a creditor purchases transaction");
         }
         
-//        try {
-//            when(this.mockApi.getItems(isA(Integer.class))).thenReturn(mockItemListData);
-//        } catch (CreditorPurchasesApiException e) {
-//            Assert.fail("Unable to setup mock stub for fetching creditor purchases transaction line items");
-//        }
+        try {
+            when(this.mockApi.getItems(isA(Integer.class))).thenReturn(mockItemListData);
+        } catch (CreditorPurchasesApiException e) {
+            Assert.fail("Unable to setup mock stub for fetching creditor purchases transaction line items");
+        }
         
         try {
             this.startTest();    
             Mockito.verify(this.mockApi).get(isA(XactCreditChargeDto.class), eq((XactCustomCriteriaDto) null));
+            Mockito.verify(this.mockApi).getItems(isA(Integer.class));
         }
         catch (Exception e) {
             e.printStackTrace();

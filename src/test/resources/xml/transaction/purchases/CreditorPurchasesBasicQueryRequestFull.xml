@@ -22,6 +22,7 @@
                 <confirm_no>ADB-49384343</confirm_no>
                 <invoice_no>1234566</invoice_no>
             </basic_criteria>
+            <custom_criteria/>
         </xact_criteria>
     </criteria>
 </AccountingTransactionRequest>
