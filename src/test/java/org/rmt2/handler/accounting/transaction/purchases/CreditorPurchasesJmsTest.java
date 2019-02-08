@@ -129,26 +129,26 @@ public class CreditorPurchasesJmsTest extends BaseMockMessageDrivenBeanTest {
     }
     
   
-//    @Test
-//    public void invokeHandlerSuccess_Create() {
-//        String request = RMT2File.getFileContentsAsString("xml/transaction/purchases/CreditorPurchasesInvalidTransCodeQueryRequest.xml");
-//        this.setupMocks(DESTINATION, request);
-//        try {
-//            when(this.mockApi.updateTrans(isA(XactDto.class), isA(List.class)))
-//                    .thenReturn(AccountingMockData.NEW_XACT_ID);
-//        } catch (XactApiException e) {
-//            Assert.fail("Unable to setup mock stub for creating a cash disbursement transaction");
-//        }
-//        
-//        try {
-//            this.startTest();    
-//            Mockito.verify(this.mockApi).updateTrans(isA(XactDto.class), isA(List.class));
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//            Assert.fail("An unexpected exception was thrown");
-//        }
-//    }
+    @Test
+    public void invokeHandlerSuccess_Create() {
+        String request = RMT2File.getFileContentsAsString("xml/transaction/purchases/CreditorPurchasesUpdateRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.update(isA(XactCreditChargeDto.class), isA(List.class)))
+                    .thenReturn(AccountingMockData.NEW_XACT_ID);
+        } catch (CreditorPurchasesApiException e) {
+            Assert.fail("Unable to setup mock stub for creating a creditor purchases transaction");
+        }
+        
+        try {
+            this.startTest();    
+            Mockito.verify(this.mockApi).update(isA(XactCreditChargeDto.class), isA(List.class));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
     
   
     
