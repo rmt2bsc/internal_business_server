@@ -99,7 +99,7 @@ public class CreditorPurchasesJmsTest extends BaseMockMessageDrivenBeanTest {
     }
 
     @Test
-    public void invokeHandlerWithoutCustomCriteriaSuccess_Fetch() {
+    public void invokeHandlerWithoutCreditorCriteriaSuccess_Fetch() {
         String request = RMT2File.getFileContentsAsString("xml/transaction/purchases/CreditorPurchasesBasicQueryRequestFull.xml");
         List<XactCreditChargeDto> mockListData = AccountingMockData.createMockCreditPurchaseHeader();
         List<XactTypeItemActivityDto> mockItemListData = AccountingMockData.createMockCreditPurchaseDetails();
