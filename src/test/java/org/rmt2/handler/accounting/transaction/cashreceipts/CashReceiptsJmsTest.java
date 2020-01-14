@@ -6,9 +6,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
-import org.dao.transaction.XactDao;
-import org.dao.transaction.XactDaoFactory;
-import org.dto.XactCustomCriteriaDto;
 import org.dto.XactDto;
 import org.junit.After;
 import org.junit.Assert;
@@ -16,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.modules.transaction.XactApi;
 import org.modules.transaction.XactApiException;
 import org.modules.transaction.XactApiFactory;
 import org.modules.transaction.receipts.CashReceiptApi;
@@ -28,6 +24,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AccountingMockData;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.transaction.receipts.CashReceiptsApiHandler;
+import org.rmt2.handler.accounting.transaction.TransactionDatasourceMock;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -64,17 +61,8 @@ public class CashReceiptsJmsTest extends BaseMockMessageDrivenBeanTest {
     public void setUp() throws Exception {
         super.setUp();
 
-        // Setup Xact DAO mocks
-        XactDaoFactory mockXactDaoFactory = Mockito.mock(XactDaoFactory.class);
-        XactDao mockDao = Mockito.mock(XactDao.class);
-        when(mockXactDaoFactory.createRmt2OrmXactDao(isA(String.class))).thenReturn(mockDao);
-
-        // Setup Xact API mocks
-        XactCustomCriteriaDto mockCustomCriteriaDto = XactApiFactory.createCustomCriteriaInstance();
-        XactApi mockXactApi = Mockito.mock(XactApi.class);
-        PowerMockito.mockStatic(XactApiFactory.class);
-        PowerMockito.when(XactApiFactory.createDefaultXactApi()).thenReturn(mockXactApi);
-        PowerMockito.when(XactApiFactory.createCustomCriteriaInstance()).thenReturn(mockCustomCriteriaDto);
+        // Setup Transaction Datasource mocks
+        TransactionDatasourceMock.setupXactMocks();
 
         // Setup Cash Receipts API Mocks
         mockApi = Mockito.mock(CashReceiptApi.class);
