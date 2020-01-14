@@ -6,7 +6,12 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
+import org.dao.mapping.orm.rmt2.SalesOrderStatus;
+import org.dao.mapping.orm.rmt2.SalesOrderStatusHist;
 import org.dto.SalesOrderDto;
+import org.dto.SalesOrderStatusDto;
+import org.dto.SalesOrderStatusHistDto;
+import org.dto.adapter.orm.transaction.sales.Rmt2SalesOrderDtoFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,6 +20,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.modules.transaction.XactApiFactory;
 import org.modules.transaction.sales.SalesApi;
+import org.modules.transaction.sales.SalesApiConst;
 import org.modules.transaction.sales.SalesApiException;
 import org.modules.transaction.sales.SalesApiFactory;
 import org.powermock.api.mockito.PowerMockito;
@@ -85,7 +91,17 @@ public class SalesOrderCreateJmsTest extends BaseMockMessageDrivenBeanTest {
     @Test
     public void invokeHandlerSuccess_Create() {
         String request = RMT2File.getFileContentsAsString("xml/transaction/sales/SalesOrderCreateRequest.xml");
+
+        SalesOrderStatusHist ormStatusHist = new SalesOrderStatusHist();
+        ormStatusHist.setSoStatusId(SalesApiConst.STATUS_CODE_QUOTE);
+        SalesOrderStatus ormStatus = new SalesOrderStatus();
+        ormStatus.setSoStatusId(SalesApiConst.STATUS_CODE_QUOTE);
+        ormStatus.setDescription("Quote");
+        SalesOrderStatusHistDto mockStatusHistDto = Rmt2SalesOrderDtoFactory.createSalesOrderStatusHistoryInstance(ormStatusHist);
+        SalesOrderStatusDto mockStatusDto = Rmt2SalesOrderDtoFactory.createSalesOrderStatusInstance(ormStatus);
+
         this.setupMocks(DESTINATION, request);
+
         try {
             when(this.mockApi.updateSalesOrder(isA(SalesOrderDto.class), isA(List.class))).thenReturn(SalesOrderMockData.NEW_XACT_ID);
         } catch (SalesApiException e) {
@@ -93,8 +109,22 @@ public class SalesOrderCreateJmsTest extends BaseMockMessageDrivenBeanTest {
         }
 
         try {
+            when(this.mockApi.getCurrentStatus(isA(Integer.class))).thenReturn(mockStatusHistDto);
+        } catch (SalesApiException e) {
+            Assert.fail("Unable to setup mock stub for creating a sales order status history DTO object");
+        }
+
+        try {
+            when(this.mockApi.getStatus(isA(Integer.class))).thenReturn(mockStatusDto);
+        } catch (SalesApiException e) {
+            Assert.fail("Unable to setup mock stub for creating a sales order status DTO object");
+        }
+
+        try {
             this.startTest();
             Mockito.verify(this.mockApi).updateSalesOrder(isA(SalesOrderDto.class), isA(List.class));
+            Mockito.verify(this.mockApi).getCurrentStatus(isA(Integer.class));
+            Mockito.verify(this.mockApi).getStatus(isA(Integer.class));
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
