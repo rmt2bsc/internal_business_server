@@ -22,21 +22,21 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handler.transaction.sales.SalesOrderMockData;
-import org.rmt2.api.handlers.transaction.sales.SalesOrderApiCreationHandler;
+import org.rmt2.api.handlers.transaction.sales.CreateSalesOrderApiHandler;
 import org.rmt2.handler.accounting.transaction.TransactionDatasourceMock;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
 
 /**
- * Test the idenity and invocation of the Cash Disbursement Transaction API
+ * Test the idenity and invocation of the sales order create message handler
  * Message Handler.
  * 
  * @author appdev
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ JmsClientManager.class, XactApiFactory.class, SalesOrderApiCreationHandler.class, SalesApiFactory.class })
+@PrepareForTest({ JmsClientManager.class, XactApiFactory.class, CreateSalesOrderApiHandler.class, SalesApiFactory.class })
 public class SalesOrderCreateJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "Test-Accounting-Queue";
