@@ -27,7 +27,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
-import org.rmt2.api.handler.transaction.sales.SalesOrderMockData;
 import org.rmt2.api.handlers.transaction.sales.CreateSalesOrderApiHandler;
 import org.rmt2.handler.accounting.transaction.TransactionDatasourceMock;
 
@@ -103,7 +102,7 @@ public class SalesOrderCreateJmsTest extends BaseMockMessageDrivenBeanTest {
         this.setupMocks(DESTINATION, request);
 
         try {
-            when(this.mockApi.updateSalesOrder(isA(SalesOrderDto.class), isA(List.class))).thenReturn(SalesOrderMockData.NEW_XACT_ID);
+            when(this.mockApi.updateSalesOrder(isA(SalesOrderDto.class), isA(List.class))).thenReturn(SalesOrderJmsMockData.NEW_XACT_ID);
         } catch (SalesApiException e) {
             Assert.fail("Unable to setup mock stub for creating a sales order transaction");
         }
