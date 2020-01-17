@@ -11,7 +11,6 @@ import org.dao.mapping.orm.rmt2.SalesOrderStatus;
 import org.dao.mapping.orm.rmt2.SalesOrderStatusHist;
 import org.dto.SalesOrderDto;
 import org.dto.SalesOrderStatusDto;
-import org.dto.SalesOrderStatusHistDto;
 import org.dto.adapter.orm.transaction.sales.Rmt2SalesOrderDtoFactory;
 import org.junit.After;
 import org.junit.Assert;
@@ -99,7 +98,6 @@ public class SalesOrderCreateAndInvoiceJmsTest extends BaseMockMessageDrivenBean
         SalesOrderStatus ormStatus = new SalesOrderStatus();
         ormStatus.setSoStatusId(SalesApiConst.STATUS_CODE_QUOTE);
         ormStatus.setDescription("Quote");
-        SalesOrderStatusHistDto mockStatusHistDto = Rmt2SalesOrderDtoFactory.createSalesOrderStatusHistoryInstance(ormStatusHist);
         SalesOrderStatusDto mockStatusDto = Rmt2SalesOrderDtoFactory.createSalesOrderStatusInstance(ormStatus);
 
         this.setupMocks(DESTINATION, request);
