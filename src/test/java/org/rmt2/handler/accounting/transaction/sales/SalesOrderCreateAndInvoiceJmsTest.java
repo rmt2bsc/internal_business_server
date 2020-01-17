@@ -28,9 +28,10 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
-import org.rmt2.api.handler.transaction.sales.SalesOrderMockData;
 import org.rmt2.api.handlers.transaction.sales.CreateSalesOrderAutoInvoiceApiHandler;
+import org.rmt2.api.handlers.transaction.sales.SalesOrderRequestUtil;
 import org.rmt2.handler.accounting.transaction.TransactionDatasourceMock;
+import org.rmt2.jaxb.SalesOrderType;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -43,7 +44,7 @@ import com.api.util.RMT2File;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ JmsClientManager.class, XactApiFactory.class, CreateSalesOrderAutoInvoiceApiHandler.class, SalesApiFactory.class })
+@PrepareForTest({ JmsClientManager.class, XactApiFactory.class, CreateSalesOrderAutoInvoiceApiHandler.class, SalesOrderRequestUtil.class, SalesApiFactory.class })
 public class SalesOrderCreateAndInvoiceJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "Test-Accounting-Queue";
@@ -102,22 +103,25 @@ public class SalesOrderCreateAndInvoiceJmsTest extends BaseMockMessageDrivenBean
         SalesOrderStatusDto mockStatusDto = Rmt2SalesOrderDtoFactory.createSalesOrderStatusInstance(ormStatus);
 
         this.setupMocks(DESTINATION, request);
+        PowerMockito.mockStatic(SalesOrderRequestUtil.class);
 
         try {
-            when(this.mockApi.updateSalesOrder(isA(SalesOrderDto.class), isA(List.class))).thenReturn(SalesOrderJmsMockData.NEW_XACT_ID);
+            PowerMockito.when(SalesOrderRequestUtil.createSalesOrder(isA(SalesApi.class), isA(SalesOrderDto.class), isA(List.class), isA(SalesOrderType.class))).thenReturn(SalesOrderJmsMockData.NEW_XACT_ID);
         } catch (SalesApiException e) {
             Assert.fail("Unable to setup mock stub for creating a sales order transaction");
         }
 
         try {
-            when(this.mockApi.invoiceSalesOrder(isA(SalesOrderDto.class), isA(List.class), eq(false))).thenReturn(SalesOrderMockData.NEW_INVOICE_ID);
+            PowerMockito.when(SalesOrderRequestUtil.invoiceSalesOrder(isA(SalesApi.class), isA(SalesOrderDto.class),
+                    isA(List.class), eq(false), isA(SalesOrderType.class))).thenReturn(SalesOrderJmsMockData.NEW_INVOICE_ID);
         } catch (SalesApiException e) {
             Assert.fail("Unable to setup mock stub for invoicing a sales order");
         }
 
         try {
-            when(this.mockApi.getCurrentStatus(isA(Integer.class))).thenReturn(mockStatusHistDto);
-        } catch (SalesApiException e) {
+            PowerMockito.doNothing()
+                    .when(SalesOrderRequestUtil.class, isA(SalesApi.class), isA(SalesOrderType.class));
+        } catch (Exception e) {
             Assert.fail("Unable to setup mock stub for creating a sales order status history DTO object");
         }
 
@@ -129,10 +133,7 @@ public class SalesOrderCreateAndInvoiceJmsTest extends BaseMockMessageDrivenBean
 
         try {
             this.startTest();
-            Mockito.verify(this.mockApi).updateSalesOrder(isA(SalesOrderDto.class), isA(List.class));
-            Mockito.verify(this.mockApi).invoiceSalesOrder(isA(SalesOrderDto.class), isA(List.class), eq(false));
-            Mockito.verify(this.mockApi).getCurrentStatus(isA(Integer.class));
-            Mockito.verify(this.mockApi).getStatus(isA(Integer.class));
+            PowerMockito.verifyStatic();
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
