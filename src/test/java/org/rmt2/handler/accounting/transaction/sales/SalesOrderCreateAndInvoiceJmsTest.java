@@ -36,8 +36,8 @@ import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
 
 /**
- * Test the idenity and invocation of the sales order create message handler
- * Message Handler.
+ * Test the idenity and invocation of the sales order create and invoice message
+ * handler Message Handler.
  * 
  * @author appdev
  *
