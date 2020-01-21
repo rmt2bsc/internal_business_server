@@ -21,6 +21,7 @@ public class SalesOrderJmsMockData {
     public static final int NEW_INVOICE_ID = 3786;
     public static final int EXISTING_XACT_ID = 7777;
     public static final int CUSTOMER_ID = 3333;
+    public static final int SALESORDER_ID = 1000;
 
     /**
      * 
