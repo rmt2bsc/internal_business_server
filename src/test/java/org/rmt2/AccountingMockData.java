@@ -14,8 +14,11 @@ import org.dao.mapping.orm.rmt2.ItemMaster;
 import org.dao.mapping.orm.rmt2.ItemMasterStatus;
 import org.dao.mapping.orm.rmt2.ItemMasterStatusHist;
 import org.dao.mapping.orm.rmt2.ItemMasterType;
+import org.dao.mapping.orm.rmt2.SalesOrder;
+import org.dao.mapping.orm.rmt2.SalesOrderItems;
 import org.dao.mapping.orm.rmt2.VwCreditorXactHist;
 import org.dao.mapping.orm.rmt2.VwCustomerXactHist;
+import org.dao.mapping.orm.rmt2.VwSalesOrderInvoice;
 import org.dao.mapping.orm.rmt2.VwVendorItems;
 import org.dao.mapping.orm.rmt2.VwXactCreditChargeList;
 import org.dao.mapping.orm.rmt2.VwXactList;
@@ -1050,6 +1053,64 @@ public class AccountingMockData {
         XactDto d = Rmt2XactDtoFactory.createXactInstance(o);
         list.add(d);
         return list;
+    }
+
+    public static final SalesOrder createMockOrmSalesOrder(int SalesOrderId,
+            int customerId, int invoiced, double orderTotal,
+            String effectiveDate) {
+        SalesOrder o = new SalesOrder();
+        o.setSoId(SalesOrderId);
+        o.setCustomerId(customerId);
+        o.setInvoiced(invoiced);
+        o.setEffectiveDate(RMT2Date.stringToDate(effectiveDate));
+        o.setOrderTotal(orderTotal);
+        o.setDateCreated(new Date());
+        o.setDateUpdated(o.getDateCreated());
+        o.setUserId("testuser");
+        o.setIpCreated("111.222.101.100");
+        o.setIpUpdated(o.getIpCreated());
+        return o;
+    }
+
+    public static final VwSalesOrderInvoice createMockOrmVwSalesOrderInvoice(
+            int invoiceId, int salesOrderId, String saleOrderDate,
+            double orderTotal, int orderStatusId, String invoiceNo,
+            int invoiced, String invoiceDate, int xactId, int customerId,
+            int acctId, String acctNo) {
+        VwSalesOrderInvoice o = new VwSalesOrderInvoice();
+        o.setInvoiceId(invoiceId);
+        o.setInvoiceDate(RMT2Date.stringToDate(invoiceDate));
+        o.setInvoiceNo(invoiceNo);
+        o.setXactId(xactId);
+
+        o.setCustomerId(customerId);
+        o.setAccountNo(acctNo);
+        o.setAcctId(acctId);
+        o.setDescription("Description" + acctId);
+        o.setCreditLimit(1000.00);
+
+        o.setSalesOrderId(salesOrderId);
+        o.setInvoiced(invoiced);
+        o.setSalesOrderDate(RMT2Date.stringToDate(saleOrderDate));
+        o.setOrderTotal(orderTotal);
+        o.setOrderStatusId(orderStatusId);
+        o.setOrderStatusDescr("SalesOrderStatus" + orderStatusId);
+
+        return o;
+    }
+
+    public static final SalesOrderItems createMockOrmSalesOrderItem(
+            int soItemId, int itemId, int soId, double qty, double cost) {
+        SalesOrderItems i = new SalesOrderItems();
+        i.setSoItemId(soItemId);
+        i.setItemId(itemId);
+        i.setSoId(soId);
+        i.setOrderQty(qty);
+        i.setInitUnitCost(cost);
+        i.setInitMarkup(3.0);
+        i.setItemNameOverride("ItemNameOverride" + itemId);
+        i.setBackOrderQty(100);
+        return i;
     }
 
 }
