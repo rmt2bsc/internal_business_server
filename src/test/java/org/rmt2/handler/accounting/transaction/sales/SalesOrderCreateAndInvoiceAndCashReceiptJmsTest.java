@@ -106,7 +106,7 @@ public class SalesOrderCreateAndInvoiceAndCashReceiptJmsTest extends BaseMockMes
         PowerMockito.mockStatic(SalesOrderRequestUtil.class);
 
         try {
-            PowerMockito.when(SalesOrderRequestUtil.createSalesOrder(isA(SalesApi.class), isA(SalesOrderDto.class), isA(List.class), isA(SalesOrderType.class))).thenReturn(SalesOrderJmsMockData.NEW_XACT_ID);
+            PowerMockito.when(SalesOrderRequestUtil.updateSalesOrder(isA(SalesApi.class), isA(SalesOrderDto.class), isA(List.class), isA(SalesOrderType.class))).thenReturn(SalesOrderJmsMockData.NEW_XACT_ID);
         } catch (SalesApiException e) {
             Assert.fail("Unable to setup mock stub for creating a sales order transaction");
         }
