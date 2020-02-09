@@ -2,7 +2,6 @@ package org.rmt2.handler.accounting.subsidiary;
 
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 import java.util.List;
 
@@ -17,6 +16,7 @@ import org.mockito.Mockito;
 import org.modules.subsidiary.CustomerApi;
 import org.modules.subsidiary.CustomerApiException;
 import org.modules.subsidiary.SubsidiaryApiFactory;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AccountingMockData;
@@ -40,7 +40,6 @@ import com.api.util.RMT2File;
 public class CustomerJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "Test-Accounting-Queue";
-    private SubsidiaryApiFactory mockApiFactory;
     private CustomerApi mockApi;
 
 
@@ -59,14 +58,9 @@ public class CustomerJmsTest extends BaseMockMessageDrivenBeanTest {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        this.mockApiFactory = Mockito.mock(SubsidiaryApiFactory.class);
         this.mockApi = Mockito.mock(CustomerApi.class);
-        try {
-            whenNew(SubsidiaryApiFactory.class).withNoArguments().thenReturn(this.mockApiFactory);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        when(mockApiFactory.createCustomerApi(isA(String.class))).thenReturn(mockApi);
+        PowerMockito.mockStatic(SubsidiaryApiFactory.class);
+        when(SubsidiaryApiFactory.createCustomerApi(isA(String.class))).thenReturn(mockApi);
         return;
     }
 
