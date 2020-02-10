@@ -3,14 +3,21 @@ package org.rmt2.handler.accounting.transaction.sales;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dao.mapping.orm.rmt2.Customer;
 import org.dao.mapping.orm.rmt2.SalesOrder;
 import org.dao.mapping.orm.rmt2.SalesOrderItems;
+import org.dao.mapping.orm.rmt2.VwBusinessAddress;
 import org.dao.mapping.orm.rmt2.VwSalesOrderInvoice;
 import org.dao.mapping.orm.rmt2.VwXactList;
+import org.dto.BusinessContactDto;
+import org.dto.ContactDto;
+import org.dto.CustomerDto;
 import org.dto.SalesInvoiceDto;
 import org.dto.SalesOrderDto;
 import org.dto.SalesOrderItemDto;
 import org.dto.XactDto;
+import org.dto.adapter.orm.Rmt2AddressBookDtoFactory;
+import org.dto.adapter.orm.account.subsidiary.Rmt2SubsidiaryDtoFactory;
 import org.dto.adapter.orm.transaction.Rmt2XactDtoFactory;
 import org.dto.adapter.orm.transaction.sales.Rmt2SalesOrderDtoFactory;
 import org.modules.transaction.XactConst;
@@ -160,4 +167,67 @@ public class SalesOrderJmsMockData {
         return list;
     }
 
+    public static final List<SalesInvoiceDto> createMockSalesInvoice() {
+        List<SalesInvoiceDto> list = new ArrayList<>();
+        VwSalesOrderInvoice o = AccountingMockData.createMockOrmVwSalesOrderInvoice(7000, 1000, "2017-01-01",
+                300.00, SalesApiConst.STATUS_CODE_INVOICED, "80000", 1,
+                "2017-01-10", 444440, CUSTOMER_ID, 1234, "111-111");
+        SalesInvoiceDto dto = Rmt2SalesOrderDtoFactory.createSalesIvoiceInstance(o);
+        list.add(dto);
+        return list;
+    }
+
+    public static final List<CustomerDto> createMockCustomer() {
+        List<CustomerDto> list = new ArrayList<>();
+        Customer o = AccountingMockData.createMockOrmCustomer(100, 1351, 0,
+                333, "C1234580", "Customer 1");
+        CustomerDto d = Rmt2SubsidiaryDtoFactory.createCustomerInstance(o, null);
+        list.add(d);
+
+        return list;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public static final List<ContactDto> createMockSingleBusinessContactDto() {
+        List<ContactDto> list = new ArrayList<ContactDto>();
+        VwBusinessAddress bus = new VwBusinessAddress();
+        bus.setBusinessId(1351);
+        bus.setBusLongname("BusinessName_1");
+        bus.setBusContactFirstname("firstname_1");
+        bus.setBusContactLastname("lastname_1");
+        bus.setContactEmail(bus.getBusContactFirstname() + "." + bus.getBusContactLastname() + "@gte.net");
+        bus.setBusContactPhone("9999999991");
+        bus.setAddrId(2001);
+        bus.setBusinessId(1351);
+        bus.setAddr1("address_line1_1");
+        bus.setAddr2("address_line2_1");
+        bus.setAddr3("address_line3_1");
+        bus.setAddr4("address_line4_1");
+        bus.setZipCity("Dallas");
+        bus.setZipState("Tx");
+        bus.setAddrZip(75232);
+        bus.setAddrPhoneMain("2143738001");
+        bus.setBusTaxId("750000001");
+        bus.setBusWebsite("www.BusinessName_1.com");
+        bus.setBusShortname("shortname");
+        BusinessContactDto busDto = Rmt2AddressBookDtoFactory.getBusinessInstance(bus);
+        list.add(busDto);
+        return list;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public static final List<XactDto> createMockSingleCommonTransactions() {
+        List<XactDto> list = new ArrayList<XactDto>();
+        VwXactList o = AccountingMockData.createMockOrmXact(111111, XactConst.XACT_TYPE_CASH_DISBURSE,
+                XactConst.XACT_SUBTYPE_NOT_ASSIGNED, RMT2Date.stringToDate("2017-01-13"), 100.00, 200, "1111-1111-1111-1111");
+        XactDto d = Rmt2XactDtoFactory.createXactInstance(o);
+        list.add(d);
+        return list;
+    }
 }

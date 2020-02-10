@@ -57,6 +57,7 @@
 	   </EmailConfig>
 	   <ConsumerMsgHandlerMappingsKey>msg_handler_reg_pkg</ConsumerMsgHandlerMappingsKey>
 	   <ConsumerMsgHandlerMappingsLocation>config.transactions</ConsumerMsgHandlerMappingsLocation>
+	   <XsltTransformer>net.sf.saxon.TransformerFactoryImpl</XsltTransformer>
 	</SystemProperties>
 	
 	<!-- ******************************************************************** -->
