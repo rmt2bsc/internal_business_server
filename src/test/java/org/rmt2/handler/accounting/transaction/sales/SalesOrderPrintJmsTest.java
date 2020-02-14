@@ -3,6 +3,7 @@ package org.rmt2.handler.accounting.transaction.sales;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -33,7 +34,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
-import org.rmt2.api.handlers.transaction.sales.PrintSalesOrderApiHandler;
+import org.rmt2.api.handlers.transaction.sales.PrintCustomerSalesOrderApiHandler;
 import org.rmt2.handler.accounting.transaction.TransactionDatasourceMock;
 
 import com.api.messaging.jms.JmsClientManager;
@@ -47,7 +48,7 @@ import com.api.util.RMT2File;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ JmsClientManager.class, XactApiFactory.class, PrintSalesOrderApiHandler.class, SalesApiFactory.class,
+@PrepareForTest({ JmsClientManager.class, XactApiFactory.class, PrintCustomerSalesOrderApiHandler.class, SalesApiFactory.class,
         SubsidiaryApiFactory.class, ContactsApiFactory.class, XactApiFactory.class })
 public class SalesOrderPrintJmsTest extends BaseMockMessageDrivenBeanTest {
     public static final int SALES_ORDER_ID = 1000;
@@ -172,7 +173,7 @@ public class SalesOrderPrintJmsTest extends BaseMockMessageDrivenBeanTest {
             this.startTest();
             Mockito.verify(this.mockSalesApi).getInvoice(isA(SalesInvoiceDto.class));
             Mockito.verify(this.mockCustApi).getExt(isA(CustomerDto.class));
-            Mockito.verify(this.mockContactApi).getContact(isA(ContactDto.class));
+            Mockito.verify(this.mockContactApi, times(2)).getContact(isA(ContactDto.class));
             Mockito.verify(this.mockXactApi).getXact(isA(XactDto.class));
             
         } catch (Exception e) {
