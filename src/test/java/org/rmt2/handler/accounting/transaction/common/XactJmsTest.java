@@ -31,7 +31,7 @@ import com.api.util.RMT2File;
 
 
 /**
- * Test the idenity and invocation of the Common Transaction SAPI Message Handler.
+ * Test the idenity and invocation of the Transaction API Message Handler.
  * 
  * @author appdev
  *
