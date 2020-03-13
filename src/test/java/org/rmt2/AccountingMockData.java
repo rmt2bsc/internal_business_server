@@ -18,6 +18,7 @@ import org.dao.mapping.orm.rmt2.SalesOrder;
 import org.dao.mapping.orm.rmt2.SalesOrderItems;
 import org.dao.mapping.orm.rmt2.VwCreditorXactHist;
 import org.dao.mapping.orm.rmt2.VwCustomerXactHist;
+import org.dao.mapping.orm.rmt2.VwGenericXactList;
 import org.dao.mapping.orm.rmt2.VwSalesOrderInvoice;
 import org.dao.mapping.orm.rmt2.VwVendorItems;
 import org.dao.mapping.orm.rmt2.VwXactCreditChargeList;
@@ -28,6 +29,7 @@ import org.dao.mapping.orm.rmt2.XactTypeItemActivity;
 import org.dto.AccountCategoryDto;
 import org.dto.AccountDto;
 import org.dto.AccountTypeDto;
+import org.dto.CommonXactDto;
 import org.dto.CreditorDto;
 import org.dto.CreditorTypeDto;
 import org.dto.CreditorXactHistoryDto;
@@ -1111,6 +1113,68 @@ public class AccountingMockData {
         i.setItemNameOverride("ItemNameOverride" + itemId);
         i.setBackOrderQty(100);
         return i;
+    }
+
+    public static final VwGenericXactList createMockOrmGenericXact(int xactId, int xactTypeId,
+            int xactSubType, Date xactDate, double xactAmount, String xactTypeName, int businessId, String businessName,
+            String acctNo, String invoiceNo, int pareentEntityId, int level1Id, Date level1Date, int level2Id, Date level2Date) {
+        VwGenericXactList o = new VwGenericXactList();
+        o.setXactId(xactId);
+        o.setXactReason("reason for transaction id " + xactId);
+        o.setXactTypeId(xactTypeId);
+        o.setXactSubtypeId(xactSubType);
+        o.setXactDate(xactDate);
+        o.setXactAmount(xactAmount);
+        o.setBusinessId(businessId);
+        o.setBusinessName(businessName);
+        o.setInvoiceNo(invoiceNo);
+        o.setConfirmNo(String.valueOf(xactDate.getTime()));
+        o.setAccountNo(acctNo);
+        o.setDocumentId(xactId + xactTypeId);
+        o.setXactTypeName(xactTypeName);
+        o.setParentEntityId(pareentEntityId);
+        o.setSpecXactLevel1Id(level1Id);
+        o.setSpecXactLevel1Date(level1Date);
+        o.setSpecXactLevel2Id(level2Id);
+        o.setSpecXactLevel2Date(level2Date);
+        return o;
+    }
+
+    public static final List<CommonXactDto> createMockGenericXactList() {
+        List<CommonXactDto> list = new ArrayList<>();
+        VwGenericXactList o = AccountingMockData.createMockOrmGenericXact(111111, XactConst.XACT_TYPE_CREDITOR_PURCHASE,
+                XactConst.XACT_SUBTYPE_NOT_ASSIGNED, RMT2Date.stringToDate("2020-01-01"), 100.00, "Purchase Expense on Account",
+                200, "XYZ Company0", "1111-1111-1111-1111", "R-20034-9382", 1351, 300,
+                RMT2Date.stringToDate("2020-01-01"), 1000, RMT2Date.stringToDate("2020-01-01"));
+        CommonXactDto dto = Rmt2XactDtoFactory.createGenericXactInstance(o);
+        list.add(dto);
+
+        o = AccountingMockData.createMockOrmGenericXact(111111, XactConst.XACT_TYPE_CASH_DISBURSE,
+                XactConst.XACT_SUBTYPE_NOT_ASSIGNED, RMT2Date.stringToDate("2020-01-01"), 200.00, "Cash Disbursement",
+                200, "XYZ Company1", null, null, 0, 0, null, 0, null);
+        dto = Rmt2XactDtoFactory.createGenericXactInstance(o);
+        list.add(dto);
+
+        o = AccountingMockData.createMockOrmGenericXact(111111, XactConst.XACT_TYPE_CASH_DISBURSE,
+                XactConst.XACT_SUBTYPE_NOT_ASSIGNED, RMT2Date.stringToDate("2020-01-01"), 300.00, "Cash Disbursement",
+                200, "XYZ Company2", null, null, 0, 0, null, 0, null);
+        dto = Rmt2XactDtoFactory.createGenericXactInstance(o);
+        list.add(dto);
+
+        o = AccountingMockData.createMockOrmGenericXact(111111, XactConst.XACT_TYPE_CREDITOR_PURCHASE,
+                XactConst.XACT_SUBTYPE_NOT_ASSIGNED, RMT2Date.stringToDate("2020-01-01"), 400.00, "Purchase Expense on Account",
+                200, "XYZ Company3", "1111-1111-1111-1111", "R-20034-9382", 1351, 300,
+                RMT2Date.stringToDate("2020-01-01"), 1000, RMT2Date.stringToDate("2020-01-01"));
+        dto = Rmt2XactDtoFactory.createGenericXactInstance(o);
+        list.add(dto);
+
+        o = AccountingMockData.createMockOrmGenericXact(111111, XactConst.XACT_TYPE_CREDITOR_PURCHASE,
+                XactConst.XACT_SUBTYPE_NOT_ASSIGNED, RMT2Date.stringToDate("2020-01-01"), 500.00, "Purchase Expense on Account",
+                200, "XYZ Company4", "1111-1111-1111-1111", "R-20034-9382", 1351, 300,
+                RMT2Date.stringToDate("2020-01-01"), 1000, RMT2Date.stringToDate("2020-01-01"));
+        dto = Rmt2XactDtoFactory.createGenericXactInstance(o);
+        list.add(dto);
+        return list;
     }
 
 }
