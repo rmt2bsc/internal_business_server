@@ -38,7 +38,7 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JmsClientManager.class, XactApiHandler.class, XactApiFactory.class })
-public class XactCommonJmsTest extends BaseMockMessageDrivenBeanTest {
+public class XactJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "Test-Accounting-Queue";
     private XactApi mockApi;
@@ -49,7 +49,7 @@ public class XactCommonJmsTest extends BaseMockMessageDrivenBeanTest {
     /**
      * 
      */
-    public XactCommonJmsTest() {
+    public XactJmsTest() {
     }
 
     /*
