@@ -8,67 +8,80 @@
 	<name>internal-api-server</name>
 	<description>Server that hosts the various business domain API's</description>
 	<properties>
-		<JConnectLibPath>lib</JConnectLibPath>
+		<SystemDependencyPath>lib</SystemDependencyPath>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>org.rmt2.framework</groupId>
-			<artifactId>fw-messaging</artifactId>
-			<version>2.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.rmt2.messaging</groupId>
-			<artifactId>service-message-dto-model</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.rmt2.api</groupId>
-			<artifactId>api-address-book</artifactId>
-			<version>2.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.openejb</groupId>
-			<artifactId>apache-tomee</artifactId>
-			<version>1.7.3</version>
-			<scope>provided</scope>
-    </dependency>
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.8.0</version>
-		</dependency>
-		<dependency>
-			<groupId>jdbc.driver.lib</groupId>
-			<artifactId>sybase-jconnect</artifactId>
-			<version>3.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/${JConnectLibPath}/jconn3.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.10.19</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-mockito</artifactId>
-			<version>1.6.6</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
-			<version>1.6.6</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+	<dependency>
+		<groupId>org.rmt2.framework</groupId>
+		<artifactId>fw-messaging</artifactId>
+		<version>2.0.1-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+		<groupId>org.rmt2.messaging</groupId>
+		<artifactId>service-message-dto-model</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+		<groupId>org.rmt2.api.handlers</groupId>
+		<artifactId>amh-addressbook</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+		<groupId>org.rmt2.api.handlers</groupId>
+		<artifactId>amh-accounting</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+		<groupId>org.rmt2.api.handlers</groupId>
+		<artifactId>amh-media</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+		<groupId>org.rmt2.api.handlers</groupId>
+		<artifactId>amh-projecttracker</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+		<groupId>org.rmt2.api.handlers</groupId>
+		<artifactId>amh-security</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.openejb</groupId>
+		<artifactId>apache-tomee</artifactId>
+		<version>1.7.3</version>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>com.google.code.gson</groupId>
+		<artifactId>gson</artifactId>
+		<version>2.8.0</version>
+	</dependency>
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>4.12</version>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.mockito</groupId>
+		<artifactId>mockito-all</artifactId>
+		<version>1.10.19</version>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.powermock</groupId>
+		<artifactId>powermock-api-mockito</artifactId>
+		<version>1.6.6</version>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.powermock</groupId>
+		<artifactId>powermock-module-junit4</artifactId>
+		<version>1.6.6</version>
+		<scope>test</scope>
+	</dependency>
+</dependencies>
 	<build>
 		<plugins>
 			<plugin>
@@ -78,6 +91,22 @@
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
+			</plugin>
+
+      <!-- plugin is responsible for copying all non-maven external jars to WEB-INF/lib directory (jconn3.jar) -->			
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-war-plugin</artifactId>
+			    <version>2.6</version>
+			    <configuration>
+			        <failOnMissingWebXml>true</failOnMissingWebXml>
+			        <webResources>
+			            <resource>
+			               <directory>${basedir}/${SystemDependencyPath}</directory>
+			               <targetPath>WEB-INF/lib</targetPath>
+			            </resource>
+			        </webResources>
+			    </configuration>
 			</plugin>
 		</plugins>
 		<extensions>

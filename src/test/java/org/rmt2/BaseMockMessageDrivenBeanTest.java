@@ -10,11 +10,11 @@ import javax.jms.TextMessage;
 import org.junit.Before;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
-import org.rmt2.handlers.AbstractMessageDrivenBean;
+import org.rmt2.listeners.mdb.AbstractJaxbMessageDrivenBean;
 
 import com.api.config.SystemConfigurator;
 import com.api.messaging.jms.JmsClientManager;
-import com.util.RMT2File;
+import com.api.util.RMT2File;
 
 /**
  * Base class for testing the API handlers.
@@ -23,7 +23,7 @@ import com.util.RMT2File;
  * @author royterrell
  *
  */
-public class BaseMockMessageDrivenBeanTest extends AbstractMessageDrivenBean {
+public class BaseMockMessageDrivenBeanTest extends AbstractJaxbMessageDrivenBean {
     private Message mockJMSMessageRequest;
     private TextMessage mockJMSTextMessageReply;
     private Destination mockJMSDestination;
