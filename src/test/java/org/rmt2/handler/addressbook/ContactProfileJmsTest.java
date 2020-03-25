@@ -83,7 +83,7 @@ public class ContactProfileJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void fetchSingleBusinessContact() {
-        String request = RMT2File.getFileContentsAsString("xml/contacts/BusinessContactSimpleSearchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/contacts/BusinessContactSimpleSearchRequest.xml");
         List<ContactDto> mockSingleContactDtoResponse = AddressBookMockData.createMockSingleContactDtoResponseData();
         this.setupMocks(DESTINATION, request);
         try {

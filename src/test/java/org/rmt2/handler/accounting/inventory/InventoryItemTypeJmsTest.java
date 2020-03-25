@@ -80,7 +80,7 @@ public class InventoryItemTypeJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/ItemtypeFetchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/inventory/ItemtypeFetchRequest.xml");
         List<ItemMasterTypeDto> mockListData = AccountingMockData.createMockItemType();
         this.setupMocks(DESTINATION, request);
         try {
@@ -102,7 +102,7 @@ public class InventoryItemTypeJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/ItemtypeFetchIncorrectTransCodeRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/inventory/ItemtypeFetchIncorrectTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();    

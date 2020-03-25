@@ -80,7 +80,7 @@ public class GlAccountTypeJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandelrSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/generalledger/AccountTypeFetchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/generalledger/AccountTypeFetchRequest.xml");
         List<AccountTypeDto> mockDtoDataResponse = AccountingMockData.createMockGlAccountTypes();
         this.setupMocks(DESTINATION, request);
         try {
@@ -102,7 +102,8 @@ public class GlAccountTypeJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/generalledger/AccountTypeFetchIncorrectTransCodeRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/generalledger/AccountTypeFetchIncorrectTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();    

@@ -82,7 +82,8 @@ public class GenericXactJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/common/GenericTransactionQueryRequestHeader.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/common/GenericTransactionQueryRequestHeader.xml");
         List<CommonXactDto> mockListData = AccountingMockData.createMockGenericXactList();
         this.setupMocks(DESTINATION, request);
         try {
@@ -103,7 +104,8 @@ public class GenericXactJmsTest extends BaseMockMessageDrivenBeanTest {
   
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/common/TransactionQueryInvalidTranCodeRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/common/TransactionQueryInvalidTranCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest(); 

@@ -81,7 +81,7 @@ public class SalesOrderCancelJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_Cancel() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/sales/SalesOrderCancelRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderCancelRequest.xml");
 
         this.setupMocks(DESTINATION, request);
 
@@ -102,7 +102,8 @@ public class SalesOrderCancelJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerError_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/sales/SalesOrderCreateInvalidTransCodeRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderCreateInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();

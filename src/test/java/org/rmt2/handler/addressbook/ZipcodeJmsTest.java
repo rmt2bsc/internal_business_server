@@ -76,7 +76,7 @@ public class ZipcodeJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandelrSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/postal/ZipcodeSearchShortRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/postal/ZipcodeSearchShortRequest.xml");
         List<ZipcodeDto> apiResults = AddressBookMockData.createMockFetchZipDtoResults();
         this.setupMocks(DESTINATION, request);
         try {
@@ -98,7 +98,7 @@ public class ZipcodeJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/postal/ZipcodeIncorrectTransCodeRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/postal/ZipcodeIncorrectTransCodeRequest.xml");
         List<ZipcodeDto> apiResults = AddressBookMockData.createMockFetchZipDtoResults();
         this.setupMocks(DESTINATION, request);
         try {

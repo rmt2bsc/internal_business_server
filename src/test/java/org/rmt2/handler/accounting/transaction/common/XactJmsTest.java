@@ -82,7 +82,7 @@ public class XactJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/common/TransactionQueryRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/transaction/common/TransactionQueryRequest.xml");
         List<XactDto> mockListData = AccountingMockData.createMockSingleCommonTransactions();
         List<XactTypeItemActivityDto> mockItemListData = AccountingMockData.createMockXactItems();
         this.setupMocks(DESTINATION, request);
@@ -111,7 +111,7 @@ public class XactJmsTest extends BaseMockMessageDrivenBeanTest {
   
     @Test
     public void invokeHandlerSuccess_Create() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/common/TransactionCreateRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/transaction/common/TransactionCreateRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.update(isA(XactDto.class), isA(List.class))).thenReturn(NEW_XACT_ID);
@@ -131,7 +131,7 @@ public class XactJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandlerSuccess_Reverse() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/common/TransactionReverseRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/transaction/common/TransactionReverseRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.reverse(isA(XactDto.class), isA(List.class))).thenReturn(NEW_XACT_ID);
@@ -151,7 +151,8 @@ public class XactJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/common/TransactionQueryInvalidTranCodeRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/common/TransactionQueryInvalidTranCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest(); 

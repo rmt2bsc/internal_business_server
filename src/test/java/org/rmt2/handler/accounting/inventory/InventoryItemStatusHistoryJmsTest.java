@@ -80,7 +80,7 @@ public class InventoryItemStatusHistoryJmsTest extends BaseMockMessageDrivenBean
 
     @Test
     public void invokeHandelrSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/ItemStatusHistoryFetchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/inventory/ItemStatusHistoryFetchRequest.xml");
         List<ItemMasterStatusHistDto> mockDtoDataResponse = AccountingMockData.createMockItemStatusHistoryList();
         this.setupMocks(DESTINATION, request);
         try {
@@ -102,7 +102,8 @@ public class InventoryItemStatusHistoryJmsTest extends BaseMockMessageDrivenBean
     
     @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/ItemStatusHistoryIncorrectTransCodeRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/inventory/ItemStatusHistoryIncorrectTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();    

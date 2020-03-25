@@ -93,7 +93,7 @@ public class SalesOrderUpdateAndInvoiceAndCashReceiptJmsTest extends BaseMockMes
     @Test
     public void invokeHandlerSuccess_Update() {
         String request = RMT2File
-                .getFileContentsAsString("xml/transaction/sales/SalesOrderUpdateAndInvoiceAndCashReceiptRequest.xml");
+                .getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderUpdateAndInvoiceAndCashReceiptRequest.xml");
 
         SalesOrderStatusHist ormStatusHist = new SalesOrderStatusHist();
         ormStatusHist.setSoStatusId(SalesApiConst.STATUS_CODE_QUOTE);
@@ -145,7 +145,7 @@ public class SalesOrderUpdateAndInvoiceAndCashReceiptJmsTest extends BaseMockMes
     @Test
     public void invokeHandlerError_Incorrect_Trans_Code() {
         String request = RMT2File
-                .getFileContentsAsString("xml/transaction/sales/SalesOrderCreateInvalidTransCodeRequest.xml");
+                .getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderCreateInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();

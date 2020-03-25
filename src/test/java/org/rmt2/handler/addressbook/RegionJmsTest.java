@@ -77,7 +77,7 @@ public class RegionJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandelrSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/postal/RegionSearchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/postal/RegionSearchRequest.xml");
         List<CountryRegionDto> apiResults = AddressBookMockData.createMockCountryRegionList();
         this.setupMocks(DESTINATION, request);
         try {
@@ -99,7 +99,7 @@ public class RegionJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/postal/RegionSearchInvalidTransCodeRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/postal/RegionSearchInvalidTransCodeRequest.xml");
         List<RegionDto> apiResults = AddressBookMockData.createMockRegionDto();
         this.setupMocks(DESTINATION, request);
         try {

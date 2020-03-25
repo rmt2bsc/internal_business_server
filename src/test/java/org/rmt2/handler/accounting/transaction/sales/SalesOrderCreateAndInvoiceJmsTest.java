@@ -27,8 +27,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
-import org.rmt2.api.handlers.transaction.sales.UpdateSalesOrderAutoInvoiceApiHandler;
 import org.rmt2.api.handlers.transaction.sales.SalesOrderRequestUtil;
+import org.rmt2.api.handlers.transaction.sales.UpdateSalesOrderAutoInvoiceApiHandler;
 import org.rmt2.handler.accounting.transaction.TransactionDatasourceMock;
 import org.rmt2.jaxb.SalesOrderType;
 
@@ -91,7 +91,8 @@ public class SalesOrderCreateAndInvoiceJmsTest extends BaseMockMessageDrivenBean
 
     @Test
     public void invokeHandlerSuccess_Create() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/sales/SalesOrderCreateAndInvoiceRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderCreateAndInvoiceRequest.xml");
 
         SalesOrderStatusHist ormStatusHist = new SalesOrderStatusHist();
         ormStatusHist.setSoStatusId(SalesApiConst.STATUS_CODE_QUOTE);
@@ -140,7 +141,8 @@ public class SalesOrderCreateAndInvoiceJmsTest extends BaseMockMessageDrivenBean
 
     @Test
     public void invokeHandlerError_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/sales/SalesOrderCreateInvalidTransCodeRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderCreateInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();

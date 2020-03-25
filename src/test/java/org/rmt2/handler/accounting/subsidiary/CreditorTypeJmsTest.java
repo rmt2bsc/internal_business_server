@@ -74,7 +74,7 @@ public class CreditorTypeJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_FetchCreditorTypes() {
-        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CreditorTypeQueryRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/subsidiary/CreditorTypeQueryRequest.xml");
         List<CreditorTypeDto> mockListData = AccountingMockData.createMockCreditorTypes();
         this.setupMocks(DESTINATION, request);
         try {
@@ -96,7 +96,8 @@ public class CreditorTypeJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CreditorTypeHandlerInvalidTransCodeRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/subsidiary/CreditorTypeHandlerInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest(); 

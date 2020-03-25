@@ -126,7 +126,7 @@ public class SalesOrderPrintJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandler_Success() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/sales/SalesOrderPrintRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderPrintRequest.xml");
         
         List<SalesInvoiceDto> mockSalesOrderDtoList = SalesOrderJmsMockData.createMockSalesInvoice();
         List<SalesOrderItemDto> mockSalesOrderItems = SalesOrderJmsMockData.createMockSalesOrderItems(SALES_ORDER_ID);
@@ -184,7 +184,8 @@ public class SalesOrderPrintJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerError_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/sales/SalesOrderCreateInvalidTransCodeRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderCreateInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();

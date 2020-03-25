@@ -76,7 +76,7 @@ public class CustomerJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_FetchCustomers() {
-        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CustomerQueryRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/subsidiary/CustomerQueryRequest.xml");
         List<CustomerDto> mockListData = AccountingMockData.createMockCustomers();
         this.setupMocks(DESTINATION, request);
         try {
@@ -98,7 +98,7 @@ public class CustomerJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_FetchCustomerTransactionHistory() {
-        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CustomerTranHistQueryRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/subsidiary/CustomerTranHistQueryRequest.xml");
         List<CustomerDto> mockCustData = AccountingMockData.createMockCustomer();
         List<CustomerXactHistoryDto> mockListData = AccountingMockData.createMockCustomerXactHistory();
         this.setupMocks(DESTINATION, request);
@@ -126,7 +126,7 @@ public class CustomerJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandlerSuccess_UpdateCustomer() {
-        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CustomerUpdateRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/subsidiary/CustomerUpdateRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.update(isA(CustomerDto.class))).thenReturn(WebServiceConstants.RETURN_CODE_SUCCESS);
@@ -146,7 +146,7 @@ public class CustomerJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandlerSuccess_DeleteCustomer() {
-        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CustomerDeleteRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/subsidiary/CustomerDeleteRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.delete(isA(CustomerDto.class))).thenReturn(WebServiceConstants.RETURN_CODE_SUCCESS);
@@ -166,7 +166,7 @@ public class CustomerJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CustomerHandlerInvalidTransCodeRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/subsidiary/CustomerHandlerInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest(); 

@@ -80,7 +80,7 @@ public class LookupCodeJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandelrSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/lookup/LookupCodeSearchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/lookup/LookupCodeSearchRequest.xml");
         List<LookupCodeDto> mockDtoDataResponse = AddressBookMockData.createMockLookupCodeDtoListResponse();
         this.setupMocks(DESTINATION, request);
         try {
@@ -101,7 +101,7 @@ public class LookupCodeJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/lookup/LookupCodeIncorrectTransRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/lookup/LookupCodeIncorrectTransRequest.xml");
         List<LookupCodeDto> mockDtoDataResponse = AddressBookMockData.createMockLookupCodeDtoListResponse();
         this.setupMocks(DESTINATION, request);
         try {

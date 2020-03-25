@@ -89,7 +89,7 @@ public class SalesOrderCreateJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_Create() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/sales/SalesOrderCreateRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderCreateRequest.xml");
 
         SalesOrderStatusHist ormStatusHist = new SalesOrderStatusHist();
         ormStatusHist.setSoStatusId(SalesApiConst.STATUS_CODE_QUOTE);
@@ -132,7 +132,8 @@ public class SalesOrderCreateJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerError_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/sales/SalesOrderCreateInvalidTransCodeRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderCreateInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();

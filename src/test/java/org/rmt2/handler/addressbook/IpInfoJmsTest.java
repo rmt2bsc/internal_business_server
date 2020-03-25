@@ -73,7 +73,7 @@ public class IpInfoJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandelrSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/postal/IpInfoStandardSearchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/postal/IpInfoStandardSearchRequest.xml");
         this.setupMocks(DESTINATION, request);
 
         try {
@@ -91,7 +91,7 @@ public class IpInfoJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/postal/IpInfoIncorrectTransCodeRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/postal/IpInfoIncorrectTransCodeRequest.xml");
         IpLocationDto apiResults = AddressBookMockData.createMockIpLocationDto(null, "111.222.333.444", 90333.333,
                 29393.392838, "United States", "TX", "Dallas", "75240", "214");
         this.setupMocks(DESTINATION, request);

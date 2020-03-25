@@ -89,7 +89,8 @@ public class SalesOrderCloseWithPaymentJmsTest extends BaseMockMessageDrivenBean
 
     @Test
     public void invokeHandlerSuccess() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/sales/SalesOrderCloseWithPaymentRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderCloseWithPaymentRequest.xml");
 
         SalesOrderStatusHist ormStatusHist = new SalesOrderStatusHist();
         ormStatusHist.setSoStatusId(SalesApiConst.STATUS_CODE_QUOTE);
@@ -119,7 +120,7 @@ public class SalesOrderCloseWithPaymentJmsTest extends BaseMockMessageDrivenBean
     @Test
     public void invokeHandlerError_Incorrect_Trans_Code() {
         String request = RMT2File
-                .getFileContentsAsString("xml/transaction/sales/SalesOrderCloseWithPaymentInvalidCodeRequest.xml");
+                .getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderCloseWithPaymentInvalidCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();

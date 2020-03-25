@@ -88,7 +88,8 @@ public class CashDisbursementJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerWithoutCustomCriteriaSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/cashdisbursement/CashDisbursementBasicQueryRequestFull.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/cashdisbursement/CashDisbursementBasicQueryRequestFull.xml");
         List<XactDto> mockListData = AccountingMockData.createMockSingleCommonTransactions();
         List<XactTypeItemActivityDto> mockItemListData = AccountingMockData.createMockXactItems();
         this.setupMocks(DESTINATION, request);
@@ -116,7 +117,8 @@ public class CashDisbursementJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerWithCustomCriteriaSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/cashdisbursement/CashDisbursementCustomQueryRequestHeader.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/cashdisbursement/CashDisbursementCustomQueryRequestHeader.xml");
         List<XactDto> mockListData = AccountingMockData.createMockSingleCommonTransactions();
         List<XactTypeItemActivityDto> mockItemListData = AccountingMockData.createMockXactItems();
         this.setupMocks(DESTINATION, request);
@@ -144,7 +146,8 @@ public class CashDisbursementJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_Create() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/cashdisbursement/CashDisbursementCreateRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/cashdisbursement/CashDisbursementCreateRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockCashDisbApi.updateTrans(isA(XactDto.class), isA(List.class))).thenReturn(AccountingMockData.NEW_XACT_ID);
@@ -163,7 +166,8 @@ public class CashDisbursementJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_CreateForCreditor() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/cashdisbursement/CashDisbursementCreditorCreateRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/cashdisbursement/CashDisbursementCreditorCreateRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockCashDisbApi.updateTrans(isA(XactDto.class), isA(List.class))).thenReturn(AccountingMockData.NEW_XACT_ID);
@@ -182,7 +186,8 @@ public class CashDisbursementJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/cashdisbursement/CashDisbursementQueryInvalidTransCodeRequestHeader.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/cashdisbursement/CashDisbursementQueryInvalidTransCodeRequestHeader.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();

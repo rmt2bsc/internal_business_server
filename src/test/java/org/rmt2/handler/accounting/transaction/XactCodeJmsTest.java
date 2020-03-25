@@ -81,7 +81,7 @@ public class XactCodeJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_FetchTransactionGroups() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/codes/TransactionCodeQueryRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/transaction/codes/TransactionCodeQueryRequest.xml");
         List<XactCodeDto> mockListData = AccountingMockData.createMockXactCode();
         this.setupMocks(DESTINATION, request);
         try {
@@ -103,7 +103,8 @@ public class XactCodeJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/codes/TransactionCodeQueryInvalidTransCodeRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/codes/TransactionCodeQueryInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest(); 

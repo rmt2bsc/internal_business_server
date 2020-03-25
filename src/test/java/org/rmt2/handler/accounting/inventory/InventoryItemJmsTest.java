@@ -37,7 +37,7 @@ import com.api.util.RMT2File;
 @PrepareForTest({ JmsClientManager.class, ItemApiHandler.class, InventoryApiFactory.class })
 public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
 
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private InventoryApiFactory mockApiFactory;
     private InventoryApi mockApi;
 
@@ -80,7 +80,7 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_FetchItems() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/ItemFetchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/inventory/ItemFetchRequest.xml");
         List<ItemMasterDto> mockDtoDataResponse = AccountingMockData.createMockItemMasterList();
         this.setupMocks(DESTINATION, request);
         try {
@@ -101,7 +101,7 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandlerSuccess_FetchVendorUnassignedItems() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/VendorUnassignedItemFetchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/inventory/VendorUnassignedItemFetchRequest.xml");
         List<ItemMasterDto> mockDtoDataResponse = AccountingMockData.createMockItemMasterList();
         this.setupMocks(DESTINATION, request);
         try {
@@ -122,7 +122,7 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrSuccess_Update() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/ItemUpdateExistingRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/inventory/ItemUpdateExistingRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.updateItemMaster(isA(ItemMasterDto.class))).thenReturn(1);
@@ -142,7 +142,7 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrSuccess_Delete() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/ItemDeleteRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/inventory/ItemDeleteRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.deleteItemMaster(isA(Integer.class))).thenReturn(1);
@@ -162,7 +162,7 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrSuccess_Activate() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/ItemActivateRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/inventory/ItemActivateRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.activateItemMaster(isA(Integer.class))).thenReturn(1);
@@ -182,7 +182,7 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrSuccess_Deactivate() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/ItemDeactivateRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/inventory/ItemDeactivateRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.deactivateItemMaster(isA(Integer.class))).thenReturn(1);
@@ -202,7 +202,7 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrSuccess_AddInventoryRetailOverride() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/ItemRetailOverrideAddRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/inventory/ItemRetailOverrideAddRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.addInventoryOverride(isA(Integer.class), isA(Integer[].class))).thenReturn(1);
@@ -222,7 +222,7 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrSuccess_RemoveInventoryRetailOverride() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/ItemRetailOverrideRemoveRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/inventory/ItemRetailOverrideRemoveRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.removeInventoryOverride(isA(Integer.class), isA(Integer[].class))).thenReturn(1);
@@ -242,7 +242,7 @@ public class InventoryItemJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/ItemFetchIncorrectTransCodeRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/inventory/ItemFetchIncorrectTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();    

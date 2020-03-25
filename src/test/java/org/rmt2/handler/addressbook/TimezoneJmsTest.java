@@ -76,7 +76,7 @@ public class TimezoneJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandelrSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/postal/TimezoneSearchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/postal/TimezoneSearchRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             List<TimeZoneDto> apiResults = AddressBookMockData.createMockTimezoneDto();
@@ -98,7 +98,7 @@ public class TimezoneJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/postal/TimezoneSearchInvalidTransCodeRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/postal/TimezoneSearchInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();    

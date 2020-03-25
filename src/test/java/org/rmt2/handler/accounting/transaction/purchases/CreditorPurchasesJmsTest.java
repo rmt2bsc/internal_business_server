@@ -86,7 +86,8 @@ public class CreditorPurchasesJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerWithoutCreditorCriteriaSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/purchases/CreditorPurchasesBasicQueryRequestFull.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/purchases/CreditorPurchasesBasicQueryRequestFull.xml");
         List<XactCreditChargeDto> mockListData = AccountingMockData.createMockCreditPurchaseHeader();
         List<XactTypeItemActivityDto> mockItemListData = AccountingMockData.createMockCreditPurchaseDetails();
 
@@ -115,7 +116,8 @@ public class CreditorPurchasesJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_Create() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/purchases/CreditorPurchasesUpdateRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/purchases/CreditorPurchasesUpdateRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.update(isA(XactCreditChargeDto.class), isA(List.class))).thenReturn(AccountingMockData.NEW_XACT_ID);
@@ -134,7 +136,8 @@ public class CreditorPurchasesJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/purchases/CreditorPurchasesInvalidTransCodeQueryRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/purchases/CreditorPurchasesInvalidTransCodeQueryRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();
