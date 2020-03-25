@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <AddressBookRequest>
    <header>
-      <routing>JMS: addressbook-p2p-dest</routing>
+      <routing>JMS:rmt2.queue.addressbook</routing>
       <application>addressbook</application>
       <module>profile</module>
       <transaction>GET_CONTACT</transaction>
@@ -11,7 +11,7 @@
    </header>
    <criteria>
       <business_criteria>
-         <contact_id>1351</contact_id>
+         <contact_id>1481</contact_id>
       </business_criteria>
    </criteria>
 </AddressBookRequest>
