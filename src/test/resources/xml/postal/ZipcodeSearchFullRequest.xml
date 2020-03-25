@@ -1,6 +1,6 @@
 <PostalRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.addressbook</routing>
         <application>addressbook</application>
         <module>postal</module>
         <transaction>GET_ZIPCODE</transaction>
@@ -11,10 +11,6 @@
     <postal_criteria>
         <zipcode>
             <zipcode>75232</zipcode>
-            <city>Dallas</city>
-            <state>TX</state>
-            <areaCode>214</areaCode>
-            <countyName>Dallas</countyName>
             <result_format>FULL</result_format>
         </zipcode>
     </postal_criteria>

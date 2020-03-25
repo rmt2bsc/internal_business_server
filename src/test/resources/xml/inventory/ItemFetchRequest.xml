@@ -1,6 +1,6 @@
 <InventoryRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.accounting</routing>
         <application>accounting</application>
         <module>inventory</module>
         <transaction>GET_ITEM_MASTER</transaction>
@@ -10,20 +10,7 @@
     </header>
     <criteria>
         <item_criteria>
-            <item_id>100</item_id>
-            <item_type>
-                <item_type_id>222</item_type_id>
-            </item_type>
-            <vendor>
-                <creditor_id>1234567</creditor_id>
-            </vendor>
-            <item_name>Dell Computer</item_name>
-            <vendor_item_no>1234-4839</vendor_item_no>
-            <item_serial_no>11111111</item_serial_no>
-            <qty_on_hand>10</qty_on_hand>
-            <unit_cost>150.89</unit_cost>
-            <markup>3</markup>
-            <active>1</active>
+            <item_id>161</item_id>
         </item_criteria>
     </criteria>
 </InventoryRequest>
