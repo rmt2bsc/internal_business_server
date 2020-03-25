@@ -1,6 +1,6 @@
 <LookupCodesRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.addressbook</routing>
         <application>addressbook</application>
         <module>lookup</module>
         <transaction>UPDATE_LOOKUP_GROUP</transaction>

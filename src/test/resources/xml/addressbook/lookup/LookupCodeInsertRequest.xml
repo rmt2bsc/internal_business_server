@@ -1,6 +1,6 @@
 <LookupCodesRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.addressbook</routing>
         <application>addressbook</application>
         <module>lookup</module>
         <transaction>UPDATE_LOOKUP_CODE</transaction>
@@ -10,8 +10,8 @@
     </header>
     <detail_codes label="Label Test">
         <code_id>0</code_id>
-        <group_id>100</group_id>
-        <shortdesc>Code detail short description Test</shortdesc>
-        <longdesc>Code detail long description Test</longdesc>
+        <group_id>5</group_id>
+        <shortdesc>Separated</shortdesc>
+        <longdesc>Separated</longdesc>
     </detail_codes>
 </LookupCodesRequest>

@@ -39,7 +39,7 @@ import com.api.util.RMT2File;
 @PrepareForTest({ ContactProfileApiHandler.class, JmsClientManager.class, PostalApiFactory.class })
 public class CountryJmsTest extends BaseMockMessageDrivenBeanTest {
 
-    private static final String DESTINATION = "Test-AddressBook-Queue";
+    private static final String DESTINATION = "rmt2.queue.addressbook";
     private PostalApi mockApi;
 
 

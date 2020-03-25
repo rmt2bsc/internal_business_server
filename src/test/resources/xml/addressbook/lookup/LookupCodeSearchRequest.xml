@@ -1,6 +1,6 @@
 <LookupCodesRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.addressbook</routing>
         <application>addressbook</application>
         <module>lookup</module>
         <transaction>GET_LOOKUP_CODE</transaction>
@@ -10,9 +10,6 @@
     </header>
     <criteria>
         <all>true</all>
-        <group>200</group>
-        <code>100</code>
-        <code_short_description>Code short description test</code_short_description>
-        <code_long_description>Code long description test</code_long_description>
+        <group>8</group>
     </criteria>
 </LookupCodesRequest>

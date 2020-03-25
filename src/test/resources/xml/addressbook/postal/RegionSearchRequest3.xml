@@ -3,15 +3,14 @@
         <routing>JMS:rmt2.queue.addressbook</routing>
         <application>addressbook</application>
         <module>postal</module>
-        <transaction>GET_TIMEZONE</transaction>
+        <transaction>GET_REGION</transaction>
         <delivery_mode>XXXXXXX</delivery_mode>
         <message_mode>REQUEST</message_mode>
-        <delivery_date>07/11/2018 17:25:17</delivery_date>
+        <delivery_date>07/03/2018 15:57:16</delivery_date>
     </header>
     <postal_criteria>
-        <timezone>
-            <timezone_id>8</timezone_id>
-            <timezone_desc>Central</timezone_desc>
-        </timezone>
+        <province>
+            <state_id>53</state_id>
+        </province>
     </postal_criteria>
 </PostalRequest>

@@ -1,6 +1,6 @@
 <PostalRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.addressbook</routing>
         <application>addressbook</application>
         <module>postal</module>
         <transaction>GET_IP_INFO</transaction>
@@ -10,7 +10,7 @@
     </header>
     <postal_criteria>
         <ip_addr>
-            <ip_standard>111.222.333.444</ip_standard>
+            <ip_standard>99.203.23.232</ip_standard>
         </ip_addr>
     </postal_criteria>
 </PostalRequest>

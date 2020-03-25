@@ -1,6 +1,6 @@
 <PostalRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.addressbook</routing>
         <application>addressbook</application>
         <module>postal</module>
         <transaction>GET_REGION</transaction>
@@ -10,10 +10,7 @@
     </header>
     <postal_criteria>
         <province>
-            <state_id>2222</state_id>
-            <country_id>12345</country_id>
-            <state_name>Texas</state_name>
-            <state_code>TX</state_code>
+            <country_id>1</country_id>
         </province>
     </postal_criteria>
 </PostalRequest>

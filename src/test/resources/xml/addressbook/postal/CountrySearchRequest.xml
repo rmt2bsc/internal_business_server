@@ -1,6 +1,6 @@
 <PostalRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.addressbook</routing>
         <application>addressbook</application>
         <module>postal</module>
         <transaction>GET_COUNTRY</transaction>
@@ -10,8 +10,7 @@
     </header>
     <postal_criteria>
         <country>
-            <country_id>12345</country_id>
-            <countyName>United States</countyName>
+            <countyName>U</countyName>
         </country>
     </postal_criteria>
 </PostalRequest>

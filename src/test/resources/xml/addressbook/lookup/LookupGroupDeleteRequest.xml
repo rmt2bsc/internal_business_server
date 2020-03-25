@@ -1,6 +1,6 @@
 <LookupCodesRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.addressbook</routing>
         <application>addressbook</application>
         <module>lookup</module>
         <transaction>DELETE_LOOKUP_GROUP</transaction>
@@ -9,6 +9,6 @@
         <delivery_date>06/22/2018 15:51:32</delivery_date>
     </header>
     <criteria>
-        <group>200</group>
+        <group>28</group>
     </criteria>
 </LookupCodesRequest>

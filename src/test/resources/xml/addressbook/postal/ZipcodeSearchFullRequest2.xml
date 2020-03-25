@@ -3,15 +3,16 @@
         <routing>JMS:rmt2.queue.addressbook</routing>
         <application>addressbook</application>
         <module>postal</module>
-        <transaction>GET_TIMEZONE</transaction>
+        <transaction>GET_ZIPCODE</transaction>
         <delivery_mode>XXXXXXX</delivery_mode>
         <message_mode>REQUEST</message_mode>
-        <delivery_date>07/11/2018 17:25:17</delivery_date>
+        <delivery_date>06/27/2018 11:36:51</delivery_date>
     </header>
     <postal_criteria>
-        <timezone>
-            <timezone_id>8</timezone_id>
-            <timezone_desc>Central</timezone_desc>
-        </timezone>
+        <zipcode>
+            <city>Dallas</city>
+            <state>TX</state>
+            <result_format>FULL</result_format>
+        </zipcode>
     </postal_criteria>
 </PostalRequest>

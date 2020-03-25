@@ -37,7 +37,7 @@ import com.api.util.RMT2File;
 @PrepareForTest({ LookupCodeApiHandler.class, LookupDataApiFactory.class, JmsClientManager.class })
 public class LookupCodeJmsTest extends BaseMockMessageDrivenBeanTest {
 
-    private static final String DESTINATION = "Test-AddressBook-Queue";
+    private static final String DESTINATION = "rmt2.queue.addressbook";
     private LookupDataApiFactory mockApiFactory;
     private LookupDataApi mockApi;
 
