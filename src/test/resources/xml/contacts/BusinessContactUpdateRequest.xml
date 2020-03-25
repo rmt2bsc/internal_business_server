@@ -1,6 +1,6 @@
 <AddressBookRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.addressbook</routing>
         <application>addressbook</application>
         <module>profile</module>
         <transaction>UPDATE_CONTACT</transaction>
@@ -10,26 +10,34 @@
     </header>
     <profile>
         <business_contacts>
-            <business_id>1350</business_id>
-            <long_name>ABC Company</long_name>
-            <contact_firstname>john</contact_firstname>
-            <contact_lastname>smith</contact_lastname>
-            <contact_phone>2149999999</contact_phone>
-            <contact_email>johnn.smith@gte.net</contact_email>
-            <taxId>88-8888888</taxId>
-            <address>
-                <addr_id>1000</addr_id>
-                <addr1>Address Line 1</addr1>
-                <addr2>Address Line 2</addr2>
-                <addr3>Address Line 3</addr3>
-                <addr4>Address Line 4</addr4>
-                <zip>
-                    <zipcode>75232</zipcode>
-                    <city>Dallas</city>
-                    <state>Tx</state>
-                </zip>
-                <phone_main>2147777777</phone_main>
-            </address>
-        </business_contacts>
+         <business_id>1481</business_id>
+         <entity_type>
+            <code_id>26</code_id>
+            <longdesc>Corporation</longdesc>
+         </entity_type>
+         <service_type>
+            <code_id>61</code_id>
+            <longdesc>Computer - Contractor/Consultant</longdesc>
+         </service_type>
+         <long_name>Mondo Updated</long_name>
+         <contact_firstname>Allison</contact_firstname>
+         <contact_lastname>Weidinger</contact_lastname>
+         <contact_phone>6173220353</contact_phone>
+         <address>
+            <addr_id>2388</addr_id>
+            <business_id>1481</business_id>
+            <addr1>239 Causeway Street</addr1>
+            <zip>
+               <zip_id>926</zip_id>
+               <zipcode>926</zipcode>
+               <city>SAN JUAN</city>
+               <state>PR</state>
+               <areaCode>787/939</areaCode>
+               <cityAliasName>PASEO DE LA FUENTE</cityAliasName>
+               <countyName>SAN JUAN</countyName>
+            </zip>
+            <zip_ext>0</zip_ext>
+         </address>
+      </business_contacts>
     </profile>
 </AddressBookRequest>
