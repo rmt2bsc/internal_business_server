@@ -1,6 +1,6 @@
 <AccountingGeneralLedgerRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.accounting</routing>
         <application>accounting</application>
         <module>generalledger</module>
         <transaction>GET_GL_ACCOUNT</transaction>
@@ -9,26 +9,21 @@
         <delivery_date>07/18/2018 15:18:20</delivery_date>
     </header>
     <criteria>
-        <criteria>
-            <acct_id>200</acct_id>
+        <gl_criteria>
+            <acct_id>20</acct_id>
             <acct_type>
-                <acct_type_id>111</acct_type_id>
-                <description>GL Account Type Description Test</description>
+                <acct_type_id>1</acct_type_id>
             </acct_type>
             <acct_catg>
-                <acct_catg_id>300</acct_catg_id>
-                <acct_type>
-                    <acct_type_id>111</acct_type_id>
-                    <description>GL Account Type Description Test</description>
-                </acct_type>
-                <description>GL Account Category Test</description>
+                <acct_catg_id>501</acct_catg_id>
             </acct_catg>
-            <account_no>GL Account Number Test</account_no>
-            <account_name>GL Account Name Test</account_name>
-            <account_description>GL ACcount Description Test</account_description>
+            <account_no>1-102-005</account_no>
+            <account_name>Accounts Payable</account_name>
+            <account_code>RENTEXP</account_code>
+            <account_description>Cash Account</account_description>
             <balance_type>
                 <account_baltype_id>1</account_baltype_id>
             </balance_type>
-        </criteria>
+        </gl_criteria>
     </criteria>
 </AccountingGeneralLedgerRequest>

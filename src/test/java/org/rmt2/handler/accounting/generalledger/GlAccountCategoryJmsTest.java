@@ -37,7 +37,7 @@ import com.api.util.RMT2File;
 @PrepareForTest({ JmsClientManager.class, GlAccountCategoryApiHandler.class, GeneralLedgerApiFactory.class })
 public class GlAccountCategoryJmsTest extends BaseMockMessageDrivenBeanTest {
 
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private GeneralLedgerApiFactory mockApiFactory;
     private GlAccountApi mockApi;
 
