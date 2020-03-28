@@ -3,16 +3,16 @@
         <routing>JMS:rmt2.queue.accounting</routing>
         <application>accounting</application>
         <module>inventory</module>
-        <transaction>GET_ITEM_STATUS_HIST</transaction>
+        <transaction>GET_CURRENT_ITEM_STATUS_HIST</transaction>
         <delivery_mode>XXXXXXX</delivery_mode>
         <message_mode>REQUEST</message_mode>
         <delivery_date>07/26/2018 17:47:41</delivery_date>
     </header>
     <criteria>
         <item_status_hist_criteria>
-            <item_status_hist_id>10</item_status_hist_id>
-            <item_id>159</item_id>
-            <item_status_id>26</item_status_id>
+            <item_status_hist_id>200</item_status_hist_id>
+            <item_id>1000</item_id>
+            <item_status_id>3000</item_status_id>
         </item_status_hist_criteria>
     </criteria>
 </InventoryRequest>
