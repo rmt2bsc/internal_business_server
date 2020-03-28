@@ -1,6 +1,6 @@
 <InventoryRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.accounting</routing>
         <application>accounting</application>
         <module>inventory</module>
         <transaction>GET_ITEM_TYPE</transaction>
@@ -10,8 +10,8 @@
     </header>
     <criteria>
         <item_type_criteria>
-            <item_type_id>200</item_type_id>
-            <item_type_description>Travel Expense</item_type_description>
+            <item_type_id>1</item_type_id>
+            <item_type_description>Service</item_type_description>
         </item_type_criteria>
     </criteria>
 </InventoryRequest>

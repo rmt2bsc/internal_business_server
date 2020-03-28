@@ -37,7 +37,7 @@ import com.api.util.RMT2File;
 @PrepareForTest({ JmsClientManager.class, ItemTypeApiHandler.class, InventoryApiFactory.class })
 public class InventoryItemTypeJmsTest extends BaseMockMessageDrivenBeanTest {
 
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private InventoryApiFactory mockApiFactory;
     private InventoryApi mockApi;
 

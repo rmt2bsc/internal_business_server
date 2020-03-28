@@ -1,6 +1,6 @@
 <InventoryRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.accounting</routing>
         <application>accounting</application>
         <module>inventory</module>
         <transaction>GET_ITEM_STATUS</transaction>
@@ -10,8 +10,8 @@
     </header>
     <criteria>
         <item_status_criteria>
-            <item_status_id>200</item_status_id>
-            <item_status_description>QUOTE</item_status_description>
+            <item_status_id>27</item_status_id>
+            <item_status_description>Cancelled</item_status_description>
         </item_status_criteria>
     </criteria>
 </InventoryRequest>
