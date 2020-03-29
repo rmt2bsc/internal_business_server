@@ -1,6 +1,6 @@
 <InventoryRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.accounting</routing>
         <application>accounting</application>
         <module>inventory</module>
         <transaction>DELETE_ITEM_MASTER</transaction>
@@ -10,7 +10,7 @@
     </header>
     <criteria>
         <item_criteria>
-            <item_id>100</item_id>
+            <item_id>174</item_id>
         </item_criteria>
     </criteria>
 </InventoryRequest>
