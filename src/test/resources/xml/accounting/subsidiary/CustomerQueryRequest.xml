@@ -1,6 +1,6 @@
 <AccountingTransactionRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.accounting</routing>
         <application>accounting</application>
         <module>subsidiary</module>
         <transaction>GET_CUSTOMER</transaction>
@@ -11,17 +11,15 @@
     <criteria>
         <customer_criteria>
             <customer>
-                <customer_id>3333</customer_id>
-                <acct_id>1234567</acct_id>
-                <account_no>ACCT-NO-8888</account_no>
-                <credit_limit>1234.55</credit_limit>
-                <acct_description>ACCOUNT DESCRIPTION</acct_description>
-                <balance>50000.0</balance>
+                <customer_id>18</customer_id>
+                <acct_id>10</acct_id>
+                <account_no>U1440-20090531</account_no>
+                <acct_description>C</acct_description>
                 <active>1</active>
             </customer>
             <contact_details>
-                <business_id>1351</business_id>
-                <long_name>Business Type Description</long_name>
+                <business_id>1440</business_id>
+                <long_name>The Insource Group</long_name>
             </contact_details>
         </customer_criteria>
     </criteria>
