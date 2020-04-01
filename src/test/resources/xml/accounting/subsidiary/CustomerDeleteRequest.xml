@@ -1,6 +1,6 @@
 <AccountingTransactionRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.accounting</routing>
         <application>accounting</application>
         <module>subsidiary</module>
         <transaction>DELETE_CUSTOMER</transaction>
@@ -11,8 +11,7 @@
     <criteria>
         <customer_criteria>
             <customer>
-                <customer_id>3333</customer_id>
-                <transactions/>
+                <customer_id>39</customer_id>
             </customer>
         </customer_criteria>
     </criteria>

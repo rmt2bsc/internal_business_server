@@ -1,6 +1,6 @@
 <AccountingTransactionRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.accounting</routing>
         <application>accounting</application>
         <module>subsidiary</module>
         <transaction>UPDATE_CUSTOMER</transaction>
@@ -11,15 +11,15 @@
     <profile>
         <customers>
             <customer>
-                <customer_id>3333</customer_id>
-                <acct_id>1234567</acct_id>
+                <customer_id>0</customer_id>
+                <acct_id>10</acct_id>
                 <business_contact_details>
-                    <business_id>1351</business_id>
+                    <business_id>1109</business_id>
                     <long_name>Business Type Description</long_name>
                 </business_contact_details>
-                <account_no>ACCT-NO-8888</account_no>
+                <account_no>U1109-20200331</account_no>
                 <credit_limit>1234.55</credit_limit>
-                <acct_description>ACCOUNT DESCRIPTION</acct_description>
+                <acct_description>ACCOUNT DESCRIPTION updated</acct_description>
                 <balance>50000.0</balance>
                 <active>1</active>
                 <transactions/>

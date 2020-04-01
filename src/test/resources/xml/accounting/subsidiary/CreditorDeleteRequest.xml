@@ -1,6 +1,6 @@
 <AccountingTransactionRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.accounting</routing>
         <application>accounting</application>
         <module>subsidiary</module>
         <transaction>DELETE_CREDITOR</transaction>
@@ -10,7 +10,7 @@
     </header>
     <criteria>
         <creditor_criteria>
-            <creditor_id>3333</creditor_id>
+            <creditor_id>13</creditor_id>
         </creditor_criteria>
     </criteria>
 </AccountingTransactionRequest>
