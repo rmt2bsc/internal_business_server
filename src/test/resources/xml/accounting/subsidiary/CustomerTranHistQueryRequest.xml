@@ -1,6 +1,6 @@
 <AccountingTransactionRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.accounting</routing>
         <application>accounting</application>
         <module>subsidiary</module>
         <transaction>GET_CUSTOMER_TRAN_HIST</transaction>
@@ -11,7 +11,7 @@
     <criteria>
         <customer_criteria>
             <customer>
-                <customer_id>3333</customer_id>
+                <customer_id>36</customer_id>
             </customer>
         </customer_criteria>
     </criteria>
