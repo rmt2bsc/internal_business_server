@@ -44,7 +44,7 @@ import com.api.util.RMT2File;
         XactApiFactory.class, CashDisbursementApiHandler.class, DisbursementsApiFactory.class })
 public class CashDisbursementJmsTest extends BaseMockMessageDrivenBeanTest {
 
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private DisbursementsApi mockCashDisbApi;
 
     public static final int NEW_XACT_ID = 1234567;
