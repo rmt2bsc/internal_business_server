@@ -1,0 +1,50 @@
+<AccountingTransactionRequest>
+    <header>
+        <routing>JMS:rmt2.queue.accounting</routing>
+        <application>accounting</application>
+        <module>transaction</module>
+        <transaction>CREATE_CASH_DISBURSEMENT</transaction>
+        <delivery_mode>XXXXXXX</delivery_mode>
+        <message_mode>REQUEST</message_mode>
+        <delivery_date>04/1/2020 12:41:00</delivery_date>
+    </header>
+    <profile>
+        <transactions>
+            <transaction>
+                <xact_amount>100.0</xact_amount>
+                <xact_date>2020-04-01</xact_date>
+                <xact_reason>Test creating a cash disbursement transaction via message handler</xact_reason>
+                <neg_instr_no>1111-1111-1111-1111</neg_instr_no>
+                <tender_id>16</tender_id>
+                <confirm_no>ADB-49384343</confirm_no>
+                <lineitems>
+                    <lineitem>
+                        <item_id>5</item_id>
+                        <name>item1</name>
+                        <amount>20.0</amount>
+                    </lineitem>
+                    <lineitem>
+                        <item_id>5</item_id>
+                        <name>item2</name>
+                        <amount>20.0</amount>
+                    </lineitem>
+                    <lineitem>
+                        <item_id>5</item_id>
+                        <name>item3</name>
+                        <amount>20.0</amount>
+                    </lineitem>
+                    <lineitem>
+                        <item_id>5</item_id>
+                        <name>item4</name>
+                        <amount>20.0</amount>
+                    </lineitem>
+                    <lineitem>
+                        <item_id>5</item_id>
+                        <name>item5</name>
+                        <amount>20.0</amount>
+                    </lineitem>
+                </lineitems>
+            </transaction>
+        </transactions>
+    </profile>
+</AccountingTransactionRequest>
