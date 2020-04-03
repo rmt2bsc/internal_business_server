@@ -1,6 +1,6 @@
 <AccountingTransactionRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.accounting</routing>
         <application>accounting</application>
         <module>transaction</module>
         <transaction>GET_TRANS_GROUP</transaction>
@@ -10,7 +10,7 @@
     </header>
     <criteria>
         <xact_code_group_criteria>
-            <xact_code_grp_id>34567</xact_code_grp_id>
+            <xact_code_grp_id>1</xact_code_grp_id>
         </xact_code_group_criteria>
     </criteria>
 </AccountingTransactionRequest>

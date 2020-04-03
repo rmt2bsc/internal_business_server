@@ -1,6 +1,6 @@
 <AccountingTransactionRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.accounting</routing>
         <application>accounting</application>
         <module>transaction</module>
         <transaction>GET_TRANS_CODE</transaction>
@@ -10,11 +10,11 @@
     </header>
     <criteria>
         <xact_code_criteria>
-            <xact_code_id>201</xact_code_id>
+            <xact_code_id>1</xact_code_id>
             <xact_code_grp>
-                <xact_code_grp_id>101</xact_code_grp_id>
+                <xact_code_grp_id>1</xact_code_grp_id>
             </xact_code_grp>
-            <description>Test code description</description>
+            <description>C</description>
         </xact_code_criteria>
     </criteria>
 </AccountingTransactionRequest>

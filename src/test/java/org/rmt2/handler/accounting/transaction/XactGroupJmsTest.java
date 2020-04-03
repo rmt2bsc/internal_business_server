@@ -40,7 +40,7 @@ import com.api.util.RMT2File;
 @PrepareForTest({ JmsClientManager.class, XactGroupApiHandler.class, XactApiFactory.class })
 public class XactGroupJmsTest extends BaseMockMessageDrivenBeanTest {
 
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private XactApi mockApi;
     private DaoClient mockDaoClient;
 
