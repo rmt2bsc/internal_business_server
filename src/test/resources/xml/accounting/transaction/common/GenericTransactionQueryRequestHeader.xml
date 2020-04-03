@@ -11,13 +11,13 @@
     <criteria>
         <xact_criteria>
             <basic_criteria>
-                <xactId>34567</xactId>
-                <business_name>ABC Complay</business_name>
-                <account_no>123-345-678</account_no>
-                <xact_date>2018-12-01</xact_date>
+                <xactId>26302</xactId>
+                <account_no>R1450-20090725</account_no>
+                <xact_date>2018-08-03</xact_date>
                 <tender_id>100</tender_id>
-                <confirm_no>ADB-49384343</confirm_no>
-                <invoice_no>1234566</invoice_no>
+                <confirm_no>W2034</confirm_no>
+                <xact_reason>Paid July's statement a day late on 7-28-2018</xact_reason>
+                <invoice_no>32-20090431</invoice_no>
             </basic_criteria>
             <custom_criteria/>
         </xact_criteria>
