@@ -25,7 +25,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AccountingMockData;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
-import org.rmt2.api.handlers.transaction.cashdisbursement.CashDisbursementApiHandler;
+import org.rmt2.api.handlers.transaction.cashdisbursement.CreateCashDisbursementApiHandler;
 import org.rmt2.handler.accounting.transaction.TransactionDatasourceMock;
 
 import com.api.messaging.jms.JmsClientManager;
@@ -41,7 +41,7 @@ import com.api.util.RMT2File;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JmsClientManager.class,
 // XactApiHandler.class,
-        XactApiFactory.class, CashDisbursementApiHandler.class, DisbursementsApiFactory.class })
+        XactApiFactory.class, CreateCashDisbursementApiHandler.class, DisbursementsApiFactory.class })
 public class CashDisbursementJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "rmt2.queue.accounting";

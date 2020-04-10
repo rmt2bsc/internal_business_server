@@ -11,7 +11,7 @@
     <profile>
       <transactions>
          <transaction>
-            <xact_id>26355</xact_id>
+            <xact_id>26372</xact_id>
             <xact_type>
                <xact_type_id>60</xact_type_id>
                <description>Cash Disbursement</description>
@@ -27,7 +27,7 @@
             </xact_code>
             <xact_amount>100.0</xact_amount>
             <xact_date>2020-04-01-05:00</xact_date>
-            <xact_reason>Reversal of #26355</xact_reason>
+            <xact_reason>Test creating a cash disbursement transaction via message handler</xact_reason>
             <neg_instr_no>1111-1111-1111-1111</neg_instr_no>
             <tender_id>16</tender_id>
             <confirm_no>ADB-49384343</confirm_no>
@@ -35,43 +35,43 @@
             <item_total>100.0</item_total>
             <lineitems>
                <lineitem>
-                  <xact_type_item_actv_id>50790</xact_type_item_actv_id>
+                  <xact_type_item_actv_id>50877</xact_type_item_actv_id>
                   <item_id>5</item_id>
-                  <xact_id>26355</xact_id>
+                  <xact_id>26372</xact_id>
                   <name>item1</name>
                   <amount>20.0</amount>
                </lineitem>
                <lineitem>
-                  <xact_type_item_actv_id>50791</xact_type_item_actv_id>
+                  <xact_type_item_actv_id>50878</xact_type_item_actv_id>
                   <item_id>5</item_id>
-                  <xact_id>26355</xact_id>
+                  <xact_id>26372</xact_id>
                   <name>item2</name>
                   <amount>20.0</amount>
                </lineitem>
                <lineitem>
-                  <xact_type_item_actv_id>50792</xact_type_item_actv_id>
+                  <xact_type_item_actv_id>50879</xact_type_item_actv_id>
                   <item_id>5</item_id>
-                  <xact_id>26355</xact_id>
+                  <xact_id>26372</xact_id>
                   <name>item3</name>
                   <amount>20.0</amount>
                </lineitem>
                <lineitem>
-                  <xact_type_item_actv_id>50793</xact_type_item_actv_id>
+                  <xact_type_item_actv_id>50880</xact_type_item_actv_id>
                   <item_id>5</item_id>
-                  <xact_id>26355</xact_id>
+                  <xact_id>26372</xact_id>
                   <name>item4</name>
                   <amount>20.0</amount>
                </lineitem>
                <lineitem>
-                  <xact_type_item_actv_id>50794</xact_type_item_actv_id>
+                  <xact_type_item_actv_id>50881</xact_type_item_actv_id>
                   <item_id>5</item_id>
-                  <xact_id>26355</xact_id>
+                  <xact_id>26372</xact_id>
                   <name>item5</name>
                   <amount>20.0</amount>
                </lineitem>
             </lineitems>
             <tracking>
-               <date_created>2020-04-03T03:00:14.000-05:00</date_created>
+               <date_created>2020-04-10T02:28:33.000-05:00</date_created>
             </tracking>
          </transaction>
       </transactions>
