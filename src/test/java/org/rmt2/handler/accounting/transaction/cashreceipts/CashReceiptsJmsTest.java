@@ -23,7 +23,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AccountingMockData;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
-import org.rmt2.api.handlers.transaction.receipts.CashReceiptsApiHandler;
+import org.rmt2.api.handlers.transaction.receipts.QueryCashReceiptsApiHandler;
 import org.rmt2.handler.accounting.transaction.TransactionDatasourceMock;
 
 import com.api.messaging.jms.JmsClientManager;
@@ -37,10 +37,10 @@ import com.api.util.RMT2File;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ JmsClientManager.class, XactApiFactory.class, CashReceiptsApiHandler.class, CashReceiptApiFactory.class })
+@PrepareForTest({ JmsClientManager.class, XactApiFactory.class, QueryCashReceiptsApiHandler.class, CashReceiptApiFactory.class })
 public class CashReceiptsJmsTest extends BaseMockMessageDrivenBeanTest {
 
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private CashReceiptApi mockApi;
 
     public static final int NEW_XACT_ID = 1234567;
