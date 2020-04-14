@@ -54,7 +54,7 @@ public class SalesOrderCustomerQueryJmsTest extends BaseMockMessageDrivenBeanTes
     public static final int SALES_ORDER_ID = 1000;
     public static final int CUSTOMER_ID = 3333;
     public static final double TEST_ORDER_TOTAL = 300;
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private SalesApi mockSalesApi;
     private CustomerApi mockCustApi;
     private ContactsApi mockContactApi;

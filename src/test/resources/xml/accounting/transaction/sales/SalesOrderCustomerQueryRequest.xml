@@ -1,6 +1,6 @@
 <AccountingTransactionRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.accounting</routing>
         <application>accounting</application>
         <module>transaction</module>
         <transaction>GET_CUSTOMER_SALES_ORDER</transaction>
