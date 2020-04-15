@@ -35,13 +35,6 @@
                     <order_qty>3</order_qty>
                 </sales_order_item>
             </sales_order_items>
-            <tracking>
-                    <date_created>2020-01-01T00:00:00.000-06:00</date_created>
-                    <date_updated>2020-02-01T00:00:00.000-06:00</date_updated>
-                    <user_id>testuser</user_id>
-                    <ip_created>192.168.0.11</ip_created>
-                    <ip_updated>192.168.0.11</ip_updated>
-            </tracking>
          </sales_order>
       </sales_orders>
    </profile>
