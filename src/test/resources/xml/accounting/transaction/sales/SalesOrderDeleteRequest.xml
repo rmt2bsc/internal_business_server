@@ -1,6 +1,6 @@
 <AccountingTransactionRequest>
     <header>
-        <routing>XXXXXXX</routing>
+        <routing>JMS:rmt2.queue.accounting</routing>
         <application>accounting</application>
         <module>transaction</module>
         <transaction>DELETE_SALES_ORDER</transaction>
@@ -11,17 +11,12 @@
     <profile>
         <sales_orders>
             <sales_order>
-                <sales_order_id>1234567</sales_order_id>
+                <sales_order_id>1217</sales_order_id>
                 <invoiced>false</invoiced>
                 <status/>
             </sales_order>
             <sales_order>
-                <sales_order_id>2234567</sales_order_id>
-                <invoiced>false</invoiced>
-                <status/>
-            </sales_order>
-            <sales_order>
-                <sales_order_id>3234567</sales_order_id>
+                <sales_order_id>1218</sales_order_id>
                 <invoiced>false</invoiced>
                 <status/>
             </sales_order>
