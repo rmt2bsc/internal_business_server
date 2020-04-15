@@ -36,7 +36,7 @@ import com.api.util.RMT2File;
 @PrepareForTest({ JmsClientManager.class, XactApiFactory.class, CancelSalesOrderApiHandler.class, SalesApiFactory.class })
 public class SalesOrderCancelJmsTest extends BaseMockMessageDrivenBeanTest {
 
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private SalesApi mockApi;
 
     public static final int NEW_XACT_ID = 1234567;
