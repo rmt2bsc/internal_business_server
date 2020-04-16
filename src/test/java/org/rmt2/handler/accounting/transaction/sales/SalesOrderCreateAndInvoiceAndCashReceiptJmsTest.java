@@ -47,7 +47,7 @@ import com.api.util.RMT2File;
         SalesOrderRequestUtil.class, SalesApiFactory.class })
 public class SalesOrderCreateAndInvoiceAndCashReceiptJmsTest extends BaseMockMessageDrivenBeanTest {
 
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private SalesApi mockApi;
 
     public static final int NEW_XACT_ID = 1234567;

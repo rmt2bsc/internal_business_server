@@ -93,7 +93,7 @@ public class SalesOrderCancelJmsTest extends BaseMockMessageDrivenBeanTest {
 
         try {
             this.startTest();
-            Mockito.verify(this.mockApi, times(3)).cancelSalesOrder(isA(Integer.class));
+            Mockito.verify(this.mockApi, times(2)).cancelSalesOrder(isA(Integer.class));
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
