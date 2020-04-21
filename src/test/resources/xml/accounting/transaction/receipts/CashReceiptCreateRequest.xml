@@ -13,7 +13,7 @@
             <transaction>
                 <xact_id>0</xact_id>
                 <customer>
-                    <customer_id>1440</customer_id>
+                    <customer_id>11</customer_id>
                 </customer>
                 <xact_amount>100.0</xact_amount>
                 <xact_date>2020-04-01</xact_date>
