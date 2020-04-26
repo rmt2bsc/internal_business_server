@@ -11,7 +11,6 @@
     <profile>
         <sales_orders>
             <sales_order>
-                <sales_order_id>1221</sales_order_id>
                 <customer_id>11</customer_id>
                 <invoiced>false</invoiced>
                 <order_total>755.94</order_total>
