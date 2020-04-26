@@ -36,7 +36,7 @@ import com.api.util.RMT2File;
 @PrepareForTest({ JmsClientManager.class, XactApiFactory.class, RefundSalesOrderApiHandler.class, SalesApiFactory.class })
 public class SalesOrderRefundJmsTest extends BaseMockMessageDrivenBeanTest {
 
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private SalesApi mockApi;
 
     public static final int NEW_XACT_ID = 1234567;
@@ -93,7 +93,7 @@ public class SalesOrderRefundJmsTest extends BaseMockMessageDrivenBeanTest {
 
         try {
             this.startTest();
-            Mockito.verify(this.mockApi, times(3)).refundSalesOrder(isA(Integer.class));
+            Mockito.verify(this.mockApi, times(1)).refundSalesOrder(isA(Integer.class));
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
