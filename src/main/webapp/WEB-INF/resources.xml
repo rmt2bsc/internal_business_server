@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+		<Resource id = "jdbc/projecttracker" type="DataSource">
+		  	JdbcDriver = com.sybase.jdbc3.jdbc.SybDriver
+		  	JdbcUrl = jdbc:sybase:Tds:localhost:2638?ServiceName=projecttracker
+		  	UserName = dba
+		  	Password = sql
+		  	JtaManaged = false
+		  	testWhileIdle = true
+		  	validationQuery = SELECT 1
+		</Resource>
+		<Resource id = "jdbc/accounting" type="DataSource">
+			JdbcDriver = com.sybase.jdbc3.jdbc.SybDriver
+			JdbcUrl = jdbc:sybase:Tds:localhost:2638?ServiceName=accounting
+			UserName = dba
+			Password = sql
+			JtaManaged = false
+			testWhileIdle = true
+		  	validationQuery = SELECT 1
+		  	initialSize = 3
+		</Resource>
+		<Resource id = "jdbc/authentication" type="DataSource">
+			JdbcDriver = com.sybase.jdbc3.jdbc.SybDriver
+			JdbcUrl = jdbc:sybase:Tds:localhost:2638?ServiceName=authentication
+			UserName = dba
+			Password = sql
+			JtaManaged = false
+			testWhileIdle = true
+		  	validationQuery = SELECT 1
+		</Resource>
+		<Resource id = "jdbc/addressbook" type="DataSource">
+			JdbcDriver = com.sybase.jdbc3.jdbc.SybDriver
+			JdbcUrl = jdbc:sybase:Tds:localhost:2638?ServiceName=contacts
+			UserName = dba
+			Password = sql
+			JtaManaged = false
+			testWhileIdle = true
+		  	validationQuery = SELECT 1
+		</Resource>
+		<Resource id = "jdbc/mime" type="DataSource">
+			JdbcDriver = com.sybase.jdbc3.jdbc.SybDriver
+			JdbcUrl = jdbc:sybase:Tds:localhost:2638?ServiceName=mime
+			UserName = dba
+			Password = sql
+			JtaManaged = false
+			testWhileIdle = true
+		  	validationQuery = SELECT 1
+		</Resource>
+</resources>
