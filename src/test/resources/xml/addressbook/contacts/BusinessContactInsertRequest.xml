@@ -10,7 +10,6 @@
     </header>
     <profile>
         <business_contacts>
-         <business_id>0</business_id>
          <entity_type>
             <code_id>26</code_id>
             <longdesc>Corporation</longdesc>
@@ -19,7 +18,7 @@
             <code_id>61</code_id>
             <longdesc>Computer - Contractor/Consultant</longdesc>
          </service_type>
-         <long_name>Test Company</long_name>
+         <long_name>Test Company 2 Updated</long_name>
          <contact_firstname>Allison</contact_firstname>
          <contact_lastname>Weidinger</contact_lastname>
          <contact_phone>6173220353</contact_phone>
