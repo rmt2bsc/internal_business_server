@@ -12,8 +12,10 @@ import org.dao.mapping.orm.rmt2.ProjProject;
 import org.dao.mapping.orm.rmt2.ProjTask;
 import org.dao.mapping.orm.rmt2.VwEmployeeExt;
 import org.dao.mapping.orm.rmt2.VwEmployeeProjects;
+import org.dto.ClientDto;
 import org.dto.EmployeeDto;
 import org.dto.adapter.orm.EmployeeObjectFactory;
+import org.dto.adapter.orm.ProjectObjectFactory;
 
 /**
  * Project Tracker Administration testing facility that is mainly responsible for
@@ -27,41 +29,47 @@ import org.dto.adapter.orm.EmployeeObjectFactory;
  */
 public class ProjectTrackerJmsMockData {
 
-    public static final List<ProjClient> createMockSingleClient() {
-        List<ProjClient> list = new ArrayList<ProjClient>();
+    public static final List<ClientDto> createMockSingleClient() {
+        List<ClientDto> list = new ArrayList<>();
         ProjClient o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjClient(
                 1110, 1350, "1110 Company", 70.00, 80.00, "000-111", "steve",
                 "gadd", "0000000000", "stevegadd@gte.net");
-        list.add(o);
+        ClientDto dto = ProjectObjectFactory.createClientDtoInstance(o);
+        list.add(dto);
         return list;
     }
 
-    public static final List<ProjClient> createMockMultipleClient() {
-        List<ProjClient> list = new ArrayList<ProjClient>();
+    public static final List<ClientDto> createMockMultipleClient() {
+        List<ClientDto> list = new ArrayList<>();
         ProjClient o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjClient(
                 1110, 1350, "1110 Company", 70.00, 80.00, "000-111", "firstname0",
                 "lastname0", "0000000000", "firstname0lastname0@gte.net");
-        list.add(o);
+        ClientDto dto = ProjectObjectFactory.createClientDtoInstance(o);
+        list.add(dto);
 
         o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjClient(1111, 1351,
                 "1111 Company", 80.00, 90.00, "111-111", "firstname1", "lastname1",
                 "1111111111", "firstname1lastname1@gte.net");
-        list.add(o);
+        dto = ProjectObjectFactory.createClientDtoInstance(o);
+        list.add(dto);
 
         o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjClient(1112, 1352,
                 "1112 Company", 90.00, 100.00, "222-111", "firstname2", "lastname2",
                 "2222222222", "firstname2lastname2@gte.net");
-        list.add(o);
+        dto = ProjectObjectFactory.createClientDtoInstance(o);
+        list.add(dto);
 
         o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjClient(1113, 1353,
                 "1113 Company", 100.00, 110.00, "333-111", "firstname3", "lastname3",
                 "3333333333", "firstname3lastname3@gte.net");
-        list.add(o);
+        dto = ProjectObjectFactory.createClientDtoInstance(o);
+        list.add(dto);
 
         o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjClient(1114, 1354,
                 "1114 Company", 110.00, 120.00, "444-111", "firstname4", "lastname4",
                 "4444444444", "firstname4lastname4@gte.net");
-        list.add(o);
+        dto = ProjectObjectFactory.createClientDtoInstance(o);
+        list.add(dto);
         return list;
     }
 
