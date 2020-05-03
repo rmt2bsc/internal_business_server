@@ -39,7 +39,7 @@ import com.api.util.RMT2File;
 @PrepareForTest({ EmployeeQueryApiHandler.class, JmsClientManager.class, EmployeeApiFactory.class })
 public class EmployeeJmsTest extends BaseMockMessageDrivenBeanTest {
 
-    private static final String DESTINATION = "Test-ProjectTracker-Queue";
+    private static final String DESTINATION = "rmt2.queue.projecttracker";
     private EmployeeApi mockApi;
 
 
