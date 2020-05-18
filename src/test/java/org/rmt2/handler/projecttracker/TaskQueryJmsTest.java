@@ -29,8 +29,8 @@ import com.api.util.RMT2File;
 
 
 /**
- * Test the idenity and invocation of the task related JMS messages for the
- * Project Tracker API Message Handler.
+ * Test the idenity and invocation of the task query related JMS messages for
+ * the Project Tracker API Message Handler.
  * 
  * @author appdev
  *
