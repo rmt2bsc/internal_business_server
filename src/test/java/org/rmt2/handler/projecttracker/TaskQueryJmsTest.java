@@ -37,7 +37,7 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ TaskQueryApiHandler.class, JmsClientManager.class, ProjectAdminApiFactory.class })
-public class TaskJmsTest extends BaseMockMessageDrivenBeanTest {
+public class TaskQueryJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "rmt2.queue.projecttracker";
     private ProjectAdminApi mockApi;
@@ -46,7 +46,7 @@ public class TaskJmsTest extends BaseMockMessageDrivenBeanTest {
     /**
      * 
      */
-    public TaskJmsTest() {
+    public TaskQueryJmsTest() {
     }
 
     /*
