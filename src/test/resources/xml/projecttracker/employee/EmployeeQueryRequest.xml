@@ -10,6 +10,7 @@
     </header>
     <criteria>
         <employee_criteria>
+            <employee_id>2005</employee_id>
             <first_name>Roy</first_name>
             <last_name>Terrell</last_name>
         </employee_criteria>
