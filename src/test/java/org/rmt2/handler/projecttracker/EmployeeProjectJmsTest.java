@@ -101,30 +101,24 @@ public class EmployeeProjectJmsTest extends BaseMockMessageDrivenBeanTest {
         
     }
     
-    // @Test
-    // public void invokeHandelrSuccess_Update() {
-    // String request =
-    // RMT2File.getFileContentsAsString("xml/projecttracker/employee/EmployeeInsertRequest.xml");
-    // this.setupMocks(DESTINATION, request);
-    // try {
-    // when(this.mockContactApi.updateContact(isA(PersonalContactDto.class))).thenReturn(CONTACT_ID);
-    // } catch (ContactsApiException e) {
-    // Assert.fail("Unable to setup mock stub for creating employee contact record");
-    // }
-    // try {
-    // when(this.mockApi.update(isA(EmployeeDto.class))).thenReturn(EMPLOYEE_ID);
-    // } catch (EmployeeApiException e) {
-    // Assert.fail("Unable to setup mock stub for creating employee record");
-    // }
-    //
-    // try {
-    // this.startTest();
-    // Mockito.verify(this.mockContactApi).updateContact(isA(PersonalContactDto.class));
-    // Mockito.verify(this.mockApi).update(isA(EmployeeDto.class));
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // Assert.fail("An unexpected exception was thrown");
-    // }
-    //
-    // }
+    @Test
+    public void invokeHandelrSuccess_Update() {
+        String request = RMT2File.getFileContentsAsString("xml/projecttracker/employee/EmployeeProjectUpdateRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.update(isA(ProjectEmployeeDto.class))).thenReturn(1);
+        } catch (EmployeeApiException e) {
+            e.printStackTrace();
+            Assert.fail("Employee fetch test case failed");
+        }
+
+        try {
+            this.startTest();
+            Mockito.verify(this.mockApi).update(isA(ProjectEmployeeDto.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+
+    }
 }
