@@ -15,6 +15,7 @@ import org.dao.mapping.orm.rmt2.VwEmployeeProjects;
 import org.dao.mapping.orm.rmt2.VwProjectClient;
 import org.dto.ClientDto;
 import org.dto.EmployeeDto;
+import org.dto.EmployeeTitleDto;
 import org.dto.ProjectClientDto;
 import org.dto.ProjectEmployeeDto;
 import org.dto.TaskDto;
@@ -149,22 +150,27 @@ public class ProjectTrackerJmsMockData {
         return list;
     }
     
-    public static final List<ProjEmployeeTitle> createMockMultipleEmployeeTitle() {
-        List<ProjEmployeeTitle> list = new ArrayList<ProjEmployeeTitle>();
+    public static final List<EmployeeTitleDto> createMockEmployeeTitle() {
+        List<EmployeeTitleDto> list = new ArrayList<>();
         ProjEmployeeTitle o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjEmployeeTitle(101, "Employee Title 1");
-        list.add(o);
+        EmployeeTitleDto dto = EmployeeObjectFactory.createEmployeeTitleDtoInstance(o);
+        list.add(dto);
         
         o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjEmployeeTitle(102, "Employee Title 2");
-        list.add(o);
+        dto = EmployeeObjectFactory.createEmployeeTitleDtoInstance(o);
+        list.add(dto);
         
         o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjEmployeeTitle(103, "Employee Title 3");
-        list.add(o);
+        dto = EmployeeObjectFactory.createEmployeeTitleDtoInstance(o);
+        list.add(dto);
         
         o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjEmployeeTitle(104, "Employee Title 4");
-        list.add(o);
+        dto = EmployeeObjectFactory.createEmployeeTitleDtoInstance(o);
+        list.add(dto);
         
         o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjEmployeeTitle(105, "Employee Title 5");
-        list.add(o);
+        dto = EmployeeObjectFactory.createEmployeeTitleDtoInstance(o);
+        list.add(dto);
         return list;
     }
     
