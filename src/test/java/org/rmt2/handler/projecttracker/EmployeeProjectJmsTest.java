@@ -80,7 +80,7 @@ public class EmployeeProjectJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandelrSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/projecttracker/employee/EmployeeProjectRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/projecttracker/employee/EmployeeProjectQueryRequest.xml");
         List<ProjectEmployeeDto> apiResults = ProjectTrackerJmsMockData.createMockMultipleVwEmployeeProjects();
         this.setupMocks(DESTINATION, request);
         try {
