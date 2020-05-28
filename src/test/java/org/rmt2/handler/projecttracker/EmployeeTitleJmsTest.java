@@ -1,7 +1,6 @@
 package org.rmt2.handler.projecttracker;
 
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -14,8 +13,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.modules.ProjectTrackerApiConst;
-import org.modules.contacts.ContactsApi;
-import org.modules.contacts.ContactsApiFactory;
 import org.modules.employee.EmployeeApi;
 import org.modules.employee.EmployeeApiException;
 import org.modules.employee.EmployeeApiFactory;
@@ -38,14 +35,11 @@ import com.api.util.RMT2File;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ EmployeeTitleApiHandler.class, JmsClientManager.class, EmployeeApiFactory.class, ContactsApiFactory.class })
+@PrepareForTest({ EmployeeTitleApiHandler.class, JmsClientManager.class, EmployeeApiFactory.class })
 public class EmployeeTitleJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "rmt2.queue.projecttracker";
-    public static final int EMPLOYEE_TITLE_ID_SEED = 101;
-    public static final String EMPLOYEE_TITLE_NAME_SEED = "Employee Title ";
     private EmployeeApi mockApi;
-    private ContactsApi mockContactApi;
 
 
     /**
@@ -63,11 +57,6 @@ public class EmployeeTitleJmsTest extends BaseMockMessageDrivenBeanTest {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-
-        mockContactApi = Mockito.mock(ContactsApi.class);
-        PowerMockito.mockStatic(ContactsApiFactory.class);
-        when(ContactsApiFactory.createApi()).thenReturn(mockContactApi);
-        doNothing().when(this.mockContactApi).close();
 
         this.mockApi = Mockito.mock(EmployeeApi.class);
         PowerMockito.mockStatic(EmployeeApiFactory.class);
