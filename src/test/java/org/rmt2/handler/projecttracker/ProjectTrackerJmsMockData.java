@@ -13,6 +13,7 @@ import org.dao.mapping.orm.rmt2.ProjTask;
 import org.dao.mapping.orm.rmt2.VwEmployeeExt;
 import org.dao.mapping.orm.rmt2.VwEmployeeProjects;
 import org.dao.mapping.orm.rmt2.VwProjectClient;
+import org.dao.mapping.orm.rmt2.VwTimesheetList;
 import org.dto.ClientDto;
 import org.dto.EmployeeDto;
 import org.dto.EmployeeTitleDto;
@@ -20,8 +21,10 @@ import org.dto.EmployeeTypeDto;
 import org.dto.ProjectClientDto;
 import org.dto.ProjectEmployeeDto;
 import org.dto.TaskDto;
+import org.dto.TimesheetDto;
 import org.dto.adapter.orm.EmployeeObjectFactory;
 import org.dto.adapter.orm.ProjectObjectFactory;
+import org.dto.adapter.orm.TimesheetObjectFactory;
 
 /**
  * Project Tracker Administration testing facility that is mainly responsible for
@@ -403,6 +406,40 @@ public class ProjectTrackerJmsMockData {
         
         o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjTask(1112224, "Task Description 5", true);
         dto = ProjectObjectFactory.createTaskDtoInstance(o);
+        list.add(dto);
+        return list;
+    }
+
+    public static final List<TimesheetDto> createMockExtTimesheetList() {
+        List<TimesheetDto> list = new ArrayList<>();
+        VwTimesheetList o = ProjectTrackerJmsOrmDataFactory.createMockOrmVwTimesheetList(111, 1110, 1234, 2220,
+                "INVREF1230", "2018-01-01", "2018-01-07", "ExtReNo1000",
+                3330, "DRAFT", "ACCT-111", 40, 0, 70.00, 80.00);
+        TimesheetDto dto = TimesheetObjectFactory.createTimesheetExtendedDtoInstance(o);
+        list.add(dto);
+
+        o = ProjectTrackerJmsOrmDataFactory.createMockOrmVwTimesheetList(112, 1110, 1234, 2220,
+                "INVREF1231", "2018-01-08", "2018-01-14", "ExtReNo1001",
+                3330, "DRAFT", "ACCT-111", 40, 0, 70.00, 80.00);
+        dto = TimesheetObjectFactory.createTimesheetExtendedDtoInstance(o);
+        list.add(dto);
+
+        o = ProjectTrackerJmsOrmDataFactory.createMockOrmVwTimesheetList(113, 1110, 1234, 2220,
+                "INVREF1232", "2018-01-15", "2018-01-21", "ExtReNo1002",
+                3330, "DRAFT", "ACCT-111", 40, 0, 70.00, 80.00);
+        dto = TimesheetObjectFactory.createTimesheetExtendedDtoInstance(o);
+        list.add(dto);
+
+        o = ProjectTrackerJmsOrmDataFactory.createMockOrmVwTimesheetList(114, 1110, 1234, 2220,
+                "INVREF1233", "2018-01-22", "2018-01-28", "ExtReNo1003",
+                3330, "DRAFT", "ACCT-111", 40, 0, 70.00, 80.00);
+        dto = TimesheetObjectFactory.createTimesheetExtendedDtoInstance(o);
+        list.add(dto);
+
+        o = ProjectTrackerJmsOrmDataFactory.createMockOrmVwTimesheetList(115, 1110, 1234, 2220,
+                "INVREF1234", "2018-01-29", "2018-02-04", "ExtReNo1004",
+                3330, "DRAFT", "ACCT-111", 40, 0, 70.00, 80.00);
+        dto = TimesheetObjectFactory.createTimesheetExtendedDtoInstance(o);
         list.add(dto);
         return list;
     }
