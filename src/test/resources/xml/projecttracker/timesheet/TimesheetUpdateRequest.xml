@@ -10,7 +10,7 @@
     </header>
     <profile>
         <timesheet>
-            <timesheet_id>620</timesheet_id>
+            <timesheet_id>623</timesheet_id>
             <proj_id>34</proj_id>
             <client>
                 <client_id>36</client_id>
@@ -29,133 +29,127 @@
             <document_id>65948</document_id>
             <comments>Monday: Test updated comment</comments>
             <work_log>
-                <project_task_id>1656</project_task_id>
+                <project_task_id>1669</project_task_id>
                 <project_id>34</project_id>
                 <task_id>14</task_id>
-                <delete_project_task>true</delete_project_task>
+                <delete_project_task>false</delete_project_task>
                 <daily_hours>
-                    <event_id>1</event_id>
+                    <event_id>11451</event_id>
+                    <event_date>2020-01-01T00:00:00.000-06:00</event_date>
+                    <hours>5.0</hours>
+                </daily_hours>
+                <daily_hours>
+                    <event_id>11452</event_id>
+                    <event_date>2020-01-02T00:00:00.000-06:00</event_date>
+                    <hours>5.0</hours>
+                </daily_hours>
+                <daily_hours>
+                    <event_id>11453</event_id>
+                    <event_date>2020-01-03T00:00:00.000-06:00</event_date>
+                    <hours>5.0</hours>
+                </daily_hours>
+                <daily_hours>
+                    <event_id>11454</event_id>
+                    <event_date>2020-01-04T00:00:00.000-06:00</event_date>
+                    <hours>5.0</hours>
+                </daily_hours>
+                <daily_hours>
+                    <event_id>11455</event_id>
+                    <event_date>2020-01-05T00:00:00.000-06:00</event_date>
+                    <hours>5.0</hours>
+                </daily_hours>
+            </work_log>
+            <work_log>
+                <project_task_id>1668</project_task_id>
+                <project_id>34</project_id>
+                <task_id>15</task_id>
+                <delete_project_task>false</delete_project_task>
+                <daily_hours>
+                    <event_id>11446</event_id>
+                    <event_date>2020-01-01T00:00:00.000-06:00</event_date>
+                    <hours>3.0</hours>
+                </daily_hours>
+                <daily_hours>
+                    <event_id>11447</event_id>
+                    <event_date>2020-01-02T00:00:00.000-06:00</event_date>
+                    <hours>3.0</hours>
+                </daily_hours>
+                <daily_hours>
+                    <event_id>11448</event_id>
+                    <event_date>2020-01-03T00:00:00.000-06:00</event_date>
+                    <hours>3.0</hours>
+                </daily_hours>
+                <daily_hours>
+                    <event_id>11449</event_id>
+                    <event_date>2020-01-04T00:00:00.000-06:00</event_date>
+                    <hours>3.0</hours>
+                </daily_hours>
+                <daily_hours>
+                    <event_id>11450</event_id>
+                    <event_date>2020-01-05T00:00:00.000-06:00</event_date>
+                    <hours>3.0</hours>
+                </daily_hours>
+            </work_log>
+            <work_log>
+                <project_task_id>1671</project_task_id>
+                <project_id>34</project_id>
+                <task_id>27</task_id>
+                <delete_project_task>false</delete_project_task>
+                <daily_hours>
+                    <event_id>11461</event_id>
                     <event_date>2020-01-01T00:00:00.000-06:00</event_date>
                     <hours>2.0</hours>
                 </daily_hours>
                 <daily_hours>
-                    <event_id>2</event_id>
+                    <event_id>11462</event_id>
                     <event_date>2020-01-02T00:00:00.000-06:00</event_date>
                     <hours>2.0</hours>
                 </daily_hours>
                 <daily_hours>
-                    <event_id>3</event_id>
+                    <event_id>11463</event_id>
                     <event_date>2020-01-03T00:00:00.000-06:00</event_date>
                     <hours>2.0</hours>
                 </daily_hours>
                 <daily_hours>
-                    <event_id>4</event_id>
+                    <event_id>11464</event_id>
                     <event_date>2020-01-04T00:00:00.000-06:00</event_date>
                     <hours>2.0</hours>
                 </daily_hours>
                 <daily_hours>
-                    <event_id>5</event_id>
+                    <event_id>11465</event_id>
                     <event_date>2020-01-05T00:00:00.000-06:00</event_date>
                     <hours>2.0</hours>
                 </daily_hours>
             </work_log>
             <work_log>
-                <project_task_id>2</project_task_id>
-                <project_id>2</project_id>
-                <project_name>About Objects</project_name>
+                <project_task_id>1670</project_task_id>
+                <project_id>34</project_id>
                 <task_id>20</task_id>
-                <task_name>Development</task_name>
                 <delete_project_task>false</delete_project_task>
                 <daily_hours>
-                    <event_id>1</event_id>
+                    <event_id>11456</event_id>
                     <event_date>2020-01-01T00:00:00.000-06:00</event_date>
-                    <hours>2.0</hours>
+                    <hours>4.0</hours>
                 </daily_hours>
                 <daily_hours>
-                    <event_id>2</event_id>
+                    <event_id>11457</event_id>
                     <event_date>2020-01-02T00:00:00.000-06:00</event_date>
-                    <hours>2.0</hours>
+                    <hours>4.0</hours>
                 </daily_hours>
                 <daily_hours>
-                    <event_id>3</event_id>
+                    <event_id>11458</event_id>
                     <event_date>2020-01-03T00:00:00.000-06:00</event_date>
-                    <hours>2.0</hours>
+                    <hours>4.0</hours>
                 </daily_hours>
                 <daily_hours>
-                    <event_id>4</event_id>
+                    <event_id>11459</event_id>
                     <event_date>2020-01-04T00:00:00.000-06:00</event_date>
-                    <hours>2.0</hours>
+                    <hours>4.0</hours>
                 </daily_hours>
                 <daily_hours>
-                    <event_id>5</event_id>
+                    <event_id>11460</event_id>
                     <event_date>2020-01-05T00:00:00.000-06:00</event_date>
-                    <hours>2.0</hours>
-                </daily_hours>
-            </work_log>
-            <work_log>
-                <project_task_id>3</project_task_id>
-                <project_id>2</project_id>
-                <project_name>About Objects</project_name>
-                <task_id>30</task_id>
-                <task_name>Testing</task_name>
-                <delete_project_task>false</delete_project_task>
-                <daily_hours>
-                    <event_id>1</event_id>
-                    <event_date>2020-01-01T00:00:00.000-06:00</event_date>
-                    <hours>2.0</hours>
-                </daily_hours>
-                <daily_hours>
-                    <event_id>2</event_id>
-                    <event_date>2020-01-02T00:00:00.000-06:00</event_date>
-                    <hours>2.0</hours>
-                </daily_hours>
-                <daily_hours>
-                    <event_id>3</event_id>
-                    <event_date>2020-01-03T00:00:00.000-06:00</event_date>
-                    <hours>2.0</hours>
-                </daily_hours>
-                <daily_hours>
-                    <event_id>4</event_id>
-                    <event_date>2020-01-04T00:00:00.000-06:00</event_date>
-                    <hours>2.0</hours>
-                </daily_hours>
-                <daily_hours>
-                    <event_id>5</event_id>
-                    <event_date>2020-01-05T00:00:00.000-06:00</event_date>
-                    <hours>2.0</hours>
-                </daily_hours>
-            </work_log>
-            <work_log>
-                <project_task_id>4</project_task_id>
-                <project_id>2</project_id>
-                <project_name>About Objects</project_name>
-                <task_id>40</task_id>
-                <task_name>Meetings</task_name>
-                <delete_project_task>false</delete_project_task>
-                <daily_hours>
-                    <event_id>1</event_id>
-                    <event_date>2020-01-01T00:00:00.000-06:00</event_date>
-                    <hours>2.0</hours>
-                </daily_hours>
-                <daily_hours>
-                    <event_id>2</event_id>
-                    <event_date>2020-01-02T00:00:00.000-06:00</event_date>
-                    <hours>2.0</hours>
-                </daily_hours>
-                <daily_hours>
-                    <event_id>3</event_id>
-                    <event_date>2020-01-03T00:00:00.000-06:00</event_date>
-                    <hours>2.0</hours>
-                </daily_hours>
-                <daily_hours>
-                    <event_id>4</event_id>
-                    <event_date>2020-01-04T00:00:00.000-06:00</event_date>
-                    <hours>2.0</hours>
-                </daily_hours>
-                <daily_hours>
-                    <event_id>5</event_id>
-                    <event_date>2020-01-05T00:00:00.000-06:00</event_date>
-                    <hours>2.0</hours>
+                    <hours>4.0</hours>
                 </daily_hours>
             </work_log>
         </timesheet>
