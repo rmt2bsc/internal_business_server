@@ -18,6 +18,7 @@ import org.dto.ClientDto;
 import org.dto.EmployeeDto;
 import org.dto.EmployeeTitleDto;
 import org.dto.EmployeeTypeDto;
+import org.dto.EventDto;
 import org.dto.ProjectClientDto;
 import org.dto.ProjectEmployeeDto;
 import org.dto.TaskDto;
@@ -360,22 +361,27 @@ public class ProjectTrackerJmsMockData {
         return list;
     }
     
-    public static final List<ProjEvent> createMockMultipleEvent() {
-        List<ProjEvent> list = new ArrayList<ProjEvent>();
+    public static final List<EventDto> createMockEvent() {
+        List<EventDto> list = new ArrayList<>();
         ProjEvent o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjEvent(123401, 444441, "2018-01-01", 8);
-        list.add(o);
+        EventDto dto = ProjectObjectFactory.createEventDtoInstance(o);
+        list.add(dto);
         
         o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjEvent(123402, 444442, "2018-01-02", 8);
-        list.add(o);
+        dto = ProjectObjectFactory.createEventDtoInstance(o);
+        list.add(dto);
         
         o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjEvent(123403, 444443, "2018-01-03", 8);
-        list.add(o);
+        dto = ProjectObjectFactory.createEventDtoInstance(o);
+        list.add(dto);
         
         o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjEvent(123404, 444444, "2018-01-04", 8);
-        list.add(o);
+        dto = ProjectObjectFactory.createEventDtoInstance(o);
+        list.add(dto);
         
         o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjEvent(123405, 444445, "2018-01-05", 8);
-        list.add(o);
+        dto = ProjectObjectFactory.createEventDtoInstance(o);
+        list.add(dto);
         return list;
     }
     
