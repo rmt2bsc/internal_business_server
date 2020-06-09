@@ -10,10 +10,13 @@ import org.dao.mapping.orm.rmt2.ProjEmployeeType;
 import org.dao.mapping.orm.rmt2.ProjEvent;
 import org.dao.mapping.orm.rmt2.ProjProject;
 import org.dao.mapping.orm.rmt2.ProjTask;
+import org.dao.mapping.orm.rmt2.ProjTimesheetHist;
 import org.dao.mapping.orm.rmt2.VwEmployeeExt;
 import org.dao.mapping.orm.rmt2.VwEmployeeProjects;
 import org.dao.mapping.orm.rmt2.VwProjectClient;
 import org.dao.mapping.orm.rmt2.VwTimesheetList;
+import org.dao.mapping.orm.rmt2.VwTimesheetProjectTask;
+import org.dao.timesheet.TimesheetConst;
 import org.dto.ClientDto;
 import org.dto.EmployeeDto;
 import org.dto.EmployeeTitleDto;
@@ -38,6 +41,92 @@ import org.dto.adapter.orm.TimesheetObjectFactory;
  * 
  */
 public class ProjectTrackerJmsMockData {
+
+    public static final List<ProjEvent> createMockMultiple_Day_Task_Events(int projectTaskId) {
+        List<ProjEvent> list = new ArrayList<ProjEvent>();
+        int eventId = ProjectTrackerJmsOrmDataFactory.TEST_EVENT_ID;
+        // Day 1
+        ProjEvent o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjEvent(eventId, projectTaskId, "2018-01-01", 0);
+        list.add(o);
+        o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjEvent(++eventId, projectTaskId, "2018-01-02", 2);
+        list.add(o);
+        o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjEvent(++eventId, projectTaskId, "2018-01-03", 2);
+        list.add(o);
+        o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjEvent(++eventId, projectTaskId, "2018-01-04", 2);
+        list.add(o);
+        o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjEvent(++eventId, projectTaskId, "2018-01-05", 1);
+        list.add(o);
+        o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjEvent(++eventId, projectTaskId, "2018-01-06", 1);
+        list.add(o);
+        o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjEvent(++eventId, projectTaskId, "2018-01-07", 0);
+        list.add(o);
+        return list;
+    }
+
+    public static final List<VwTimesheetProjectTask> createMockMultipleVwTimesheetProjectTask() {
+        List<VwTimesheetProjectTask> list = new ArrayList<VwTimesheetProjectTask>();
+        VwTimesheetProjectTask o = ProjectTrackerJmsOrmDataFactory.createMockOrmVwTimesheetProjectTask(444441, 111, 4440,
+                1112220, 1110, "Project 2220", "2018-01-01",
+                "2018-01-07", "Design and Analysis", true);
+        list.add(o);
+
+        o = ProjectTrackerJmsOrmDataFactory.createMockOrmVwTimesheetProjectTask(444442, 111, 4440,
+                1112221, 1110, "Project 2220", "2018-01-01",
+                "2018-01-07", "Development", true);
+        list.add(o);
+
+        o = ProjectTrackerJmsOrmDataFactory.createMockOrmVwTimesheetProjectTask(444443, 111, 4440,
+                1112222, 1110, "Project 2220", "2018-01-01",
+                "2018-01-07", "Meetings", true);
+        list.add(o);
+
+        o = ProjectTrackerJmsOrmDataFactory.createMockOrmVwTimesheetProjectTask(444444, 111, 4440,
+                1112223, 1110, "Project 2220", "2018-01-01",
+                "2018-01-07", "Testing", true);
+        list.add(o);
+
+        o = ProjectTrackerJmsOrmDataFactory.createMockOrmVwTimesheetProjectTask(444445, 111, 4440,
+                1112224, 1110, "Project 2220", "2018-01-01",
+                "2018-01-07", "Holiday", false);
+        list.add(o);
+
+        return list;
+    }
+
+    public static final List<ProjTimesheetHist> createMockTimesheetStatusHistory() {
+        List<ProjTimesheetHist> list = new ArrayList<ProjTimesheetHist>();
+        ProjTimesheetHist o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjTimesheetHist(
+                ProjectTrackerJmsOrmDataFactory.TEST_TIMESHEET_HIST_ID,
+                ProjectTrackerJmsOrmDataFactory.TEST_TIMESHEET_ID,
+                TimesheetConst.STATUS_NEW, "2018-01-01", "2018-01-02");
+        list.add(o);
+
+        o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjTimesheetHist(
+                ProjectTrackerJmsOrmDataFactory.TEST_TIMESHEET_HIST_ID,
+                ProjectTrackerJmsOrmDataFactory.TEST_TIMESHEET_ID,
+                TimesheetConst.STATUS_DRAFT, "2018-01-03", "2018-01-04");
+        list.add(o);
+
+        o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjTimesheetHist(
+                ProjectTrackerJmsOrmDataFactory.TEST_TIMESHEET_HIST_ID,
+                ProjectTrackerJmsOrmDataFactory.TEST_TIMESHEET_ID,
+                TimesheetConst.STATUS_SUBMITTED, "2018-01-05", "2018-01-06");
+        list.add(o);
+
+        o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjTimesheetHist(
+                ProjectTrackerJmsOrmDataFactory.TEST_TIMESHEET_HIST_ID,
+                ProjectTrackerJmsOrmDataFactory.TEST_TIMESHEET_ID,
+                TimesheetConst.STATUS_RECVD, "2018-01-07", "2018-01-08");
+        list.add(o);
+
+        o = ProjectTrackerJmsOrmDataFactory.createMockOrmProjTimesheetHist(
+                ProjectTrackerJmsOrmDataFactory.TEST_TIMESHEET_HIST_ID,
+                ProjectTrackerJmsOrmDataFactory.TEST_TIMESHEET_ID,
+                TimesheetConst.STATUS_APPROVED, "2018-01-09", null);
+        list.add(o);
+
+        return list;
+    }
 
     public static final List<ClientDto> createMockSingleClient() {
         List<ClientDto> list = new ArrayList<>();
