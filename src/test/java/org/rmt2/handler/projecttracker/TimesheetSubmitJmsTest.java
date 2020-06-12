@@ -146,9 +146,6 @@ public class TimesheetSubmitJmsTest extends BaseMockMessageDrivenBeanTest {
         this.employee.setEmployeeLastname("Smith");
         this.manager = EmployeeObjectFactory.createEmployeeDtoInstance(ProjectTrackerJmsMockData.createMockSingleEmployee()
                 .get(0));
-        // this.timesheet =
-        // TimesheetObjectFactory.createTimesheetDtoInstance(ProjectTrackerJmsMockData
-        // .createMockMultipleTimesheetSameClientList().get(0));
         this.timesheetExt = ProjectTrackerJmsMockData.createMockExtTimesheetList().get(0);
         this.currentStatus = TimesheetObjectFactory.createTimesheetHistoryDtoInstance(ProjectTrackerJmsMockData
                 .createMockTimesheetStatusHistory().get(2));
