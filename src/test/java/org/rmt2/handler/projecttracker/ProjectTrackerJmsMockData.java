@@ -11,13 +11,17 @@ import org.dao.mapping.orm.rmt2.ProjEvent;
 import org.dao.mapping.orm.rmt2.ProjProject;
 import org.dao.mapping.orm.rmt2.ProjTask;
 import org.dao.mapping.orm.rmt2.ProjTimesheetHist;
+import org.dao.mapping.orm.rmt2.VwBusinessAddress;
 import org.dao.mapping.orm.rmt2.VwEmployeeExt;
 import org.dao.mapping.orm.rmt2.VwEmployeeProjects;
 import org.dao.mapping.orm.rmt2.VwProjectClient;
 import org.dao.mapping.orm.rmt2.VwTimesheetList;
 import org.dao.mapping.orm.rmt2.VwTimesheetProjectTask;
+import org.dao.mapping.orm.rmt2.VwTimesheetSummary;
 import org.dao.timesheet.TimesheetConst;
+import org.dto.BusinessContactDto;
 import org.dto.ClientDto;
+import org.dto.ContactDto;
 import org.dto.EmployeeDto;
 import org.dto.EmployeeTitleDto;
 import org.dto.EmployeeTypeDto;
@@ -28,6 +32,7 @@ import org.dto.TaskDto;
 import org.dto.TimesheetDto;
 import org.dto.adapter.orm.EmployeeObjectFactory;
 import org.dto.adapter.orm.ProjectObjectFactory;
+import org.dto.adapter.orm.Rmt2AddressBookDtoFactory;
 import org.dto.adapter.orm.TimesheetObjectFactory;
 
 /**
@@ -536,6 +541,49 @@ public class ProjectTrackerJmsMockData {
                 3330, "DRAFT", "ACCT-111", 40, 0, 70.00, 80.00);
         dto = TimesheetObjectFactory.createTimesheetExtendedDtoInstance(o);
         list.add(dto);
+        return list;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public static final List<VwTimesheetSummary> createMockTimesheetSummaryList() {
+        List<VwTimesheetSummary> list = new ArrayList<>();
+        VwTimesheetSummary o = ProjectTrackerJmsOrmDataFactory
+                .createMockOrmVwTimesheetSummary(111, "john", "doe", "2020-5-15", 8);
+        list.add(o);
+        return list;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public static final List<ContactDto> createMockSingleBusinessContactDto() {
+        List<ContactDto> list = new ArrayList<ContactDto>();
+        VwBusinessAddress bus = new VwBusinessAddress();
+        bus.setBusinessId(1351);
+        bus.setBusLongname("BusinessName_1");
+        bus.setBusContactFirstname("firstname_1");
+        bus.setBusContactLastname("lastname_1");
+        bus.setContactEmail(bus.getBusContactFirstname() + "." + bus.getBusContactLastname() + "@gte.net");
+        bus.setBusContactPhone("9999999991");
+        bus.setAddrId(2001);
+        bus.setBusinessId(1351);
+        bus.setAddr1("address_line1_1");
+        bus.setAddr2("address_line2_1");
+        bus.setAddr3("address_line3_1");
+        bus.setAddr4("address_line4_1");
+        bus.setZipCity("Dallas");
+        bus.setZipState("Tx");
+        bus.setAddrZip(75232);
+        bus.setAddrPhoneMain("2143738001");
+        bus.setBusTaxId("750000001");
+        bus.setBusWebsite("www.BusinessName_1.com");
+        bus.setBusShortname("shortname");
+        BusinessContactDto busDto = Rmt2AddressBookDtoFactory.getBusinessInstance(bus);
+        list.add(busDto);
         return list;
     }
 }
