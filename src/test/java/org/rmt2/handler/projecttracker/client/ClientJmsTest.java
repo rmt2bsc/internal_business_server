@@ -1,4 +1,4 @@
-package org.rmt2.handler.projecttracker;
+package org.rmt2.handler.projecttracker.client;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
@@ -22,6 +22,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.admin.client.ClientQueryApiHandler;
+import org.rmt2.handler.projecttracker.ProjectTrackerJmsMockData;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
