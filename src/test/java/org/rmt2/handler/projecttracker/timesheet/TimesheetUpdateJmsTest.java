@@ -1,10 +1,10 @@
-package org.rmt2.handler.projecttracker;
+package org.rmt2.handler.projecttracker.timesheet;
 
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
+import java.util.Map;
 
 import org.dto.TimesheetDto;
 import org.junit.After;
@@ -20,7 +20,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
-import org.rmt2.api.handlers.timesheet.TimesheetQueryApiHandler;
+import org.rmt2.api.handlers.timesheet.TimesheetUpdateApiHandler;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -28,24 +28,25 @@ import com.api.util.RMT2File;
 
 
 /**
- * Test the idenity and invocation of the timesheet query related JMS messages
+ * Test the idenity and invocation of the timesheet update related JMS messages
  * for the Project Tracker API Message Handler.
  * 
  * @author appdev
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ TimesheetQueryApiHandler.class, JmsClientManager.class, TimesheetApiFactory.class })
-public class TimesheetQueryJmsTest extends BaseMockMessageDrivenBeanTest {
+@PrepareForTest({ TimesheetUpdateApiHandler.class, JmsClientManager.class, TimesheetApiFactory.class })
+public class TimesheetUpdateJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "rmt2.queue.projecttracker";
+    public static final int TIMESHEET_ID = 900;
     private TimesheetApi mockApi;
     private TimesheetApiFactory mockApiFactory;
 
     /**
      * 
      */
-    public TimesheetQueryJmsTest() {
+    public TimesheetUpdateJmsTest() {
     }
 
     /*
@@ -78,11 +79,10 @@ public class TimesheetQueryJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandelrSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/projecttracker/timesheet/TimesheetQueryRequest.xml");
-        List<TimesheetDto> mockListData = ProjectTrackerJmsMockData.createMockExtTimesheetList();
+        String request = RMT2File.getFileContentsAsString("xml/projecttracker/timesheet/TimesheetUpdateRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
-            when(this.mockApi.getExt(isA(TimesheetDto.class))).thenReturn(mockListData);
+            when(this.mockApi.updateTimesheet(isA(TimesheetDto.class), isA(Map.class))).thenReturn(TIMESHEET_ID);
         } catch (TimesheetApiException e) {
             e.printStackTrace();
             Assert.fail("Timesheet fetch test case failed");
@@ -90,22 +90,7 @@ public class TimesheetQueryJmsTest extends BaseMockMessageDrivenBeanTest {
 
         try {
             this.startTest();    
-            Mockito.verify(this.mockApi).getExt(isA(TimesheetDto.class));
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            Assert.fail("An unexpected exception was thrown");
-        }
-        
-    }
-    
-    @Test
-    public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File
-                .getFileContentsAsString("xml/projecttracker/ProjectTrackerInvalidTransactionCodeRequest.xml");
-        this.setupMocks(DESTINATION, request);
-        try {
-            this.startTest();    
+            Mockito.verify(this.mockApi).updateTimesheet(isA(TimesheetDto.class), isA(Map.class));
         }
         catch (Exception e) {
             e.printStackTrace();

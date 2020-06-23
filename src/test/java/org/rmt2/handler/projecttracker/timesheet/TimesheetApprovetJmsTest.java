@@ -1,4 +1,4 @@
-package org.rmt2.handler.projecttracker;
+package org.rmt2.handler.projecttracker.timesheet;
 
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doNothing;
@@ -22,6 +22,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.timesheet.TimesheetPostSubmitApiHandler;
+import org.rmt2.handler.projecttracker.ProjectTrackerJmsMockData;
 
 import com.api.config.SystemConfigurator;
 import com.api.messaging.email.EmailMessageBean;
@@ -35,7 +36,7 @@ import com.api.util.RMT2File;
 
 
 /**
- * Test the idenity and invocation of the timesheet decline related JMS messages
+ * Test the idenity and invocation of the timesheet approve related JMS messages
  * for the Project Tracker API Message Handler.
  * 
  * @author appdev
@@ -44,7 +45,7 @@ import com.api.util.RMT2File;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JmsClientManager.class, TimesheetPostSubmitApiHandler.class, TimesheetApiFactory.class,
         EmployeeApiFactory.class, ProjectAdminApiFactory.class, SmtpFactory.class, SystemConfigurator.class, RMT2Date.class })
-public class TimesheetDeclinetJmsTest extends BaseMockMessageDrivenBeanTest {
+public class TimesheetApprovetJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "rmt2.queue.projecttracker";
     public static final int TIMESHEET_ID = 900;
@@ -58,7 +59,7 @@ public class TimesheetDeclinetJmsTest extends BaseMockMessageDrivenBeanTest {
     /**
      * 
      */
-    public TimesheetDeclinetJmsTest() {
+    public TimesheetApprovetJmsTest() {
     }
 
     /*
@@ -124,12 +125,12 @@ public class TimesheetDeclinetJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandelrSuccess_Approve() {
-        String request = RMT2File.getFileContentsAsString("xml/projecttracker/timesheet/TimesheetDeclineRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/projecttracker/timesheet/TimesheetApproveRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
-            when(this.mockApi.decline(isA(Integer.class))).thenReturn(1);
+            when(this.mockApi.approve(isA(Integer.class))).thenReturn(1);
         } catch (Exception e) {
-            Assert.fail("Failed to setup stub for declining timesheet method");
+            Assert.fail("Failed to setup stub for approving timesheet method");
         }
 
         try {
@@ -147,7 +148,7 @@ public class TimesheetDeclinetJmsTest extends BaseMockMessageDrivenBeanTest {
 
         try {
             this.startTest();    
-            Mockito.verify(this.mockApi).decline(isA(Integer.class));
+            Mockito.verify(this.mockApi).approve(isA(Integer.class));
             Mockito.verify(this.mockEmpApi).getEmployeeExt(isA(EmployeeDto.class));
         }
         catch (Exception e) {

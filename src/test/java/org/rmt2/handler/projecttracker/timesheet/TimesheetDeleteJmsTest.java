@@ -1,4 +1,4 @@
-package org.rmt2.handler.projecttracker;
+package org.rmt2.handler.projecttracker.timesheet;
 
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doNothing;
