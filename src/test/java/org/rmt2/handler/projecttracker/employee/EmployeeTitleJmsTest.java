@@ -1,11 +1,11 @@
-package org.rmt2.handler.projecttracker;
+package org.rmt2.handler.projecttracker.employee;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
 
-import org.dto.EmployeeTypeDto;
+import org.dto.EmployeeTitleDto;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,7 +20,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
-import org.rmt2.api.handlers.employee.type.EmployeeTypeApiHandler;
+import org.rmt2.api.handlers.employee.title.EmployeeTitleApiHandler;
+import org.rmt2.handler.projecttracker.ProjectTrackerJmsMockData;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -28,15 +29,15 @@ import com.api.util.RMT2File;
 
 
 /**
- * Test the idenity and invocation of the Employee Type related JMS messages for
- * the Project Tracker API Message Handler.
+ * Test the idenity and invocation of the Employee Title related JMS messages
+ * for the Project Tracker API Message Handler.
  * 
  * @author appdev
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ EmployeeTypeApiHandler.class, JmsClientManager.class, EmployeeApiFactory.class })
-public class EmployeeTypeJmsTest extends BaseMockMessageDrivenBeanTest {
+@PrepareForTest({ EmployeeTitleApiHandler.class, JmsClientManager.class, EmployeeApiFactory.class })
+public class EmployeeTitleJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "rmt2.queue.projecttracker";
     private EmployeeApi mockApi;
@@ -45,7 +46,7 @@ public class EmployeeTypeJmsTest extends BaseMockMessageDrivenBeanTest {
     /**
      * 
      */
-    public EmployeeTypeJmsTest() {
+    public EmployeeTitleJmsTest() {
     }
 
     /*
@@ -76,11 +77,11 @@ public class EmployeeTypeJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandelrSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/projecttracker/employee/EmployeeTypeQueryRequest.xml");
-        List<EmployeeTypeDto> apiResults = ProjectTrackerJmsMockData.createMockEmployeeType();
+        String request = RMT2File.getFileContentsAsString("xml/projecttracker/employee/EmployeeTitleQueryRequest.xml");
+        List<EmployeeTitleDto> apiResults = ProjectTrackerJmsMockData.createMockEmployeeTitle();
         this.setupMocks(DESTINATION, request);
         try {
-            when(this.mockApi.getEmployeeTypes()).thenReturn(apiResults);
+            when(this.mockApi.getEmployeeTitles()).thenReturn(apiResults);
         } catch (EmployeeApiException e) {
             e.printStackTrace();
             Assert.fail("Employee title fetch test case failed");
@@ -88,7 +89,7 @@ public class EmployeeTypeJmsTest extends BaseMockMessageDrivenBeanTest {
 
         try {
             this.startTest();    
-            Mockito.verify(this.mockApi).getEmployeeTypes();
+            Mockito.verify(this.mockApi).getEmployeeTitles();
         }
         catch (Exception e) {
             e.printStackTrace();
