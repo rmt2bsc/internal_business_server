@@ -1,8 +1,10 @@
-package org.rmt2.handler.projecttracker;
+package org.rmt2.handler.projecttracker.task;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.when;
+
+import java.util.List;
 
 import org.dto.TaskDto;
 import org.junit.After;
@@ -19,7 +21,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
-import org.rmt2.api.handlers.admin.task.TaskUpdateApiHandler;
+import org.rmt2.api.handlers.admin.task.TaskQueryApiHandler;
+import org.rmt2.handler.projecttracker.ProjectTrackerJmsMockData;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -27,25 +30,24 @@ import com.api.util.RMT2File;
 
 
 /**
- * Test the idenity and invocation of the task update related JMS messages for
+ * Test the idenity and invocation of the task query related JMS messages for
  * the Project Tracker API Message Handler.
  * 
  * @author appdev
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ TaskUpdateApiHandler.class, JmsClientManager.class, ProjectAdminApiFactory.class })
-public class TaskUpdateJmsTest extends BaseMockMessageDrivenBeanTest {
+@PrepareForTest({ TaskQueryApiHandler.class, JmsClientManager.class, ProjectAdminApiFactory.class })
+public class TaskQueryJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "rmt2.queue.projecttracker";
-    public static final int TASK_ID = 39;
     private ProjectAdminApi mockApi;
 
 
     /**
      * 
      */
-    public TaskUpdateJmsTest() {
+    public TaskQueryJmsTest() {
     }
 
     /*
@@ -74,19 +76,20 @@ public class TaskUpdateJmsTest extends BaseMockMessageDrivenBeanTest {
     }
 
     @Test
-    public void invokeHandelrSuccess_Update() {
-        String request = RMT2File.getFileContentsAsString("xml/projecttracker/admin/TaskUpdateRequest.xml");
+    public void invokeHandelrSuccess_Fetch() {
+        String request = RMT2File.getFileContentsAsString("xml/projecttracker/admin/TaskQueryRequest.xml");
+        List<TaskDto> apiResults = ProjectTrackerJmsMockData.createMockMultipleTask();
         this.setupMocks(DESTINATION, request);
         try {
-            when(this.mockApi.updateTask(isA(TaskDto.class))).thenReturn(1);
+            when(this.mockApi.getTask(isA(TaskDto.class))).thenReturn(apiResults);
         } catch (ProjectAdminApiException e) {
             e.printStackTrace();
-            Assert.fail("Task update test case failed");
+            Assert.fail("Task fetch test case failed");
         }
 
         try {
             this.startTest();    
-            Mockito.verify(this.mockApi).updateTask(isA(TaskDto.class));
+            Mockito.verify(this.mockApi).getTask(isA(TaskDto.class));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -95,4 +98,18 @@ public class TaskUpdateJmsTest extends BaseMockMessageDrivenBeanTest {
         
     }
     
+    @Test
+    public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
+        String request = RMT2File
+                .getFileContentsAsString("xml/projecttracker/ProjectTrackerInvalidTransactionCodeRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            this.startTest();    
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+        
+    }
 }
