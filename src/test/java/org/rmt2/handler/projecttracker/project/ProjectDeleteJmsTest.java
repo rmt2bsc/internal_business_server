@@ -1,4 +1,4 @@
-package org.rmt2.handler.projecttracker;
+package org.rmt2.handler.projecttracker.project;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;

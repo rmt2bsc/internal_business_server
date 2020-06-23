@@ -1,10 +1,12 @@
-package org.rmt2.handler.projecttracker;
+package org.rmt2.handler.projecttracker.project;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.when;
 
-import org.dto.Project2Dto;
+import java.util.List;
+
+import org.dto.ProjectClientDto;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,7 +21,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
-import org.rmt2.api.handlers.admin.project.ProjectUpdateApiHandler;
+import org.rmt2.api.handlers.admin.project.ProjectQueryApiHandler;
+import org.rmt2.handler.projecttracker.ProjectTrackerJmsMockData;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -27,25 +30,24 @@ import com.api.util.RMT2File;
 
 
 /**
- * Test the idenity and invocation of the project related JMS messages for the
+ * Test the idenity and invocation of the client related JMS messages for the
  * Project Tracker API Message Handler.
  * 
  * @author appdev
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ ProjectUpdateApiHandler.class, JmsClientManager.class, ProjectAdminApiFactory.class })
-public class ProjectUpdateJmsTest extends BaseMockMessageDrivenBeanTest {
+@PrepareForTest({ ProjectQueryApiHandler.class, JmsClientManager.class, ProjectAdminApiFactory.class })
+public class ProjectClientJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "rmt2.queue.projecttracker";
-    public static final int PROJECT_ID_NEW = 4444;
     private ProjectAdminApi mockApi;
 
 
     /**
      * 
      */
-    public ProjectUpdateJmsTest() {
+    public ProjectClientJmsTest() {
     }
 
     /*
@@ -74,19 +76,20 @@ public class ProjectUpdateJmsTest extends BaseMockMessageDrivenBeanTest {
     }
 
     @Test
-    public void invokeHandelrSuccess_Update() {
-        String request = RMT2File.getFileContentsAsString("xml/projecttracker/admin/ProjectInsertRequest.xml");
+    public void invokeHandelrSuccess_Fetch() {
+        String request = RMT2File.getFileContentsAsString("xml/projecttracker/admin/ProjectQueryRequest.xml");
+        List<ProjectClientDto> apiResults = ProjectTrackerJmsMockData.createMockProjectClientDto();
         this.setupMocks(DESTINATION, request);
         try {
-            when(this.mockApi.updateProject(isA(Project2Dto.class))).thenReturn(PROJECT_ID_NEW);
+            when(this.mockApi.getProjectExt(isA(ProjectClientDto.class))).thenReturn(apiResults);
         } catch (ProjectAdminApiException e) {
             e.printStackTrace();
-            Assert.fail("Project update test case failed");
+            Assert.fail("Client fetch test case failed");
         }
 
         try {
             this.startTest();    
-            Mockito.verify(this.mockApi).updateProject(isA(Project2Dto.class));
+            Mockito.verify(this.mockApi).getProjectExt(isA(ProjectClientDto.class));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -94,5 +97,19 @@ public class ProjectUpdateJmsTest extends BaseMockMessageDrivenBeanTest {
         }
         
     }
-
+    
+    @Test
+    public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
+        String request = RMT2File
+                .getFileContentsAsString("xml/projecttracker/ProjectTrackerInvalidTransactionCodeRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            this.startTest();    
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+        
+    }
 }
