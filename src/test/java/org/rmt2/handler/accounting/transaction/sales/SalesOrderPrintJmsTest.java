@@ -6,6 +6,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
+import java.io.File;
 import java.util.List;
 
 import org.dto.ContactDto;
@@ -55,6 +56,7 @@ public class SalesOrderPrintJmsTest extends BaseMockMessageDrivenBeanTest {
     public static final int CUSTOMER_ID = 3333;
     public static final double TEST_ORDER_TOTAL = 300;
     private static final String DESTINATION = "Test-Accounting-Queue";
+    public static final String PROP_SERIAL_PATH = "/temp/";
     private SalesApi mockSalesApi;
     private CustomerApi mockCustApi;
     private ContactsApi mockContactApi;
@@ -98,7 +100,7 @@ public class SalesOrderPrintJmsTest extends BaseMockMessageDrivenBeanTest {
         doNothing().when(this.mockSalesApi).close();
 
         // Setup System Properteis
-        System.setProperty("SerialPath", "/temp/");
+        System.setProperty("SerialPath", PROP_SERIAL_PATH);
         System.setProperty("SerialDrive", "c:");
         System.setProperty("RptXsltPath", "reports");
         System.setProperty("CompContactId", "7777");
@@ -111,6 +113,11 @@ public class SalesOrderPrintJmsTest extends BaseMockMessageDrivenBeanTest {
         System.setProperty("CompWebsite", "www.xya.com");
         System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
 
+        File f = new File(PROP_SERIAL_PATH);
+        if (RMT2File.verifyDirectory(f) == RMT2File.FILE_IO_NOTEXIST) {
+            RMT2File.createDirectory("\\temp\\");
+            RMT2File.createDirectory(PROP_SERIAL_PATH);
+        }
         return;
     }
 
@@ -121,6 +128,8 @@ public class SalesOrderPrintJmsTest extends BaseMockMessageDrivenBeanTest {
      */
     @After
     public void tearDown() throws Exception {
+        File f = new File(PROP_SERIAL_PATH);
+        RMT2File.deleteFile(f);
         return;
     }
 

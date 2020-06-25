@@ -5,6 +5,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +60,7 @@ public class TimesheetPrintWorkLogJmsTest extends BaseMockMessageDrivenBeanTest 
     private static final String DESTINATION = "rmt2.queue.projecttracker";
     public static final int TIMESHEET_ID = 111;
     public static final int BUSINESS_ID = 1351;
-    public static final String PROP_SERIAL_PATH = "\\temp\\";
+    public static final String PROP_SERIAL_PATH = "\\temp\\output\\";
     public static final String PROP_RPT_XSLT_PATH = "reports";
     private TimesheetApi mockApi;
     private TimesheetApiFactory mockApiFactory;
@@ -104,6 +105,12 @@ public class TimesheetPrintWorkLogJmsTest extends BaseMockMessageDrivenBeanTest 
         System.setProperty("CompContactId", String.valueOf(BUSINESS_ID));
         System.setProperty("SerialPath", PROP_SERIAL_PATH);
         System.setProperty("RptXsltPath", PROP_RPT_XSLT_PATH);
+
+        File f = new File(PROP_SERIAL_PATH);
+        if (RMT2File.verifyDirectory(f) == RMT2File.FILE_IO_NOTEXIST) {
+            RMT2File.createDirectory("\\temp\\");
+            RMT2File.createDirectory(PROP_SERIAL_PATH);
+        }
         return;
     }
 
@@ -114,6 +121,8 @@ public class TimesheetPrintWorkLogJmsTest extends BaseMockMessageDrivenBeanTest 
      */
     @After
     public void tearDown() throws Exception {
+        File f = new File(PROP_SERIAL_PATH);
+        RMT2File.deleteFile(f);
         return;
     }
 
