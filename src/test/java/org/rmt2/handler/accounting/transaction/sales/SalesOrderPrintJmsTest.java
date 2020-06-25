@@ -55,12 +55,13 @@ public class SalesOrderPrintJmsTest extends BaseMockMessageDrivenBeanTest {
     public static final int SALES_ORDER_ID = 1000;
     public static final int CUSTOMER_ID = 3333;
     public static final double TEST_ORDER_TOTAL = 300;
-    private static final String DESTINATION = "Test-Accounting-Queue";
-    public static final String PROP_SERIAL_PATH = "/temp/";
+    private static final String DESTINATION = "rmt2.queue.accounting";
+    public static final String PROP_SERIAL_PATH = "\\temp\\output\\";
     private SalesApi mockSalesApi;
     private CustomerApi mockCustApi;
     private ContactsApi mockContactApi;
     private XactApi mockXactApi;
+    private String path;
 
     public static final int NEW_XACT_ID = 1234567;
 
@@ -113,10 +114,13 @@ public class SalesOrderPrintJmsTest extends BaseMockMessageDrivenBeanTest {
         System.setProperty("CompWebsite", "www.xya.com");
         System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
 
-        File f = new File(PROP_SERIAL_PATH);
+        String homeDir = System.getProperty("user.home");
+        homeDir = RMT2File.convertToUnixStyle(homeDir);
+        String pathExt = RMT2File.convertToUnixStyle(PROP_SERIAL_PATH);
+        path = homeDir + pathExt;
+        File f = new File(path);
         if (RMT2File.verifyDirectory(f) == RMT2File.FILE_IO_NOTEXIST) {
-            RMT2File.createDirectory("\\temp\\");
-            RMT2File.createDirectory(PROP_SERIAL_PATH);
+            RMT2File.createDirectory(path);
         }
         return;
     }
@@ -128,7 +132,7 @@ public class SalesOrderPrintJmsTest extends BaseMockMessageDrivenBeanTest {
      */
     @After
     public void tearDown() throws Exception {
-        File f = new File(PROP_SERIAL_PATH);
+        File f = new File(path);
         RMT2File.deleteFile(f);
         return;
     }

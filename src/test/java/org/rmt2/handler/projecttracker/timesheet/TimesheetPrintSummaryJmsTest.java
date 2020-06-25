@@ -63,6 +63,7 @@ public class TimesheetPrintSummaryJmsTest extends BaseMockMessageDrivenBeanTest 
     private TimesheetDto mockTimesheetExt;
     private TimesheetHoursSummaryDto mockHourSummary;
     private List<ContactDto> mockBusinessContactDtoList;
+    private String path;
 
     /**
      * 
@@ -95,10 +96,13 @@ public class TimesheetPrintSummaryJmsTest extends BaseMockMessageDrivenBeanTest 
         System.setProperty("SerialPath", PROP_SERIAL_PATH);
         System.setProperty("RptXsltPath", PROP_RPT_XSLT_PATH);
 
-        File f = new File(PROP_SERIAL_PATH);
+        String homeDir = System.getProperty("user.home");
+        homeDir = RMT2File.convertToUnixStyle(homeDir);
+        String pathExt = RMT2File.convertToUnixStyle(PROP_SERIAL_PATH);
+        path = homeDir + pathExt;
+        File f = new File(path);
         if (RMT2File.verifyDirectory(f) == RMT2File.FILE_IO_NOTEXIST) {
-            RMT2File.createDirectory("\\temp\\");
-            RMT2File.createDirectory(PROP_SERIAL_PATH);
+            RMT2File.createDirectory(path);
         }
         this.createInputData();
         return;
@@ -111,7 +115,7 @@ public class TimesheetPrintSummaryJmsTest extends BaseMockMessageDrivenBeanTest 
      */
     @After
     public void tearDown() throws Exception {
-        File f = new File(PROP_SERIAL_PATH);
+        File f = new File(path);
         RMT2File.deleteFile(f);
         return;
     }
