@@ -16,12 +16,10 @@
         </customer_criteria>
         <sales_criteria>
             <sales_order_id>1000</sales_order_id>
-            <invoice_on_sales_order_creation>false</invoice_on_sales_order_creation>
-            <apply_payment_on_sales_order_creation>false</apply_payment_on_sales_order_creation>
         </sales_criteria>
         <xact_criteria>
             <basic_criteria>
-                <xact_id>111111</xact_id>
+                <xact_id>26610</xact_id>
             </basic_criteria>
         </xact_criteria>
     </criteria>
