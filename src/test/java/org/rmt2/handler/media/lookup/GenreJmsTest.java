@@ -28,8 +28,8 @@ import com.api.util.RMT2File;
 
 
 /**
- * Test the idenity and invocation of the client related JMS messages for the
- * Project Tracker API Message Handler.
+ * Test the idenity and invocation of the genre related JMS messages for the
+ * Media API Message Handler.
  * 
  * @author appdev
  *
