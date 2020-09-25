@@ -10,7 +10,8 @@
     </header>
     <criteria>
         <audio_batch_import_criteria>
-            <location>/MyBook1/multimedia/video/movies</location>
+            <share_name>k:</share_name>
+            <location>multimedia/video/movies</location>
         </audio_batch_import_criteria>
     </criteria>
 </MultimediaRequest>
