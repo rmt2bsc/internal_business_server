@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.modules.audiovideo.batch.AvBatchFileFactory;
 import org.modules.audiovideo.batch.AvBatchFileProcessorApi;
+import org.modules.audiovideo.batch.AvBatchImportParameters;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -55,7 +56,7 @@ public class VideoBatchImportJmsTest extends BaseMockMessageDrivenBeanTest {
         super.setUp();
         this.mockApi = Mockito.mock(AvBatchFileProcessorApi.class);
         PowerMockito.mockStatic(AvBatchFileFactory.class);
-        when(AvBatchFileFactory.createCsvBatchImportApiInstance(isA(String.class))).thenReturn(this.mockApi);
+        when(AvBatchFileFactory.createCsvBatchImportApiInstance(isA(AvBatchImportParameters.class))).thenReturn(this.mockApi);
         return;
     }
 
