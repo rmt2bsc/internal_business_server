@@ -96,4 +96,25 @@ public class ArtistJmsTest extends BaseMockMessageDrivenBeanTest {
         
     }
 
+    @Test
+    public void invokeHandelrSuccess_Update() {
+        String request = RMT2File.getFileContentsAsString("xml/media/maint/ArtistUpdateRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.updateArtist(isA(ArtistDto.class))).thenReturn(1);
+        } catch (AudioVideoApiException e) {
+            e.printStackTrace();
+            Assert.fail("Artist update test case failed");
+        }
+
+        try {
+            this.startTest();
+            Mockito.verify(this.mockApi).updateArtist(isA(ArtistDto.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+
+    }
+
 }
