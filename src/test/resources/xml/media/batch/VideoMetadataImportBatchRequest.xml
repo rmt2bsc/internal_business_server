@@ -12,6 +12,7 @@
         <audio_batch_import_criteria>
             <share_name>k:</share_name>
             <location>multimedia/video/movies</location>
+            <import_file_path>C:/AppServer/data/video_batch_import.txt</import_file_path>
         </audio_batch_import_criteria>
     </criteria>
 </MultimediaRequest>
