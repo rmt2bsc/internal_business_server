@@ -760,7 +760,7 @@ The Three Musketeers|Stephen Herek|500|12|1993||105||0|Charlie Sheen, Kiefer Sut
 Anaconda|Luis Llosa|506|12|1997||89||0|Jennifer Lopez, Ice Cube, Jon Voight, Eric Stoltz, Jonathan Hyde, Owen Wilson|1|1|Anaconda (1997).mp4
 Darkman III: Die Darkman Die|Bradford May|508|12|1996||87||0|Arnold Vosloo, Jeff Fahey, Darlanne Fluegel, Roxann Dawson|1|1|Darkman III Die Darkman Die (1996).mp4
 Bad Trip|Kitao Sakurai|502|12|2020||84||0|Eric André, Lil Rel Howery, Tiffany Haddish|1|1|Bad Trip (2020).mkv
-Escape Plan 2: Hades| Steven C. Miller|500|12|2018||96||0|"Sylvester Stallone, Dave Bautista, Huang Xiaoming, Jaime King, Jesse Metcalfe, Wes Chatham, Titus Welliver, Curtis ""50 Cent"" Jackson"|1|1|Escape Plan 2 Hades.mp4
+Escape Plan 2: Hades|Steven C. Miller|500|12|2018||96||0|"Sylvester Stallone, Dave Bautista, Huang Xiaoming, Jaime King, Jesse Metcalfe, Wes Chatham, Titus Welliver, Curtis ""50 Cent"" Jackson"|1|1|Escape Plan 2 Hades.mp4
 Escape Plan: The Extractors|John Herzfeld|500|12|2019||96||0|Sylvester Stallone, Max Zhang, Dave Bautista, Devon Sawa, Jaime King, Malese Jow, Harry Shum, Jr., Russell Wong, Lydia Hull, Curtis Jackson|1|1|Escape Plan The Extractors.mp4
 Jason and the Argonauts|Don Chaffey|525|12|1963||104||0|Todd Armstrong, Nancy Kovack, Honor Blackman, Gary Raymond|1|1|Jason and the Argonauts(1963).mp4
 John Tucker Must Die|Betty Thomas|502|12|2006||89||0|Jesse Metcalfe, Brittany Snow, Ashanti, Sophia Bush, Arielle Kebbel, Jenny McCarthy|1|1|John Tucker Must Die.mp4
@@ -769,3 +769,11 @@ The Hustle|Chris Addison|502|12|2019||94||0|Anne Hathaway, Rebel Wilson, Alex Sh
 The Hangover Part II|Todd Phillips|502|12|2011||101||0|Bradley Cooper, Ed Helms, Zach Galifianakis, Ken Jeong, Jeffrey Tambor, Justin Bartha, Paul Giamatti|1|1|The Hangover Part II.mp4
 Executive Decision|Stuart Baird|500|12|1996||133||0|Kurt Russell, Halle Berry, John Leguizamo, Oliver Platt, Joe Morton, David Suchet, Steven Seagal|1|1|Executive Decision.mp4
 Fifty Shades of Black|Michael Tiddes|502|12|2016||92||0|Marlon Wayans, Kali Hawk, Affion Crockett, Jane Seymour, Andrew Bachelor, Florence Henderson, Jenny Zigrino, Fred Willard, Mike Epps|1|1|Fifty Shades of Black.mp4
+10|Blake Edwards|502|12|1979||122||0|Dudley Moore, Julie Andrews, Bo Derek, Robert Webber|1|1|10 (1979).mp4
+A Million Ways to Die in the West|Seth MacFarlane|502|12|2014||116||0|Seth MacFarlane, Charlize Theron, Amanda Seyfried, Neil Patrick Harris, Giovanni Ribisi, Sarah Silverman, Liam Neeson|1|1|A Million Ways to Die in the West (2014).mp4
+Avengers: Endgame|Anthony Russo|508|12|2019||181||0|Robert Downey Jr., Chris Evans, Mark Ruffalo, Chris Hemsworth, Scarlett Johansson, Jeremy Renner, Don Cheadle, Paul Rudd, Brie Larson, Karen Gillan, Danai Gurira, Benedict Wong, Jon Favreau, Bradley Cooper, Gwyneth Paltrow, Josh Brolin|1|1|Avengers Endgame (2019).mp4
+Avengers: Infinity War|Anthony Russo|508|12|2018||149||0|Robert Downey Jr., Chris Hemsworth, Mark Ruffalo, Chris Evans, Scarlett Johansson, Benedict Cumberbatch, Don Cheadle, Tom Holland, Chadwick Boseman, Paul Bettany, Elizabeth Olsen, Anthony Mackie, Sebastian Stan, Danai Gurira, Letitia Wright, Dave Bautista, Zoe Saldana, Josh Brolin, Chris Pratt|1|1|Avengers Infinity War (2018).mp4
+Colors|Dennis Hopper|500|12|1988||120||0|Sean Penn, Robert Duvall, María Conchita Alonso|1|1|Obsessed (2009).mp4
+Obsessed|Steve Shill|500|12|2009||108||0|Idris Elba, Beyoncé Knowles, Ali Larter, Bruce McGill, Jerry O'Connell, Christine Lahti|1|1|Obsessed (2009).mp4
+Welcome to Sudden Death|Dallas Jackson|500|12|2020||81||0|Michael Jai White, Michael Eklund, Sabryn Rock, Nakai Takawira, Lyric Justice, Sagine Sémajuste, Gary Owen, Anthony Grant|1|1|Welcome to Sudden Death (2020).mp4
+Widows|Steve McQueen|500|12|2018||130||0|Viola Davis, Michelle Rodriguez, Elizabeth Debicki, Cynthia Erivo, Colin Farrell, Brian Tyree Henry, Daniel Kaluuya, Jacki Weaver, Carrie Coon, Robert Duvall, Liam Neeson|1|1|Widows (2018).mp4
