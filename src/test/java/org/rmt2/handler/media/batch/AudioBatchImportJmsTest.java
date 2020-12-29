@@ -56,7 +56,7 @@ public class AudioBatchImportJmsTest extends BaseMockMessageDrivenBeanTest {
         super.setUp();
         this.mockApi = Mockito.mock(AvBatchFileProcessorApi.class);
         PowerMockito.mockStatic(AvBatchFileFactory.class);
-        when(AvBatchFileFactory.createMediaFileBatchImportApiInstance(isA(AvBatchImportParameters.class))).thenReturn(
+        when(AvBatchFileFactory.createRemoteAudioBatchImportApiInstance(isA(AvBatchImportParameters.class))).thenReturn(
                 this.mockApi);
         return;
     }
@@ -89,7 +89,5 @@ public class AudioBatchImportJmsTest extends BaseMockMessageDrivenBeanTest {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
         }
-        
     }
-
 }
