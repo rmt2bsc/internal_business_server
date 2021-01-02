@@ -5,7 +5,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
-import org.dto.ArtistDto;
+import org.dto.ProjectDto;
 import org.dto.VwArtistDto;
 import org.junit.After;
 import org.junit.Assert;
@@ -99,10 +99,10 @@ public class ProjectJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandelrSuccess_Update() {
-        String request = RMT2File.getFileContentsAsString("xml/media/maint/ArtistUpdateRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/media/maint/ProjectUpdateRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
-            when(this.mockApi.updateArtist(isA(ArtistDto.class))).thenReturn(1);
+            when(this.mockApi.updateProject(isA(ProjectDto.class))).thenReturn(1);
         } catch (AudioVideoApiException e) {
             e.printStackTrace();
             Assert.fail("Artist update test case failed");
@@ -110,12 +110,10 @@ public class ProjectJmsTest extends BaseMockMessageDrivenBeanTest {
 
         try {
             this.startTest();
-            Mockito.verify(this.mockApi).updateArtist(isA(ArtistDto.class));
+            Mockito.verify(this.mockApi).updateProject(isA(ProjectDto.class));
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
         }
-
     }
-
 }
