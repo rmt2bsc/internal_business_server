@@ -777,3 +777,4 @@ Colors|Dennis Hopper|500|12|1988||120||0|Sean Penn, Robert Duvall, María Conchit
 Obsessed|Steve Shill|500|12|2009||108||0|Idris Elba, Beyoncé Knowles, Ali Larter, Bruce McGill, Jerry O'Connell, Christine Lahti|1|1|Obsessed (2009).mp4
 Welcome to Sudden Death|Dallas Jackson|500|12|2020||81||0|Michael Jai White, Michael Eklund, Sabryn Rock, Nakai Takawira, Lyric Justice, Sagine Sémajuste, Gary Owen, Anthony Grant|1|1|Welcome to Sudden Death (2020).mp4
 Widows|Steve McQueen|500|12|2018||130||0|Viola Davis, Michelle Rodriguez, Elizabeth Debicki, Cynthia Erivo, Colin Farrell, Brian Tyree Henry, Daniel Kaluuya, Jacki Weaver, Carrie Coon, Robert Duvall, Liam Neeson|1|1|Widows (2018).mp4
+Shallow Hal|Peter Farrelly|502|12|2001||113||0|Gwyneth Paltrow, Jack Black, Jason Alexander, Joe Viterelli, Susan Ward|1|1|Shallow Hal (2001).mp4
