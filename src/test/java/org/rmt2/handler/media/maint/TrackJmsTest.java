@@ -96,24 +96,24 @@ public class TrackJmsTest extends BaseMockMessageDrivenBeanTest {
         
     }
 
-    // @Test
-    // public void invokeHandelrSuccess_Update() {
-    // String request =
-    // RMT2File.getFileContentsAsString("xml/media/maint/ProjectUpdateRequest.xml");
-    // this.setupMocks(DESTINATION, request);
-    // try {
-    // when(this.mockApi.updateProject(isA(ProjectDto.class))).thenReturn(1);
-    // } catch (AudioVideoApiException e) {
-    // e.printStackTrace();
-    // Assert.fail("Artist update test case failed");
-    // }
-    //
-    // try {
-    // this.startTest();
-    // Mockito.verify(this.mockApi).updateProject(isA(ProjectDto.class));
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // Assert.fail("An unexpected exception was thrown");
-    // }
-    // }
+    @Test
+    public void invokeHandelrSuccess_Update() {
+        String request =
+                RMT2File.getFileContentsAsString("xml/media/maint/TrackUpdateRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.updateTrack(isA(TracksDto.class))).thenReturn(1);
+        } catch (AudioVideoApiException e) {
+            e.printStackTrace();
+            Assert.fail("Track update test case failed");
+        }
+
+        try {
+            this.startTest();
+            Mockito.verify(this.mockApi).updateTrack(isA(TracksDto.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
 }
