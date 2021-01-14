@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 
 import org.dto.ProjectDto;
-import org.dto.VwArtistDto;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -77,10 +76,10 @@ public class ProjectJmsTest extends BaseMockMessageDrivenBeanTest {
     @Test
     public void invokeHandelrSuccess_Fetch() {
         String request = RMT2File.getFileContentsAsString("xml/media/maint/ProjectQueryRequest.xml");
-        List<VwArtistDto> apiResults = MediaJmsMockDtoFactory.createVwAudioVideoArtistsMockData();
+        List<ProjectDto> apiResults = MediaJmsMockDtoFactory.createProjectMockData();
         this.setupMocks(DESTINATION, request);
         try {
-            when(this.mockApi.getConsolidatedArtist(isA(VwArtistDto.class))).thenReturn(apiResults);
+            when(this.mockApi.getProject(isA(ProjectDto.class))).thenReturn(apiResults);
         } catch (AudioVideoApiException e) {
             e.printStackTrace();
             Assert.fail("Artist fetch test case failed");
@@ -88,7 +87,7 @@ public class ProjectJmsTest extends BaseMockMessageDrivenBeanTest {
 
         try {
             this.startTest();    
-            Mockito.verify(this.mockApi).getConsolidatedArtist(isA(VwArtistDto.class));
+            Mockito.verify(this.mockApi).getProject(isA(ProjectDto.class));
         }
         catch (Exception e) {
             e.printStackTrace();
