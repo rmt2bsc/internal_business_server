@@ -194,36 +194,41 @@ public class MediaJmsMockDtoFactory {
         return list;
     }
     
-    public static final List<VwArtistDto> createVwAudioVideoArtistsMockData() {
+    public static final List<VwArtistDto> createConsolidatedMediaDistinctMockData() {
         List<VwArtistDto> list = new ArrayList<>();
         int ndx = 0;
         VwAudioVideoArtists o = MediaJmsMockOrmFactory.createOrmVwAudioVideoArtists(MediaJmsMockOrmFactory.TEST_ARTIST_ID + ndx,
                 "Artist" + ndx, MediaJmsMockOrmFactory.TEST_PROJECT_ID + ndx, "Project Name" + ndx++,
-                MediaJmsMockOrmFactory.TEST_TRACK_ID, "Track Name", true, 1234);
+                        MediaJmsMockOrmFactory.TEST_TRACK_ID, "Track Name", 1, 1, true,
+                        MediaJmsMockOrmFactory.TEST_PROJECT_TYPE_ID_AUDIO);
         VwArtistDto d = Rmt2MediaDtoFactory.getVwAudioVideoArtistsInstance(o);
         list.add(d);
 
         o = MediaJmsMockOrmFactory.createOrmVwAudioVideoArtists(MediaJmsMockOrmFactory.TEST_ARTIST_ID + ndx,
                 "Artist" + ndx, MediaJmsMockOrmFactory.TEST_PROJECT_ID + ndx, "Project Name" + ndx++,
-                MediaJmsMockOrmFactory.TEST_TRACK_ID, "Track Name", true, 1234);
+                        MediaJmsMockOrmFactory.TEST_TRACK_ID, "Track Name", 1, 1, true,
+                        MediaJmsMockOrmFactory.TEST_PROJECT_TYPE_ID_AUDIO);
         d = Rmt2MediaDtoFactory.getVwAudioVideoArtistsInstance(o);
         list.add(d);
 
         o = MediaJmsMockOrmFactory.createOrmVwAudioVideoArtists(MediaJmsMockOrmFactory.TEST_ARTIST_ID + ndx,
                 "Artist" + ndx, MediaJmsMockOrmFactory.TEST_PROJECT_ID + ndx, "Project Name" + ndx++,
-                MediaJmsMockOrmFactory.TEST_TRACK_ID, "Track Name", true, 1234);
+                        MediaJmsMockOrmFactory.TEST_TRACK_ID, "Track Name", 1, 1, true,
+                        MediaJmsMockOrmFactory.TEST_PROJECT_TYPE_ID_AUDIO);
         d = Rmt2MediaDtoFactory.getVwAudioVideoArtistsInstance(o);
         list.add(d);
 
         o = MediaJmsMockOrmFactory.createOrmVwAudioVideoArtists(MediaJmsMockOrmFactory.TEST_ARTIST_ID + ndx,
                 "Artist" + ndx, MediaJmsMockOrmFactory.TEST_PROJECT_ID + ndx, "Project Name" + ndx++,
-                MediaJmsMockOrmFactory.TEST_TRACK_ID, "Track Name", true, 1234);
+                        MediaJmsMockOrmFactory.TEST_TRACK_ID, "Track Name", 1, 1, true,
+                        MediaJmsMockOrmFactory.TEST_PROJECT_TYPE_ID_AUDIO);
         d = Rmt2MediaDtoFactory.getVwAudioVideoArtistsInstance(o);
         list.add(d);
 
         o = MediaJmsMockOrmFactory.createOrmVwAudioVideoArtists(MediaJmsMockOrmFactory.TEST_ARTIST_ID + ndx,
                 "Artist" + ndx, MediaJmsMockOrmFactory.TEST_PROJECT_ID + ndx, "Project Name" + ndx++,
-                MediaJmsMockOrmFactory.TEST_TRACK_ID, "Track Name", true, 1234);
+                        MediaJmsMockOrmFactory.TEST_TRACK_ID, "Track Name", 1, 1, true,
+                        MediaJmsMockOrmFactory.TEST_PROJECT_TYPE_ID_AUDIO);
         d = Rmt2MediaDtoFactory.getVwAudioVideoArtistsInstance(o);
         list.add(d);
 

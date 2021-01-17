@@ -21,6 +21,9 @@ public class MediaJmsMockOrmFactory {
     public static final int TEST_UPDATE_RC = 1;
     public static final String TEST_AUDIO_DIR = "media/audio";
     
+    public static final int TEST_PROJECT_TYPE_ID_AUDIO = 1;
+    public static final int TEST_PROJECT_TYPE_ID_VIDEO = 2;
+
     /**
      * 
      * @param id
@@ -121,7 +124,7 @@ public class MediaJmsMockOrmFactory {
      * @return
      */
     public static final VwAudioVideoArtists createOrmVwAudioVideoArtists(int artistId, String artistName, int projId,
-            String projName, int trackId, String trackName, boolean primary, int projTypeId) {
+            String projName, int trackId, String trackName, int trackNo, int discNo, boolean primary, int projTypeId) {
         VwAudioVideoArtists o = new VwAudioVideoArtists();
 
         o.setPrimaryArtist(primary ? 1 : 0);
@@ -135,6 +138,11 @@ public class MediaJmsMockOrmFactory {
         o.setTrackTitle(trackName);
         o.setProjectComments("Project Comments");
         o.setTrackComments("Track Comments");
+        o.setTrackNumber(trackNo);
+        o.setTrackDiscNumber(String.valueOf(discNo));
+        o.setTrackHours(0);
+        o.setTrackMinutes(5);
+        o.setTrackSeconds(45);
         o.setGenreId(100);
         o.setContentId(200);
         o.setMediaTypeId(3);
