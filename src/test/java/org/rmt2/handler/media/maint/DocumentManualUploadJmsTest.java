@@ -90,7 +90,6 @@ public class DocumentManualUploadJmsTest extends BaseMockMessageDrivenBeanTest {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
         }
-        
     }
 
 
