@@ -114,4 +114,25 @@ public class MediaContentJmsTest extends BaseMockMessageDrivenBeanTest {
             Assert.fail("An unexpected exception was thrown");
         }
     }
+
+    @Test
+    public void invokeHandelrSuccess_Delete() {
+        String request = RMT2File.getFileContentsAsString("xml/media/maint/MediaContentDeleteRequest.xml");
+
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.delete(isA(Integer.class))).thenReturn(1);
+        } catch (MediaModuleException e) {
+            e.printStackTrace();
+            Assert.fail("Media content delete test case failed");
+        }
+
+        try {
+            this.startTest();
+            Mockito.verify(this.mockApi).delete(isA(Integer.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
 }
