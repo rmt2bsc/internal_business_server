@@ -18,6 +18,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.maint.DocumentManualUploadApiHandler;
+import org.rmt2.handler.media.MediaJmsMockDtoFactory;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -33,7 +34,7 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ DocumentManualUploadApiHandler.class, DocumentContentApiFactory.class, JmsClientManager.class })
-public class DocumentManualUploadJmsTest extends BaseMockMessageDrivenBeanTest {
+public class MediaContentJmsTest extends BaseMockMessageDrivenBeanTest {
 
     private static final String DESTINATION = "rmt2.queue.media";
     private static final int NEW_CONTENT_ID = 12345;
@@ -43,7 +44,7 @@ public class DocumentManualUploadJmsTest extends BaseMockMessageDrivenBeanTest {
     /**
      * 
      */
-    public DocumentManualUploadJmsTest() {
+    public MediaContentJmsTest() {
     }
 
     /*
@@ -73,7 +74,7 @@ public class DocumentManualUploadJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandelrSuccess_Manual_Upload() {
-        String request = RMT2File.getFileContentsAsString("xml/media/maint/DocumentManualUploadRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/media/maint/MediaContentManualUploadRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.add(isA(ContentDto.class))).thenReturn(NEW_CONTENT_ID);
@@ -92,5 +93,25 @@ public class DocumentManualUploadJmsTest extends BaseMockMessageDrivenBeanTest {
         }
     }
 
+    @Test
+    public void invokeHandelrSuccess_Fetch() {
+        String request = RMT2File.getFileContentsAsString("xml/media/maint/MediaContentFetchRequest.xml");
+        ContentDto mockData = MediaJmsMockDtoFactory.createMediaContentMockData();
 
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.get(isA(Integer.class))).thenReturn(mockData);
+        } catch (MediaModuleException e) {
+            e.printStackTrace();
+            Assert.fail("Media content fetch test case failed");
+        }
+
+        try {
+            this.startTest();
+            Mockito.verify(this.mockApi).get(isA(Integer.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
 }

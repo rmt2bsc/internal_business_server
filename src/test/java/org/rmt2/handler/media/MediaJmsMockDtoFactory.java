@@ -9,8 +9,10 @@ import org.dao.mapping.orm.rmt2.AvMediaType;
 import org.dao.mapping.orm.rmt2.AvProject;
 import org.dao.mapping.orm.rmt2.AvProjectType;
 import org.dao.mapping.orm.rmt2.AvTracks;
+import org.dao.mapping.orm.rmt2.Content;
 import org.dao.mapping.orm.rmt2.VwAudioVideoArtists;
 import org.dto.ArtistDto;
+import org.dto.ContentDto;
 import org.dto.GenreDto;
 import org.dto.MediaTypeDto;
 import org.dto.ProjectDto;
@@ -276,4 +278,16 @@ public class MediaJmsMockDtoFactory {
         
         return list;
     }
+
+    /**
+     * 
+     * @return
+     */
+    public static final ContentDto createMediaContentMockData() {
+        Content o = MediaJmsMockOrmFactory.createOrmContent(MediaJmsMockOrmFactory.TEST_CONTENT_ID,
+                MediaJmsMockOrmFactory.TEST_FILEPATH, MediaJmsMockOrmFactory.TEST_FILENAME);
+        ContentDto d = Rmt2MediaDtoFactory.getContentInstance(o);
+        return d;
+    }
+
 }
