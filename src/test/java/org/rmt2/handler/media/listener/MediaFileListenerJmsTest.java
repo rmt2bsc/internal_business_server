@@ -100,4 +100,20 @@ public class MediaFileListenerJmsTest extends BaseMockMessageDrivenBeanTest {
         }
 
     }
+
+    @Test
+    public void invokeHandelrSuccess_HealthCheck() {
+        String request = RMT2File.getFileContentsAsString("xml/media/listener/MediaFileListenerHealthCheckRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        when(this.mockApi.getMediaFileListenerStatus()).thenReturn("Running");
+
+        try {
+            this.startTest();
+            Mockito.verify(this.mockApi).getMediaFileListenerStatus();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+
+    }
 }
