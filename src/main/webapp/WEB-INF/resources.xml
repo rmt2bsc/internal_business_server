@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+    <!-- JDBC Datasources -->
 		<Resource id = "jdbc/projecttracker" type="DataSource">
 		  	JdbcDriver = com.sybase.jdbc3.jdbc.SybDriver
 		  	JdbcUrl = jdbc:sybase:Tds:localhost:2638?ServiceName=projecttracker
@@ -46,4 +47,19 @@
 			testWhileIdle = true
 		  	validationQuery = SELECT 1
 		</Resource>
+
+  <!--  JMS Destinations -->
+	<Resource id="rmt2.queue.accounting" type="javax.jms.Queue" />
+	<Resource id="rmt2.queue.addressbook" type="javax.jms.Queue" />
+	<Resource id="rmt2.queue.authentication" type="javax.jms.Queue" />
+	<Resource id="rmt2.queue.media" type="javax.jms.Queue" />
+	<Resource id="rmt2.queue.projecttracker" type="javax.jms.Queue" />
+	<Resource id="rmt2.topic.media" type="javax.jms.Topic" />
+
+	<Resource id="rmt2.test.queue" type="javax.jms.Queue">
+		destination = rmt2.test.queue
+	</Resource>
+	<Resource id="rmt2.test.topic" type="javax.jms.Topic">
+		destination = rmt2.test.topic
+	</Resource>
 </resources>
