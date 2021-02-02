@@ -10,7 +10,7 @@ import javax.jms.TextMessage;
 import org.junit.Before;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
-import org.rmt2.listeners.mdb.AbstractJaxbMessageDrivenBean;
+import org.rmt2.listeners.mdb.AbstractSingleConsumerJaxbMDB;
 
 import com.api.config.SystemConfigurator;
 import com.api.messaging.jms.JmsClientManager;
@@ -23,7 +23,7 @@ import com.api.util.RMT2File;
  * @author royterrell
  *
  */
-public class BaseMockMessageDrivenBeanTest extends AbstractJaxbMessageDrivenBean {
+public class BaseMockMessageDrivenBeanTest extends AbstractSingleConsumerJaxbMDB {
     private Message mockJMSMessageRequest;
     private TextMessage mockJMSTextMessageReply;
     private Destination mockJMSDestination;

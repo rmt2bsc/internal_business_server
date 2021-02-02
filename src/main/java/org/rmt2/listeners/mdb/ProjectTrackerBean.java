@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
                         propertyValue = BusinessServerConstants.JMS_DEST_PROJECTTRACKER_QUEUE),
                 @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue") },
         mappedName = BusinessServerConstants.JMS_DEST_PROJECTTRACKER_QUEUE)
-public class ProjectTrackerBean extends AbstractJaxbMessageDrivenBean implements MessageListener {
+public class ProjectTrackerBean extends AbstractSingleConsumerJaxbMDB implements MessageListener {
     private static Logger logger = LoggerFactory.getLogger(ProjectTrackerBean.class);
 
     public ProjectTrackerBean() {

@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.rmt2.constants.MessagingConstants;
-import org.rmt2.listeners.mdb.AbstractJaxbMessageDrivenBean;
+import org.rmt2.listeners.mdb.AbstractSingleConsumerJaxbMDB;
 
 import com.api.config.ConfigConstants;
 import com.api.config.SystemConfigurator;
@@ -24,7 +24,7 @@ import com.api.xml.jaxb.JaxbUtil;
  * @deprecated This class is not needed.  Will be deleted from project.
  *
  */
-public class BaseMessageHandlerTest extends AbstractJaxbMessageDrivenBean {
+public class BaseMessageHandlerTest extends AbstractSingleConsumerJaxbMDB {
 
     private static String APP_CONFIG_FILENAME;
     protected JaxbUtil jaxb;
