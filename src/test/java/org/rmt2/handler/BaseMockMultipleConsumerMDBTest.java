@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
+import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
 import org.junit.Before;
@@ -14,6 +15,7 @@ import org.rmt2.listeners.mdb.AbstractMultipleConsumerJaxbMDB;
 
 import com.api.config.SystemConfigurator;
 import com.api.messaging.jms.JmsClientManager;
+import com.api.util.RMT2BeanUtility;
 import com.api.util.RMT2File;
 
 /**
@@ -31,6 +33,7 @@ public class BaseMockMultipleConsumerMDBTest extends AbstractMultipleConsumerJax
     private Destination mockJMSDestination;
     private Destination mockJMSReplyDestination;
     private JmsClientManager mockJmsClientManger;
+    protected String testConsumerClassName;
 
     private static String APP_CONFIG_FILENAME;
 
@@ -42,7 +45,17 @@ public class BaseMockMultipleConsumerMDBTest extends AbstractMultipleConsumerJax
         appConfig.start(APP_CONFIG_FILENAME);
     }
 
-    protected void setupMocks(String jmsDestName, String requestPayload) {
+    /**
+     * Setup JMS mocks
+     * 
+     * @param jmsDestName
+     *            the name of the JMS destination class
+     * @param requestPayload
+     *            the request message.
+     * @param targetTestClassName
+     *            the name of the message driven bean to instantiate and test.
+     */
+    protected void setupMocks(String jmsDestName, String requestPayload, String targetTestClassName) {
         this.mockJMSMessageRequest = Mockito.mock(TextMessage.class);
         this.mockJMSTextMessageReply = Mockito.mock(TextMessage.class);
         this.mockJMSDestination = Mockito.mock(Destination.class);
@@ -54,7 +67,7 @@ public class BaseMockMultipleConsumerMDBTest extends AbstractMultipleConsumerJax
         try {
             when(this.mockJMSMessageRequest.getJMSDestination()).thenReturn(this.mockJMSDestination);
             when(((TextMessage) this.mockJMSMessageRequest).getText()).thenReturn(requestPayload);
-            when(this.mockJMSMessageRequest.getJMSReplyTo()).thenReturn(this.mockJMSReplyDestination);
+            when(this.mockJMSMessageRequest.getJMSReplyTo()).thenReturn(null);
         } catch (JMSException e) {
 
         }
@@ -65,10 +78,14 @@ public class BaseMockMultipleConsumerMDBTest extends AbstractMultipleConsumerJax
         } catch (Exception e) {
 
         }
+        this.testConsumerClassName = targetTestClassName;
     }
 
     protected void startTest() {
-        this.onMessage(mockJMSMessageRequest);
+        // TODO: Dynamically discover the correct MDB class for instantiation
+        RMT2BeanUtility util = new RMT2BeanUtility();
+        MessageListener mdb = (MessageListener) util.createBean(this.testConsumerClassName);
+        mdb.onMessage(mockJMSMessageRequest);
     }
 }
 
