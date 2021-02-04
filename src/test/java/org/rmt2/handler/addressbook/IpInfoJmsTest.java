@@ -18,8 +18,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AddressBookMockData;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.contacts.ContactProfileApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -34,7 +34,7 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ ContactProfileApiHandler.class, JmsClientManager.class, PostalApiFactory.class })
-public class IpInfoJmsTest extends BaseMockMessageDrivenBeanTest {
+public class IpInfoJmsTest extends BaseMockSingleConsumerMDBTest {
 
     private static final String DESTINATION = "rmt2.queue.addressbook";
     private PostalApi mockApi;

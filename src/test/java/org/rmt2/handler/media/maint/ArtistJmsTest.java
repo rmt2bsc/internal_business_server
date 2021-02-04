@@ -18,8 +18,8 @@ import org.modules.audiovideo.AudioVideoFactory;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.maint.ArtistFetchApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 import org.rmt2.handler.media.MediaJmsMockDtoFactory;
 
 import com.api.messaging.jms.JmsClientManager;
@@ -36,7 +36,7 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ ArtistFetchApiHandler.class, AudioVideoFactory.class, JmsClientManager.class })
-public class ArtistJmsTest extends BaseMockMessageDrivenBeanTest {
+public class ArtistJmsTest extends BaseMockSingleConsumerMDBTest {
 
     private static final String DESTINATION = "rmt2.queue.media";
     private AudioVideoApi mockApi;

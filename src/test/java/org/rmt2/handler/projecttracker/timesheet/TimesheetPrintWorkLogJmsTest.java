@@ -33,8 +33,8 @@ import org.modules.timesheet.TimesheetApiFactory;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.timesheet.TimesheetPrintWorkLogApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 import org.rmt2.handler.projecttracker.ProjectTrackerJmsMockData;
 
 import com.api.config.SystemConfigurator;
@@ -55,7 +55,7 @@ import com.api.util.RMT2File;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JmsClientManager.class, TimesheetPrintWorkLogApiHandler.class, TimesheetApiFactory.class,
         ContactsApiFactory.class, SystemConfigurator.class, RMT2Date.class })
-public class TimesheetPrintWorkLogJmsTest extends BaseMockMessageDrivenBeanTest {
+public class TimesheetPrintWorkLogJmsTest extends BaseMockSingleConsumerMDBTest {
 
     private static final String DESTINATION = "rmt2.queue.projecttracker";
     public static final int TIMESHEET_ID = 111;

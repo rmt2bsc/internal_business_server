@@ -26,9 +26,9 @@ import org.modules.transaction.sales.SalesApiFactory;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.transaction.sales.SalesOrderRequestUtil;
 import org.rmt2.api.handlers.transaction.sales.UpdateSalesOrderAutoInvoiceCashReceiptApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 import org.rmt2.handler.accounting.transaction.TransactionDatasourceMock;
 import org.rmt2.jaxb.SalesOrderType;
 
@@ -45,7 +45,7 @@ import com.api.util.RMT2File;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JmsClientManager.class, XactApiFactory.class, UpdateSalesOrderAutoInvoiceCashReceiptApiHandler.class,
         SalesOrderRequestUtil.class, SalesApiFactory.class })
-public class SalesOrderCreateAndInvoiceAndCashReceiptJmsTest extends BaseMockMessageDrivenBeanTest {
+public class SalesOrderCreateAndInvoiceAndCashReceiptJmsTest extends BaseMockSingleConsumerMDBTest {
 
     private static final String DESTINATION = "rmt2.queue.accounting";
     private SalesApi mockApi;

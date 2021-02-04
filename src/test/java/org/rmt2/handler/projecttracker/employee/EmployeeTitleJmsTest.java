@@ -19,8 +19,8 @@ import org.modules.employee.EmployeeApiFactory;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.employee.title.EmployeeTitleApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 import org.rmt2.handler.projecttracker.ProjectTrackerJmsMockData;
 
 import com.api.messaging.jms.JmsClientManager;
@@ -37,7 +37,7 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ EmployeeTitleApiHandler.class, JmsClientManager.class, EmployeeApiFactory.class })
-public class EmployeeTitleJmsTest extends BaseMockMessageDrivenBeanTest {
+public class EmployeeTitleJmsTest extends BaseMockSingleConsumerMDBTest {
 
     private static final String DESTINATION = "rmt2.queue.projecttracker";
     private EmployeeApi mockApi;

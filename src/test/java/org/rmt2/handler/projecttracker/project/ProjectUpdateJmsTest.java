@@ -18,8 +18,8 @@ import org.modules.admin.ProjectAdminApiFactory;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.admin.project.ProjectUpdateApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -35,7 +35,7 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ ProjectUpdateApiHandler.class, JmsClientManager.class, ProjectAdminApiFactory.class })
-public class ProjectUpdateJmsTest extends BaseMockMessageDrivenBeanTest {
+public class ProjectUpdateJmsTest extends BaseMockSingleConsumerMDBTest {
 
     private static final String DESTINATION = "rmt2.queue.projecttracker";
     public static final int PROJECT_ID_NEW = 4444;

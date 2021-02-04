@@ -19,8 +19,8 @@ import org.modules.lookup.LookupDataApiFactory;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AddressBookMockData;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.lookup.LookupGroupApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -35,7 +35,7 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ LookupGroupApiHandler.class, LookupDataApiFactory.class, JmsClientManager.class })
-public class LookupGroupJmsTest extends BaseMockMessageDrivenBeanTest {
+public class LookupGroupJmsTest extends BaseMockSingleConsumerMDBTest {
 
     private static final String DESTINATION = "rmt2.queue.addressbook";
     private LookupDataApiFactory mockApiFactory;

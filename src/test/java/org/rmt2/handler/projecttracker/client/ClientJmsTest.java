@@ -20,8 +20,8 @@ import org.modules.admin.ProjectAdminApiFactory;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.admin.client.ClientQueryApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 import org.rmt2.handler.projecttracker.ProjectTrackerJmsMockData;
 
 import com.api.messaging.jms.JmsClientManager;
@@ -38,7 +38,7 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ ClientQueryApiHandler.class, JmsClientManager.class, ProjectAdminApiFactory.class })
-public class ClientJmsTest extends BaseMockMessageDrivenBeanTest {
+public class ClientJmsTest extends BaseMockSingleConsumerMDBTest {
 
     private static final String DESTINATION = "rmt2.queue.projecttracker";
     private ProjectAdminApi mockApi;
