@@ -1,6 +1,6 @@
 <AddressBookRequest>
     <header>
-      <routing>JMS: addressbook-p2p-dest</routing>
+      <routing>JMS:rmt2.queue.addressbook</routing>
       <application>addressbook</application>
       <module>profile</module>
       <transaction>GET_CONTACT</transaction>
