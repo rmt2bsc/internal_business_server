@@ -1,4 +1,4 @@
-package org.rmt2;
+package org.rmt2.handler;
 
 import static org.mockito.Mockito.when;
 
@@ -17,13 +17,17 @@ import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
 
 /**
- * Base class for testing the API handlers.
+ * Base class for testing single consumer type JMS message driven beans the API
+ * handlers.
  * <p>
+ * This common class is basically used for testing Queue centric message driven
+ * beans. Can also be used for testing Topic type destinations that are used for
+ * 1 to 1 producer/consumer paradigm.
  * 
  * @author royterrell
  *
  */
-public class BaseMockMessageDrivenBeanTest extends AbstractSingleConsumerJaxbMDB {
+public class BaseMockSingleConsumerMDBTest extends AbstractSingleConsumerJaxbMDB {
     private Message mockJMSMessageRequest;
     private TextMessage mockJMSTextMessageReply;
     private Destination mockJMSDestination;
