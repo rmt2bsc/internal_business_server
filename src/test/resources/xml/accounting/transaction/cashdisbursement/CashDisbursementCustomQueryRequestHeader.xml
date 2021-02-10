@@ -1,0 +1,33 @@
+<AccountingTransactionRequest>
+    <header>
+        <routing>JMS:rmt2.queue.accounting</routing>
+        <application>accounting</application>
+        <module>transaction</module>
+        <transaction>GET_CASH_DISBURSEMENT</transaction>
+        <delivery_mode>XXXXXXX</delivery_mode>
+        <message_mode>REQUEST</message_mode>
+        <delivery_date>12/20/2018 13:08:55</delivery_date>
+    </header>
+    <criteria>
+        <xact_criteria>
+            <target_level>FULL</target_level>
+            <basic_criteria>
+                <xact_id>26373</xact_id>
+                <xact_type_id>60</xact_type_id>
+                <xact_date>2018-08-23</xact_date>
+                <tender_id>100</tender_id>
+                <confirm_no>ADB-49384343</confirm_no>
+            </basic_criteria>
+            <custom_criteria>
+                <from_xact_date>2017-08-13</from_xact_date>
+                <from_rel_op_xact_date>GREATER THAN OR EQUAL</from_rel_op_xact_date>
+                <to_xact_date>2017-08-15</to_xact_date>
+                <to_rel_op_xact_date>LESS THAN OR EQUAL</to_rel_op_xact_date>
+                <from_xact_amount>2017-08-13</from_xact_amount>
+                <from_rel_op_xact_amount>GREATER THAN OR EQUAL</from_rel_op_xact_amount>
+                <to_xact_amount>2017-08-15</to_xact_amount>
+                <to_rel_op_xact_amount>LESS THAN OR EQUAL</to_rel_op_xact_amount>
+            </custom_criteria>
+        </xact_criteria>
+    </criteria>
+</AccountingTransactionRequest>

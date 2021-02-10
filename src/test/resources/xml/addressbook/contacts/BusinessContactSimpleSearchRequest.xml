@@ -1,0 +1,16 @@
+<AddressBookRequest>
+   <header>
+      <routing>JMS:rmt2.queue.addressbook</routing>
+      <application>addressbook</application>
+      <module>profile</module>
+      <transaction>GET_CONTACT</transaction>
+      <delivery_mode>SYNC</delivery_mode>
+      <message_mode>REQUEST</message_mode>
+      <delivery_date>2017-04-16 02:01:12</delivery_date>
+   </header>
+   <criteria>
+      <business_criteria>
+         <contact_id>1481</contact_id>
+      </business_criteria>
+   </criteria>
+</AddressBookRequest>

@@ -18,8 +18,8 @@ import org.modules.transaction.sales.SalesApiFactory;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.transaction.sales.CancelSalesOrderApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 import org.rmt2.handler.accounting.transaction.TransactionDatasourceMock;
 
 import com.api.messaging.jms.JmsClientManager;
@@ -34,9 +34,9 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JmsClientManager.class, XactApiFactory.class, CancelSalesOrderApiHandler.class, SalesApiFactory.class })
-public class SalesOrderCancelJmsTest extends BaseMockMessageDrivenBeanTest {
+public class SalesOrderCancelJmsTest extends BaseMockSingleConsumerMDBTest {
 
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private SalesApi mockApi;
 
     public static final int NEW_XACT_ID = 1234567;
@@ -81,7 +81,7 @@ public class SalesOrderCancelJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_Cancel() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/sales/SalesOrderCancelRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderCancelRequest.xml");
 
         this.setupMocks(DESTINATION, request);
 
@@ -93,7 +93,7 @@ public class SalesOrderCancelJmsTest extends BaseMockMessageDrivenBeanTest {
 
         try {
             this.startTest();
-            Mockito.verify(this.mockApi, times(3)).cancelSalesOrder(isA(Integer.class));
+            Mockito.verify(this.mockApi, times(2)).cancelSalesOrder(isA(Integer.class));
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
@@ -102,7 +102,8 @@ public class SalesOrderCancelJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerError_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/sales/SalesOrderCreateInvalidTransCodeRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderCreateInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();

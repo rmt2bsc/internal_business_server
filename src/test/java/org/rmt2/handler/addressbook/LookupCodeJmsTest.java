@@ -19,8 +19,8 @@ import org.modules.lookup.LookupDataApiFactory;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AddressBookMockData;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.lookup.LookupCodeApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -35,9 +35,9 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ LookupCodeApiHandler.class, LookupDataApiFactory.class, JmsClientManager.class })
-public class LookupCodeJmsTest extends BaseMockMessageDrivenBeanTest {
+public class LookupCodeJmsTest extends BaseMockSingleConsumerMDBTest {
 
-    private static final String DESTINATION = "Test-AddressBook-Queue";
+    private static final String DESTINATION = "rmt2.queue.addressbook";
     private LookupDataApiFactory mockApiFactory;
     private LookupDataApi mockApi;
 
@@ -80,7 +80,7 @@ public class LookupCodeJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandelrSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/lookup/LookupCodeSearchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/lookup/LookupCodeSearchRequest.xml");
         List<LookupCodeDto> mockDtoDataResponse = AddressBookMockData.createMockLookupCodeDtoListResponse();
         this.setupMocks(DESTINATION, request);
         try {
@@ -101,7 +101,7 @@ public class LookupCodeJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/lookup/LookupCodeIncorrectTransRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/lookup/LookupCodeIncorrectTransRequest.xml");
         List<LookupCodeDto> mockDtoDataResponse = AddressBookMockData.createMockLookupCodeDtoListResponse();
         this.setupMocks(DESTINATION, request);
         try {

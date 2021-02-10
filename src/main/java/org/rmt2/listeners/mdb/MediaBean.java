@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
                         propertyValue = BusinessServerConstants.JMS_DEST_MEDIA_QUEUE),
                 @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue") },
         mappedName = BusinessServerConstants.JMS_DEST_MEDIA_QUEUE)
-public class MediaBean extends AbstractJaxbMessageDrivenBean implements MessageListener {
+public class MediaBean extends AbstractSingleConsumerJaxbMDB implements MessageListener {
     private static Logger logger = LoggerFactory.getLogger(MediaBean.class);
 
     public MediaBean() {

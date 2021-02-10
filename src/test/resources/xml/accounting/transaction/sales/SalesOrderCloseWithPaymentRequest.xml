@@ -1,0 +1,25 @@
+<AccountingTransactionRequest>
+    <header>
+        <routing>JMS:rmt2.queue.accounting</routing>
+        <application>accounting</application>
+        <module>transaction</module>
+        <transaction>CLOSE_SALES_ORDER_WITH_PAYMENT</transaction>
+        <delivery_mode>XXXXXXX</delivery_mode>
+        <message_mode>REQUEST</message_mode>
+        <delivery_date>01/20/2020 18:52:21</delivery_date>
+    </header>
+    <profile>
+        <transactions>
+            <transaction>
+                <xact_amount>755.94</xact_amount>
+            </transaction>
+        </transactions>
+        <sales_orders>
+            <sales_order>
+                <sales_order_id>1323</sales_order_id>
+                <invoiced>true</invoiced>
+                <order_total>755.94</order_total>
+            </sales_order>
+        </sales_orders>
+    </profile>
+</AccountingTransactionRequest>

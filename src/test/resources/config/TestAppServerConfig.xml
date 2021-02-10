@@ -20,6 +20,7 @@
 	<WebAppMapping>AppCommandMappings</WebAppMapping>
 	<WebAppsDir>/Program Files/Apache Software Foundation/Tomcat 6.0/webapps</WebAppsDir>
 	<WebAppsDrive>c\:</WebAppsDrive>
+	<dbmsVendor>ASA</dbmsVendor>
 
 	<!-- ******************************* -->
 	<!-- Company Properties              -->

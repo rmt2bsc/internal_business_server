@@ -1,0 +1,33 @@
+<AccountingTransactionRequest>
+    <header>
+        <routing>JMS:rmt2.queue.accounting</routing>
+        <application>accounting</application>
+        <module>subsidiary</module>
+        <transaction>UPDATE_CREDITOR</transaction>
+        <delivery_mode>XXXXXXX</delivery_mode>
+        <message_mode>REQUEST</message_mode>
+        <delivery_date>08/28/2018 16:52:01</delivery_date>
+    </header>
+    <profile>
+        <creditors>
+            <creditor>
+                <creditor_id>13</creditor_id>
+                <creditor_type>
+                    <creditor_type_id>2</creditor_type_id>
+                    <description>Creditor type description</description>
+                </creditor_type>
+                <contact_details>
+                    <business_id>1109</business_id>
+                    <long_name>Business Type Name</long_name>
+                </contact_details>
+                <acct_id>20</acct_id>
+                <account_no>ACCT-NO-8888</account_no>
+                <credit_limit>12000.0</credit_limit>
+                <apr>1.9</apr>
+                <ext_account_no>A943943-349394</ext_account_no>
+                <active>1</active>
+                <transactions/>
+            </creditor>
+        </creditors>
+    </profile>
+</AccountingTransactionRequest>

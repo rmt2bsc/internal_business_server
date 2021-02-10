@@ -1,0 +1,15 @@
+<LookupCodesRequest>
+    <header>
+        <routing>JMS:rmt2.queue.addressbook</routing>
+        <application>addressbook</application>
+        <module>lookup</module>
+        <transaction>GET_LOOKUP_CODE</transaction>
+        <delivery_mode>XXXXXXX</delivery_mode>
+        <message_mode>REQUEST</message_mode>
+        <delivery_date>06/25/2018 15:36:24</delivery_date>
+    </header>
+    <criteria>
+        <all>true</all>
+        <group>8</group>
+    </criteria>
+</LookupCodesRequest>

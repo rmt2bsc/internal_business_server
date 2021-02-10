@@ -1,0 +1,21 @@
+<MultimediaRequest>
+    <header>
+        <routing>JMS:rmt2.queue.media</routing>
+        <application>media</application>
+        <module>batch</module>
+        <transaction>BATCH_VIDEO_METADATA_IMPORT</transaction>
+        <delivery_mode>XXXXXXX</delivery_mode>
+        <message_mode>REQUEST</message_mode>
+        <session_id>ABCDEFGHIJKLMNOPQRSTUVWXYZ</session_id>
+        <delivery_date>08/19/2020 20:28:44</delivery_date>
+    </header>
+    <criteria>
+        <audio_batch_import_criteria>
+            <server_name>rmtdalmedia01</server_name>
+            <share_name>home</share_name>
+            <root_path>royterrell</root_path>
+            <location>multimedia/video/movies</location>
+            <import_file_path>C:/AppServer/data/video_batch_import.txt</import_file_path>
+        </audio_batch_import_criteria>
+    </criteria>
+</MultimediaRequest>

@@ -21,8 +21,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AccountingMockData;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.transaction.XactCodeApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.persistence.DaoClient;
@@ -38,9 +38,9 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JmsClientManager.class, XactCodeApiHandler.class, XactApiFactory.class })
-public class XactCodeJmsTest extends BaseMockMessageDrivenBeanTest {
+public class XactCodeJmsTest extends BaseMockSingleConsumerMDBTest {
 
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private XactApi mockApi;
     private DaoClient mockDaoClient;
 
@@ -81,7 +81,7 @@ public class XactCodeJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_FetchTransactionGroups() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/codes/TransactionCodeQueryRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/transaction/codes/TransactionCodeQueryRequest.xml");
         List<XactCodeDto> mockListData = AccountingMockData.createMockXactCode();
         this.setupMocks(DESTINATION, request);
         try {
@@ -103,7 +103,8 @@ public class XactCodeJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/codes/TransactionCodeQueryInvalidTransCodeRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/codes/TransactionCodeQueryInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest(); 

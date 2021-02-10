@@ -21,8 +21,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AccountingMockData;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.transaction.GenericXactApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -38,9 +38,9 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JmsClientManager.class, GenericXactApiHandler.class, XactApiFactory.class })
-public class GenericXactJmsTest extends BaseMockMessageDrivenBeanTest {
+public class GenericXactJmsTest extends BaseMockSingleConsumerMDBTest {
 
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private XactApi mockApi;
     
     public static final int NEW_XACT_ID = 1234567;
@@ -82,7 +82,8 @@ public class GenericXactJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/common/GenericTransactionQueryRequestHeader.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/common/GenericTransactionQueryRequestHeader.xml");
         List<CommonXactDto> mockListData = AccountingMockData.createMockGenericXactList();
         this.setupMocks(DESTINATION, request);
         try {
@@ -103,7 +104,8 @@ public class GenericXactJmsTest extends BaseMockMessageDrivenBeanTest {
   
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/common/TransactionQueryInvalidTranCodeRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/common/TransactionQueryInvalidTranCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest(); 

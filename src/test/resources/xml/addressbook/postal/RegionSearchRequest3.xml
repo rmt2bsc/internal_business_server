@@ -1,0 +1,16 @@
+<PostalRequest>
+    <header>
+        <routing>JMS:rmt2.queue.addressbook</routing>
+        <application>addressbook</application>
+        <module>postal</module>
+        <transaction>GET_REGION</transaction>
+        <delivery_mode>XXXXXXX</delivery_mode>
+        <message_mode>REQUEST</message_mode>
+        <delivery_date>07/03/2018 15:57:16</delivery_date>
+    </header>
+    <postal_criteria>
+        <province>
+            <state_id>53</state_id>
+        </province>
+    </postal_criteria>
+</PostalRequest>

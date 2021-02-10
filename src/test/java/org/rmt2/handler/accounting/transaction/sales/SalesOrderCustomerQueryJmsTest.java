@@ -33,8 +33,8 @@ import org.modules.transaction.sales.SalesApiFactory;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.transaction.sales.QueryCustomerSalesOrderApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 import org.rmt2.handler.accounting.transaction.TransactionDatasourceMock;
 
 import com.api.messaging.jms.JmsClientManager;
@@ -50,11 +50,11 @@ import com.api.util.RMT2File;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JmsClientManager.class, XactApiFactory.class, QueryCustomerSalesOrderApiHandler.class, SalesApiFactory.class,
         SubsidiaryApiFactory.class, ContactsApiFactory.class, XactApiFactory.class })
-public class SalesOrderCustomerQueryJmsTest extends BaseMockMessageDrivenBeanTest {
+public class SalesOrderCustomerQueryJmsTest extends BaseMockSingleConsumerMDBTest {
     public static final int SALES_ORDER_ID = 1000;
     public static final int CUSTOMER_ID = 3333;
     public static final double TEST_ORDER_TOTAL = 300;
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private SalesApi mockSalesApi;
     private CustomerApi mockCustApi;
     private ContactsApi mockContactApi;
@@ -115,7 +115,7 @@ public class SalesOrderCustomerQueryJmsTest extends BaseMockMessageDrivenBeanTes
 
     @Test
     public void invokeHandler_Success() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/sales/SalesOrderCustomerQueryRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderCustomerQueryRequest.xml");
         
         List<SalesInvoiceDto> mockSalesOrderDtoList = SalesOrderJmsMockData.createMockSalesInvoice();
         List<SalesOrderItemDto> mockSalesOrderItems = SalesOrderJmsMockData.createMockSalesOrderItems(SALES_ORDER_ID);
@@ -173,7 +173,7 @@ public class SalesOrderCustomerQueryJmsTest extends BaseMockMessageDrivenBeanTes
 
     @Test
     public void invokeHandlerError_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/sales/SalesOrderCustomerQueryRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderCustomerQueryRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();

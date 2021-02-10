@@ -1,0 +1,25 @@
+<AccountingTransactionRequest>
+    <header>
+        <routing>JMS:rmt2.queue.accounting</routing>
+        <application>accounting</application>
+        <module>transaction</module>
+        <transaction>CANCEL_SALES_ORDER</transaction>
+        <delivery_mode>XXXXXXX</delivery_mode>
+        <message_mode>REQUEST</message_mode>
+        <delivery_date>02/03/2020 11:41:35</delivery_date>
+    </header>
+    <profile>
+        <sales_orders>
+            <sales_order>
+                <sales_order_id>1320</sales_order_id>
+                <invoiced>false</invoiced>
+                <status/>
+            </sales_order>
+            <sales_order>
+                <sales_order_id>1218</sales_order_id>
+                <invoiced>false</invoiced>
+                <status/>
+            </sales_order>
+        </sales_orders>
+    </profile>
+</AccountingTransactionRequest>

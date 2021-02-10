@@ -20,8 +20,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AccountingMockData;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.subsidiary.CreditorApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.messaging.webservice.WebServiceConstants;
@@ -37,9 +37,9 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JmsClientManager.class, CreditorApiHandler.class, SubsidiaryApiFactory.class })
-public class CreditorJmsTest extends BaseMockMessageDrivenBeanTest {
+public class CreditorJmsTest extends BaseMockSingleConsumerMDBTest {
 
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private CreditorApi mockApi;
 
 
@@ -76,7 +76,7 @@ public class CreditorJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_FetchCreditors() {
-        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CreditorQueryRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/subsidiary/CreditorQueryRequest.xml");
         List<CreditorDto> mockListData = AccountingMockData.createMockCreditors();
         this.setupMocks(DESTINATION, request);
         try {
@@ -98,7 +98,7 @@ public class CreditorJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_FetchCreditorTransactionHistory() {
-        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CreditorTransHistQueryRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/subsidiary/CreditorTransHistQueryRequest.xml");
         List<CreditorDto> mockCredData = AccountingMockData.createMockCreditor();
         List<CreditorXactHistoryDto> mockListData = AccountingMockData.createMockCreditorXactHistory();
         this.setupMocks(DESTINATION, request);
@@ -126,7 +126,7 @@ public class CreditorJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandlerSuccess_UpdateCreditor() {
-        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CreditorUpdateRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/subsidiary/CreditorUpdateRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.update(isA(CreditorDto.class))).thenReturn(WebServiceConstants.RETURN_CODE_SUCCESS);
@@ -146,7 +146,7 @@ public class CreditorJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandlerSuccess_DeleteCreditor() {
-        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CreditorDeleteRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/subsidiary/CreditorDeleteRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.delete(isA(CreditorDto.class))).thenReturn(WebServiceConstants.RETURN_CODE_SUCCESS);
@@ -166,7 +166,7 @@ public class CreditorJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CreditorHandlerInvalidTransCodeRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/subsidiary/CreditorHandlerInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest(); 

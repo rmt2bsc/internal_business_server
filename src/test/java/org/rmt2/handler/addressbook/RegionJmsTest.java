@@ -22,8 +22,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AddressBookMockData;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.postal.RegionApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -38,9 +38,9 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ RegionApiHandler.class, JmsClientManager.class, PostalApiFactory.class })
-public class RegionJmsTest extends BaseMockMessageDrivenBeanTest {
+public class RegionJmsTest extends BaseMockSingleConsumerMDBTest {
 
-    private static final String DESTINATION = "Test-AddressBook-Queue";
+    private static final String DESTINATION = "rmt2.queue.addressbook";
     private PostalApi mockApi;
 
 
@@ -77,7 +77,7 @@ public class RegionJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandelrSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/postal/RegionSearchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/postal/RegionSearchRequest.xml");
         List<CountryRegionDto> apiResults = AddressBookMockData.createMockCountryRegionList();
         this.setupMocks(DESTINATION, request);
         try {
@@ -99,7 +99,7 @@ public class RegionJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/postal/RegionSearchInvalidTransCodeRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/postal/RegionSearchInvalidTransCodeRequest.xml");
         List<RegionDto> apiResults = AddressBookMockData.createMockRegionDto();
         this.setupMocks(DESTINATION, request);
         try {

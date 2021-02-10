@@ -19,8 +19,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AccountingMockData;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.subsidiary.CreditorTypeApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -35,7 +35,7 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JmsClientManager.class, CreditorTypeApiHandler.class, SubsidiaryApiFactory.class })
-public class CreditorTypeJmsTest extends BaseMockMessageDrivenBeanTest {
+public class CreditorTypeJmsTest extends BaseMockSingleConsumerMDBTest {
 
     private static final String DESTINATION = "Test-Accounting-Queue";
     private CreditorApi mockApi;
@@ -74,7 +74,7 @@ public class CreditorTypeJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_FetchCreditorTypes() {
-        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CreditorTypeQueryRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/subsidiary/CreditorTypeQueryRequest.xml");
         List<CreditorTypeDto> mockListData = AccountingMockData.createMockCreditorTypes();
         this.setupMocks(DESTINATION, request);
         try {
@@ -96,7 +96,8 @@ public class CreditorTypeJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/subsidiary/CreditorTypeHandlerInvalidTransCodeRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/subsidiary/CreditorTypeHandlerInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest(); 

@@ -19,8 +19,8 @@ import org.modules.inventory.InventoryApiFactory;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AccountingMockData;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.inventory.VendorItemApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -35,7 +35,7 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JmsClientManager.class, VendorItemApiHandler.class, InventoryApiFactory.class })
-public class VendorItemJmsTest extends BaseMockMessageDrivenBeanTest {
+public class VendorItemJmsTest extends BaseMockSingleConsumerMDBTest {
 
     private static final String DESTINATION = "Test-Accounting-Queue";
     private InventoryApiFactory mockApiFactory;
@@ -80,7 +80,7 @@ public class VendorItemJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_FetchVendorItems() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/VendorItemFetchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/inventory/VendorItemFetchRequest.xml");
         List<VendorItemDto> mockListData = AccountingMockData.createMockVendorItem();
         this.setupMocks(DESTINATION, request);
         try {
@@ -102,7 +102,7 @@ public class VendorItemJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandlerSuccess_Fetch_VendorAssignedItems() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/VendorAssignedItemFetchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/inventory/VendorAssignedItemFetchRequest.xml");
         List<VendorItemDto> mockListData = AccountingMockData.createMockVendorItem();
         this.setupMocks(DESTINATION, request);
         try {
@@ -124,7 +124,8 @@ public class VendorItemJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/VendorItemFetchIncorrectTransCodeRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/inventory/VendorItemFetchIncorrectTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();    
@@ -137,7 +138,7 @@ public class VendorItemJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandlerSuccess_AssignVendorItems() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/AssignVendorItemsRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/inventory/AssignVendorItemsRequest.xml");
         int rc = 3;
         this.setupMocks(DESTINATION, request);
         try {
@@ -159,7 +160,7 @@ public class VendorItemJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandlerSuccess_RemoveVendorItems() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/RemoveVendorItemsRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/inventory/RemoveVendorItemsRequest.xml");
         int rc = 3;
         this.setupMocks(DESTINATION, request);
         try {
@@ -181,7 +182,7 @@ public class VendorItemJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandlerSuccess_updateVendorItem() {
-        String request = RMT2File.getFileContentsAsString("xml/inventory/UpdateVendorItemRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/inventory/UpdateVendorItemRequest.xml");
         int rc = 1;
         this.setupMocks(DESTINATION, request);
         try {

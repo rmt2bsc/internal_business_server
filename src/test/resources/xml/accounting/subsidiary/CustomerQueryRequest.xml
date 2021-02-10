@@ -1,0 +1,26 @@
+<AccountingTransactionRequest>
+    <header>
+        <routing>JMS:rmt2.queue.accounting</routing>
+        <application>accounting</application>
+        <module>subsidiary</module>
+        <transaction>GET_CUSTOMER</transaction>
+        <delivery_mode>XXXXXXX</delivery_mode>
+        <message_mode>REQUEST</message_mode>
+        <delivery_date>08/20/2018 16:21:15</delivery_date>
+    </header>
+    <criteria>
+        <customer_criteria>
+            <customer>
+                <customer_id>18</customer_id>
+                <acct_id>10</acct_id>
+                <account_no>U1440-20090531</account_no>
+                <acct_description>C</acct_description>
+                <active>1</active>
+            </customer>
+            <contact_details>
+                <business_id>1440</business_id>
+                <long_name>The Insource Group</long_name>
+            </contact_details>
+        </customer_criteria>
+    </criteria>
+</AccountingTransactionRequest>

@@ -19,8 +19,8 @@ import org.modules.lookup.LookupDataApiFactory;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AddressBookMockData;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.lookup.LookupGroupApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -35,9 +35,9 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ LookupGroupApiHandler.class, LookupDataApiFactory.class, JmsClientManager.class })
-public class LookupGroupJmsTest extends BaseMockMessageDrivenBeanTest {
+public class LookupGroupJmsTest extends BaseMockSingleConsumerMDBTest {
 
-    private static final String DESTINATION = "Test-AddressBook-Queue";
+    private static final String DESTINATION = "rmt2.queue.addressbook";
     private LookupDataApiFactory mockApiFactory;
     private LookupDataApi mockApi;
 
@@ -80,7 +80,7 @@ public class LookupGroupJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandelrSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/lookup/LookupGroupSearchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/lookup/LookupGroupSearchRequest.xml");
         List<LookupGroupDto> mockDtoDataResponse = AddressBookMockData.createMockLookupGroupDtoListResponse();
         this.setupMocks(DESTINATION, request);
         try {
@@ -101,7 +101,7 @@ public class LookupGroupJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/lookup/LookupGroupIncorrectTransRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/lookup/LookupGroupIncorrectTransRequest.xml");
         List<LookupGroupDto> mockDtoDataResponse = AddressBookMockData.createMockLookupGroupDtoListResponse();
         this.setupMocks(DESTINATION, request);
         try {

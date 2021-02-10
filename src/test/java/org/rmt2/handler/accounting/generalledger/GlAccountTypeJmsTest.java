@@ -19,8 +19,8 @@ import org.modules.generalledger.GlAccountApi;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AccountingMockData;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.generalledger.GlAccountTypeApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -35,9 +35,9 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JmsClientManager.class, GlAccountTypeApiHandler.class, GeneralLedgerApiFactory.class })
-public class GlAccountTypeJmsTest extends BaseMockMessageDrivenBeanTest {
+public class GlAccountTypeJmsTest extends BaseMockSingleConsumerMDBTest {
 
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private GeneralLedgerApiFactory mockApiFactory;
     private GlAccountApi mockApi;
 
@@ -80,7 +80,7 @@ public class GlAccountTypeJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandelrSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/generalledger/AccountTypeFetchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/generalledger/AccountTypeFetchRequest.xml");
         List<AccountTypeDto> mockDtoDataResponse = AccountingMockData.createMockGlAccountTypes();
         this.setupMocks(DESTINATION, request);
         try {
@@ -102,7 +102,8 @@ public class GlAccountTypeJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/generalledger/AccountTypeFetchIncorrectTransCodeRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/generalledger/AccountTypeFetchIncorrectTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();    

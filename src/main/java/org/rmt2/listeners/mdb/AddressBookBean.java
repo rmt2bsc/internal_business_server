@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
                         propertyValue = BusinessServerConstants.JMS_DEST_CONTACT_QUEUE),
                 @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue") },
         mappedName = BusinessServerConstants.JMS_DEST_CONTACT_QUEUE)
-public class AddressBookBean extends AbstractJaxbMessageDrivenBean implements MessageListener {
+public class AddressBookBean extends AbstractSingleConsumerJaxbMDB implements MessageListener {
     private static Logger logger = LoggerFactory.getLogger(AddressBookBean.class);
 
     public AddressBookBean() {

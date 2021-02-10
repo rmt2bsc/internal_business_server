@@ -1,0 +1,22 @@
+<AccountingTransactionRequest>
+    <header>
+        <routing>JMS:rmt2.queue.accounting</routing>
+        <application>accounting</application>
+        <module>subsidiary</module>
+        <transaction>GET_CREDITOR</transaction>
+        <delivery_mode>XXXXXXX</delivery_mode>
+        <message_mode>REQUEST</message_mode>
+        <delivery_date>08/27/2018 12:38:40</delivery_date>
+    </header>
+    <criteria>
+        <creditor_criteria>
+            <creditor_id>7</creditor_id>
+            <acct_id>20</acct_id>
+            <account_no>R1450-20090725</account_no>
+            <business_id>1450</business_id>
+            <business_name>American Express Green Card</business_name>
+            <creditor_type_id>2</creditor_type_id>
+            <ext_account_no>6011568404656837</ext_account_no>
+        </creditor_criteria>
+    </criteria>
+</AccountingTransactionRequest>

@@ -1,5 +1,6 @@
 package org.rmt2.handler.accounting.transaction.sales;
 
+import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -26,8 +27,8 @@ import org.modules.transaction.sales.SalesApiFactory;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.transaction.sales.UpdateSalesOrderApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 import org.rmt2.handler.accounting.transaction.TransactionDatasourceMock;
 
 import com.api.messaging.jms.JmsClientManager;
@@ -42,12 +43,13 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JmsClientManager.class, XactApiFactory.class, UpdateSalesOrderApiHandler.class, SalesApiFactory.class })
-public class SalesOrderUpdateJmsTest extends BaseMockMessageDrivenBeanTest {
+public class SalesOrderUpdateJmsTest extends BaseMockSingleConsumerMDBTest {
 
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private SalesApi mockApi;
 
     public static final int NEW_XACT_ID = 1234567;
+    public static final double TEST_ORDER_TOTAL = 755.94;
 
     /**
      * 
@@ -89,7 +91,7 @@ public class SalesOrderUpdateJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_Update() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/sales/SalesOrderUpdateRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderUpdateRequest.xml");
 
         SalesOrderStatusHist ormStatusHist = new SalesOrderStatusHist();
         ormStatusHist.setSoStatusId(SalesApiConst.STATUS_CODE_QUOTE);
@@ -120,10 +122,17 @@ public class SalesOrderUpdateJmsTest extends BaseMockMessageDrivenBeanTest {
         }
 
         try {
+            SalesOrderDto dto = SalesOrderJmsMockData.createMockSalesOrder().get(0);
+            dto.setSalesOrderId(SalesOrderJmsMockData.NEW_XACT_ID);
+            dto.setOrderTotal(TEST_ORDER_TOTAL);
+            when(this.mockApi.getSalesOrder(eq(SalesOrderJmsMockData.NEW_XACT_ID))).thenReturn(dto);
+        } catch (SalesApiException e) {
+            Assert.fail("Unable to setup mock stub for creating a sales order status DTO object");
+        }
+
+        try {
             this.startTest();
             Mockito.verify(this.mockApi).updateSalesOrder(isA(SalesOrderDto.class), isA(List.class));
-            Mockito.verify(this.mockApi).getCurrentStatus(isA(Integer.class));
-            Mockito.verify(this.mockApi).getStatus(isA(Integer.class));
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
@@ -132,7 +141,8 @@ public class SalesOrderUpdateJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerError_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/sales/SalesOrderCreateInvalidTransCodeRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderCreateInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();

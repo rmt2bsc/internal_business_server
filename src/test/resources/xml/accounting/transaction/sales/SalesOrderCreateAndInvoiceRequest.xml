@@ -1,0 +1,40 @@
+<AccountingTransactionRequest>
+    <header>
+        <routing>JMS:rmt2.queue.accounting</routing>
+        <application>accounting</application>
+        <module>transaction</module>
+        <transaction>CREATE_SALES_ORDER_AND_INVOICE</transaction>
+        <delivery_mode>XXXXXXX</delivery_mode>
+        <message_mode>REQUEST</message_mode>
+        <delivery_date>01/13/2020 16:16:15</delivery_date>
+    </header>
+    <profile>
+        <sales_orders>
+            <sales_order>
+                <customer_id>11</customer_id>
+                <invoiced>false</invoiced>
+                <order_total>755.94</order_total>
+                <effective_date>2020-04-01</effective_date>
+                <sales_order_items>
+                    <sales_order_item>
+                        <item>
+                            <item_id>161</item_id>
+                        </item>
+                        <markup>3.0</markup>
+                        <unit_cost>150.99</unit_cost>
+                        <order_qty>1</order_qty>
+                    </sales_order_item>
+                    <sales_order_item>
+                        <item>
+                            <item_id>159</item_id>
+                        </item>
+                        <markup>3.0</markup>
+                        <unit_cost>100.99</unit_cost>
+                        <order_qty>1</order_qty>
+                    </sales_order_item>
+                </sales_order_items>
+            </sales_order>
+        </sales_orders>
+    </profile>
+</AccountingTransactionRequest>
+

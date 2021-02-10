@@ -230,4 +230,16 @@ public class SalesOrderJmsMockData {
         list.add(d);
         return list;
     }
+
+    /**
+     * 
+     * @return
+     */
+    public static final List<SalesOrderDto> createMockSalesOrder() {
+        List<SalesOrderDto> list = new ArrayList<SalesOrderDto>();
+        SalesOrder o = AccountingMockData.createMockOrmSalesOrder(1000, 3333, 0, 100.00, "2017-01-01");
+        SalesOrderDto dto = Rmt2SalesOrderDtoFactory.createSalesOrderInstance(o);
+        list.add(dto);
+        return list;
+    }
 }

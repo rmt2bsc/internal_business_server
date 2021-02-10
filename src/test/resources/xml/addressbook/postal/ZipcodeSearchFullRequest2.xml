@@ -1,0 +1,18 @@
+<PostalRequest>
+    <header>
+        <routing>JMS:rmt2.queue.addressbook</routing>
+        <application>addressbook</application>
+        <module>postal</module>
+        <transaction>GET_ZIPCODE</transaction>
+        <delivery_mode>XXXXXXX</delivery_mode>
+        <message_mode>REQUEST</message_mode>
+        <delivery_date>06/27/2018 11:36:51</delivery_date>
+    </header>
+    <postal_criteria>
+        <zipcode>
+            <city>Dallas</city>
+            <state>TX</state>
+            <result_format>FULL</result_format>
+        </zipcode>
+    </postal_criteria>
+</PostalRequest>

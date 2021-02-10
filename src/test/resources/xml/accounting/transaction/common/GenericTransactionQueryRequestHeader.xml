@@ -1,0 +1,25 @@
+<AccountingTransactionRequest>
+    <header>
+        <routing>JMS:rmt2.queue.accounting</routing>
+        <application>accounting</application>
+        <module>transaction</module>
+        <transaction>GET_GENERIC_TRANSACTION</transaction>
+        <delivery_mode>XXXXXXX</delivery_mode>
+        <message_mode>REQUEST</message_mode>
+        <delivery_date>12/13/2018 10:38:56</delivery_date>
+    </header>
+    <criteria>
+        <xact_criteria>
+            <basic_criteria>
+                <xactId>26302</xactId>
+                <account_no>R1450-20090725</account_no>
+                <xact_date>2018-08-03</xact_date>
+                <tender_id>100</tender_id>
+                <confirm_no>W2034</confirm_no>
+                <xact_reason>Paid July's statement a day late on 7-28-2018</xact_reason>
+                <invoice_no>32-20090431</invoice_no>
+            </basic_criteria>
+            <custom_criteria/>
+        </xact_criteria>
+    </criteria>
+</AccountingTransactionRequest>

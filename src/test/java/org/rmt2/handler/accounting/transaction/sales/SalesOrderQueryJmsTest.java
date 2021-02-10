@@ -22,8 +22,8 @@ import org.modules.transaction.sales.SalesApiFactory;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.transaction.sales.QuerySalesOrderApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 import org.rmt2.handler.accounting.transaction.TransactionDatasourceMock;
 
 import com.api.messaging.jms.JmsClientManager;
@@ -38,9 +38,9 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JmsClientManager.class, XactApiFactory.class, QuerySalesOrderApiHandler.class, SalesApiFactory.class })
-public class SalesOrderQueryJmsTest extends BaseMockMessageDrivenBeanTest {
+public class SalesOrderQueryJmsTest extends BaseMockSingleConsumerMDBTest {
 
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private SalesApi mockApi;
 
     public static final int NEW_XACT_ID = 1234567;
@@ -85,7 +85,7 @@ public class SalesOrderQueryJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandler_Success() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/sales/SalesOrderQueryFullRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderQueryFullRequest.xml");
         
         List<SalesInvoiceDto> mockSalesOrderDtoList = SalesOrderJmsMockData.createMockSalesInvoices();
         List<SalesOrderItemDto> mockSalesOrderItems1000 = SalesOrderJmsMockData.createMockSalesOrderItems(1000);
@@ -145,7 +145,8 @@ public class SalesOrderQueryJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerError_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/sales/SalesOrderCreateInvalidTransCodeRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderCreateInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();

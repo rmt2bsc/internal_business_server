@@ -1,0 +1,22 @@
+<AccountingGeneralLedgerRequest>
+    <header>
+        <routing>JMS:rmt2.queue.accounting</routing>
+        <application>accounting</application>
+        <module>generalledger</module>
+        <transaction>GET_GL_ACCOUNT_CATG</transaction>
+        <delivery_mode>XXXXXXX</delivery_mode>
+        <message_mode>REQUEST</message_mode>
+        <delivery_date>07/19/2018 15:43:23</delivery_date>
+    </header>
+    <criteria>
+        <gl_criteria>
+            <acct_catg>
+                <acct_catg_id>403</acct_catg_id>
+                <acct_type>
+                    <acct_type_id>4</acct_type_id>
+                </acct_type>
+                <description>Sales Revenue</description>
+            </acct_catg>
+        </gl_criteria>
+    </criteria>
+</AccountingGeneralLedgerRequest>

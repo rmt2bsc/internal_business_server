@@ -26,9 +26,9 @@ import org.modules.transaction.sales.SalesApiFactory;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.transaction.sales.SalesOrderRequestUtil;
 import org.rmt2.api.handlers.transaction.sales.UpdateSalesOrderAutoInvoiceCashReceiptApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 import org.rmt2.handler.accounting.transaction.TransactionDatasourceMock;
 import org.rmt2.jaxb.SalesOrderType;
 
@@ -45,9 +45,9 @@ import com.api.util.RMT2File;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JmsClientManager.class, XactApiFactory.class, UpdateSalesOrderAutoInvoiceCashReceiptApiHandler.class,
         SalesOrderRequestUtil.class, SalesApiFactory.class })
-public class SalesOrderUpdateAndInvoiceAndCashReceiptJmsTest extends BaseMockMessageDrivenBeanTest {
+public class SalesOrderUpdateAndInvoiceAndCashReceiptJmsTest extends BaseMockSingleConsumerMDBTest {
 
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private SalesApi mockApi;
 
     public static final int NEW_XACT_ID = 1234567;
@@ -93,7 +93,7 @@ public class SalesOrderUpdateAndInvoiceAndCashReceiptJmsTest extends BaseMockMes
     @Test
     public void invokeHandlerSuccess_Update() {
         String request = RMT2File
-                .getFileContentsAsString("xml/transaction/sales/SalesOrderUpdateAndInvoiceAndCashReceiptRequest.xml");
+                .getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderUpdateAndInvoiceAndCashReceiptRequest.xml");
 
         SalesOrderStatusHist ormStatusHist = new SalesOrderStatusHist();
         ormStatusHist.setSoStatusId(SalesApiConst.STATUS_CODE_QUOTE);
@@ -145,7 +145,7 @@ public class SalesOrderUpdateAndInvoiceAndCashReceiptJmsTest extends BaseMockMes
     @Test
     public void invokeHandlerError_Incorrect_Trans_Code() {
         String request = RMT2File
-                .getFileContentsAsString("xml/transaction/sales/SalesOrderCreateInvalidTransCodeRequest.xml");
+                .getFileContentsAsString("xml/accounting/transaction/sales/SalesOrderCreateInvalidTransCodeRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();

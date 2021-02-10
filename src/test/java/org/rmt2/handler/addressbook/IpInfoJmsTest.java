@@ -18,8 +18,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AddressBookMockData;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
 import org.rmt2.api.handlers.contacts.ContactProfileApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -34,9 +34,9 @@ import com.api.util.RMT2File;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ ContactProfileApiHandler.class, JmsClientManager.class, PostalApiFactory.class })
-public class IpInfoJmsTest extends BaseMockMessageDrivenBeanTest {
+public class IpInfoJmsTest extends BaseMockSingleConsumerMDBTest {
 
-    private static final String DESTINATION = "Test-AddressBook-Queue";
+    private static final String DESTINATION = "rmt2.queue.addressbook";
     private PostalApi mockApi;
 
 
@@ -73,7 +73,7 @@ public class IpInfoJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandelrSuccess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/postal/IpInfoStandardSearchRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/postal/IpInfoStandardSearchRequest.xml");
         this.setupMocks(DESTINATION, request);
 
         try {
@@ -91,7 +91,7 @@ public class IpInfoJmsTest extends BaseMockMessageDrivenBeanTest {
     
     @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/postal/IpInfoIncorrectTransCodeRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/addressbook/postal/IpInfoIncorrectTransCodeRequest.xml");
         IpLocationDto apiResults = AddressBookMockData.createMockIpLocationDto(null, "111.222.333.444", 90333.333,
                 29393.392838, "United States", "TX", "Dallas", "75240", "214");
         this.setupMocks(DESTINATION, request);

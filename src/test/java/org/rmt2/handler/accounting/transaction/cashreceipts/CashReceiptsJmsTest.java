@@ -22,8 +22,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.AccountingMockData;
-import org.rmt2.BaseMockMessageDrivenBeanTest;
-import org.rmt2.api.handlers.transaction.receipts.CashReceiptsApiHandler;
+import org.rmt2.api.handlers.transaction.receipts.QueryCashReceiptsApiHandler;
+import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 import org.rmt2.handler.accounting.transaction.TransactionDatasourceMock;
 
 import com.api.messaging.jms.JmsClientManager;
@@ -37,10 +37,10 @@ import com.api.util.RMT2File;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ JmsClientManager.class, XactApiFactory.class, CashReceiptsApiHandler.class, CashReceiptApiFactory.class })
-public class CashReceiptsJmsTest extends BaseMockMessageDrivenBeanTest {
+@PrepareForTest({ JmsClientManager.class, XactApiFactory.class, QueryCashReceiptsApiHandler.class, CashReceiptApiFactory.class })
+public class CashReceiptsJmsTest extends BaseMockSingleConsumerMDBTest {
 
-    private static final String DESTINATION = "Test-Accounting-Queue";
+    private static final String DESTINATION = "rmt2.queue.accounting";
     private CashReceiptApi mockApi;
 
     public static final int NEW_XACT_ID = 1234567;
@@ -84,7 +84,7 @@ public class CashReceiptsJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSucceess_Fetch() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/receipts/CashReceiptQueryRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/transaction/receipts/CashReceiptQueryRequest.xml");
         List<XactDto> mockListData = AccountingMockData.createMockCashReceiptTransactions();
 
         // Setup JMS Mocks
@@ -107,7 +107,7 @@ public class CashReceiptsJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerSuccess_Create() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/receipts/CashReceiptCreateRequest.xml");
+        String request = RMT2File.getFileContentsAsString("xml/accounting/transaction/receipts/CashReceiptCreateRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             when(this.mockApi.receivePayment(isA(XactDto.class), isA(Integer.class))).thenReturn(AccountingMockData.NEW_XACT_ID);
@@ -126,7 +126,8 @@ public class CashReceiptsJmsTest extends BaseMockMessageDrivenBeanTest {
 
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
-        String request = RMT2File.getFileContentsAsString("xml/transaction/receipts/CashReceiptInvalidCodeQueryRequest.xml");
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/receipts/CashReceiptInvalidCodeQueryRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
             this.startTest();
