@@ -17,7 +17,6 @@ import org.modules.application.AppApiFactory;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.rmt2.api.handlers.admin.application.ApplicationUpdateApiHandler;
 import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
 import org.rmt2.handler.authentication.SecurityMockJmsDtoData;
 
@@ -34,7 +33,7 @@ import com.api.util.RMT2File;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ ApplicationUpdateApiHandler.class, JmsClientManager.class, AppApiFactory.class })
+@PrepareForTest({ JmsClientManager.class, AppApiFactory.class })
 public class ApplicationJmsTest extends BaseMockSingleConsumerMDBTest {
 
     private static final String DESTINATION = "rmt2.queue.authentication";
@@ -114,4 +113,24 @@ public class ApplicationJmsTest extends BaseMockSingleConsumerMDBTest {
         }
     }
     
+    @Test
+    public void invokeHandelrSuccess_Delete() {
+        String request = RMT2File.getFileContentsAsString("xml/authentication/admin/ApplicationDeleteRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.delete(isA(Integer.class))).thenReturn(1);
+        } catch (AppApiException e) {
+            e.printStackTrace();
+            Assert.fail("Application update test case failed");
+        }
+
+        try {
+            this.startTest();
+            Mockito.verify(this.mockApi).delete(isA(Integer.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
+
 }
