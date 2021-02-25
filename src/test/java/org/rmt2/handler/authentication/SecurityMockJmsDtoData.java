@@ -24,6 +24,7 @@ import org.dao.mapping.orm.rmt2.VwUserGroup;
 import org.dao.mapping.orm.rmt2.VwUserResourceAccess;
 import org.dto.ApplicationDto;
 import org.dto.CategoryDto;
+import org.dto.ResourceDto;
 import org.dto.adapter.orm.Rmt2OrmDtoFactory;
 
 /**
@@ -317,19 +318,20 @@ public class SecurityMockJmsDtoData {
         return list;
     }
     
-    public static final List<UserResourceType> createUserResourceTypeMockData() {
-        List<UserResourceType> list = new ArrayList<>();
+    public static final List<ResourceDto> createUserResourceTypeMockData() {
+        List<ResourceDto> list = new ArrayList<>();
         int resourceTypeId = SecurityMockJmsOrmDataFactory.TEST_RESOURCE_TYPE_ID;
         UserResourceType o = SecurityMockJmsOrmDataFactory.createOrmUserResourceType(resourceTypeId);
-        list.add(o);
+        ResourceDto d = Rmt2OrmDtoFactory.getResourceDtoInstance(o);
+        list.add(d);
         o = SecurityMockJmsOrmDataFactory.createOrmUserResourceType(++resourceTypeId);
-        list.add(o);
+        list.add(d);
         o = SecurityMockJmsOrmDataFactory.createOrmUserResourceType(++resourceTypeId);
-        list.add(o);
+        list.add(d);
         o = SecurityMockJmsOrmDataFactory.createOrmUserResourceType(++resourceTypeId);
-        list.add(o);
+        list.add(d);
         o = SecurityMockJmsOrmDataFactory.createOrmUserResourceType(++resourceTypeId);
-        list.add(o);
+        list.add(d);
         
         return list;
     }
