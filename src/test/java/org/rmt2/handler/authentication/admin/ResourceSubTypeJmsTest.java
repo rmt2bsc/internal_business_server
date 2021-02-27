@@ -18,6 +18,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
+import org.rmt2.handler.authentication.SecurityMockJmsDtoData;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -91,4 +92,24 @@ public class ResourceSubTypeJmsTest extends BaseMockSingleConsumerMDBTest {
         }
     }
 
+    @Test
+    public void invokeHandelrSuccess_Fetch() {
+        String request = RMT2File.getFileContentsAsString("xml/authentication/admin/ResourceSubTypeQueryRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.getResourceSubType(isA(ResourceDto.class))).thenReturn(
+                    SecurityMockJmsDtoData.createUserResourceSubtypeMockData());
+        } catch (ResourceRegistryApiException e) {
+            e.printStackTrace();
+            Assert.fail("Resource Sub Type fetch test case failed");
+        }
+
+        try {
+            this.startTest();
+            Mockito.verify(this.mockApi).getResourceSubType(isA(ResourceDto.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
 }
