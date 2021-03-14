@@ -18,6 +18,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
+import org.rmt2.handler.authentication.SecurityMockJmsDtoData;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -85,6 +86,27 @@ public class ResourceJmsTest extends BaseMockSingleConsumerMDBTest {
         try {
             this.startTest();
             Mockito.verify(this.mockApi).updateResource(isA(ResourceDto.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
+
+    @Test
+    public void invokeHandelrSuccess_Fetch() {
+        String request = RMT2File.getFileContentsAsString("xml/authentication/admin/ResourceQueryRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.getResource(isA(ResourceDto.class)))
+                    .thenReturn(SecurityMockJmsDtoData.createUserResourceMockData());
+        } catch (ResourceRegistryApiException e) {
+            e.printStackTrace();
+            Assert.fail("Resource Type update test case failed");
+        }
+
+        try {
+            this.startTest();
+            Mockito.verify(this.mockApi).getResource(isA(ResourceDto.class));
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
