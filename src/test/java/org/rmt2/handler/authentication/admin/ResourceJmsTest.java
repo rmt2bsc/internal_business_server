@@ -112,4 +112,24 @@ public class ResourceJmsTest extends BaseMockSingleConsumerMDBTest {
             Assert.fail("An unexpected exception was thrown");
         }
     }
+
+    @Test
+    public void invokeHandelrSuccess_Delete() {
+        String request = RMT2File.getFileContentsAsString("xml/authentication/admin/ResourceDeleteRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.deleteResource(isA(ResourceDto.class))).thenReturn(1);
+        } catch (ResourceRegistryApiException e) {
+            e.printStackTrace();
+            Assert.fail("Resource Type update test case failed");
+        }
+
+        try {
+            this.startTest();
+            Mockito.verify(this.mockApi).deleteResource(isA(ResourceDto.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
 }
