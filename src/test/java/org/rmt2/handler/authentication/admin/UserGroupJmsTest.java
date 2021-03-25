@@ -18,6 +18,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
+import org.rmt2.handler.authentication.SecurityMockJmsDtoData;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -85,6 +86,26 @@ public class UserGroupJmsTest extends BaseMockSingleConsumerMDBTest {
         try {
             this.startTest();
             Mockito.verify(this.mockApi).updateGroup(isA(UserDto.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
+    
+    @Test
+    public void invokeHandelrSuccess_Fetch() {
+        String request = RMT2File.getFileContentsAsString("xml/authentication/admin/UserGroupQueryRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.getGroup(isA(UserDto.class))).thenReturn(SecurityMockJmsDtoData.createUserGroupMockData());
+        } catch (UserApiException e) {
+            e.printStackTrace();
+            Assert.fail("User Group fetch test case failed");
+        }
+
+        try {
+            this.startTest();
+            Mockito.verify(this.mockApi).getGroup(isA(UserDto.class));
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");

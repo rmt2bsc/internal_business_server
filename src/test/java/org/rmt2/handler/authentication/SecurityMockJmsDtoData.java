@@ -25,6 +25,7 @@ import org.dao.mapping.orm.rmt2.VwUserResourceAccess;
 import org.dto.ApplicationDto;
 import org.dto.CategoryDto;
 import org.dto.ResourceDto;
+import org.dto.UserDto;
 import org.dto.adapter.orm.Rmt2OrmDtoFactory;
 
 /**
@@ -186,19 +187,24 @@ public class SecurityMockJmsDtoData {
     }
     
     
-    public static final List<UserGroup> createUserGroupMockData() {
-        List<UserGroup> list = new ArrayList<>();
+    public static final List<UserDto> createUserGroupMockData() {
+        List<UserDto> list = new ArrayList<>();
         int groupId = SecurityMockJmsOrmDataFactory.TEST_GROUP_ID;
         UserGroup o = SecurityMockJmsOrmDataFactory.createOrmUserGroup(groupId);
-        list.add(o);
+        UserDto d = Rmt2OrmDtoFactory.getGroupDtoInstance(o);
+        list.add(d);
         o = SecurityMockJmsOrmDataFactory.createOrmUserGroup(++groupId);
-        list.add(o);
+        d = Rmt2OrmDtoFactory.getGroupDtoInstance(o);
+        list.add(d);
         o = SecurityMockJmsOrmDataFactory.createOrmUserGroup(++groupId);
-        list.add(o);
+        d = Rmt2OrmDtoFactory.getGroupDtoInstance(o);
+        list.add(d);
         o = SecurityMockJmsOrmDataFactory.createOrmUserGroup(++groupId);
-        list.add(o);
+        d = Rmt2OrmDtoFactory.getGroupDtoInstance(o);
+        list.add(d);
         o = SecurityMockJmsOrmDataFactory.createOrmUserGroup(++groupId);
-        list.add(o);
+        d = Rmt2OrmDtoFactory.getGroupDtoInstance(o);
+        list.add(d);
         
         return list;
     }
