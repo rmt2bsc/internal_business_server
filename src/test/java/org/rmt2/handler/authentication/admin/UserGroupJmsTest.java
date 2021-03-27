@@ -111,5 +111,26 @@ public class UserGroupJmsTest extends BaseMockSingleConsumerMDBTest {
             Assert.fail("An unexpected exception was thrown");
         }
     }
+    
+    @Test
+    public void invokeHandelrSuccess_Delete() {
+        String request = RMT2File.getFileContentsAsString("xml/authentication/admin/UserGroupDeleteRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.deleteGroup(isA(Integer.class))).thenReturn(1);
+        } catch (UserApiException e) {
+            e.printStackTrace();
+            Assert.fail("User Group fetch test case failed");
+        }
+
+        try {
+            this.startTest();
+            Mockito.verify(this.mockApi).deleteGroup(isA(Integer.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
+    
 
 }
