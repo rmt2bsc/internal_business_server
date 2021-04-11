@@ -111,4 +111,24 @@ public class AppRoleJmsTest extends BaseMockSingleConsumerMDBTest {
             Assert.fail("An unexpected exception was thrown");
         }
     }
+
+    @Test
+    public void invokeHandelrSuccess_Delete() {
+        String request = RMT2File.getFileContentsAsString("xml/authentication/admin/AppRoleDeleteRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.delete(isA(Integer.class))).thenReturn(1);
+        } catch (SecurityModuleException e) {
+            e.printStackTrace();
+            Assert.fail("Application Role update test case failed");
+        }
+
+        try {
+            this.startTest();
+            Mockito.verify(this.mockApi).delete(isA(Integer.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
 }
