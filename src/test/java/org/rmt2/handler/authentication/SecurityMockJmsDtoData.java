@@ -435,29 +435,34 @@ public class SecurityMockJmsDtoData {
         return list;
     }
     
-    public static final List<VwUser> createVwUserMockData() {
-        List<VwUser> list = new ArrayList<>();
+    public static final List<UserDto> createVwUserMockData() {
+        List<UserDto> list = new ArrayList<>();
         int loginId = SecurityMockJmsOrmDataFactory.TEST_USER_ID;
         VwUser o = SecurityMockJmsOrmDataFactory.createOrmVwUser(loginId,
                 SecurityMockJmsOrmDataFactory.TEST_GROUP_ID, "UserName_" + loginId,
                 "test1234" + loginId, "2018-01-01", "ShortName_" + loginId);
-        list.add(o);
+        UserDto d = Rmt2OrmDtoFactory.getUserDtoInstance(o);
+        list.add(d);
         o = SecurityMockJmsOrmDataFactory.createOrmVwUser(++loginId,
                 SecurityMockJmsOrmDataFactory.TEST_GROUP_ID, "UserName_" + loginId,
                 "test1234" + loginId, "2018-01-01", "ShortName_" + loginId);
-        list.add(o);
+        d = Rmt2OrmDtoFactory.getUserDtoInstance(o);
+        list.add(d);
         o = SecurityMockJmsOrmDataFactory.createOrmVwUser(++loginId,
                 SecurityMockJmsOrmDataFactory.TEST_GROUP_ID, "UserName_" + loginId,
                 "test1234" + loginId, "2018-01-01", "ShortName_" + loginId);
-        list.add(o);
+        d = Rmt2OrmDtoFactory.getUserDtoInstance(o);
+        list.add(d);
         o = SecurityMockJmsOrmDataFactory.createOrmVwUser(++loginId,
                 SecurityMockJmsOrmDataFactory.TEST_GROUP_ID, "UserName_" + loginId,
                 "test1234" + loginId, "2018-01-01", "ShortName_" + loginId);
-        list.add(o);
+        d = Rmt2OrmDtoFactory.getUserDtoInstance(o);
+        list.add(d);
         o = SecurityMockJmsOrmDataFactory.createOrmVwUser(++loginId,
                 SecurityMockJmsOrmDataFactory.TEST_GROUP_ID, "UserName_" + loginId,
                 "test1234" + loginId, "2018-01-01", "ShortName_" + loginId);
-        list.add(o);
+        d = Rmt2OrmDtoFactory.getUserDtoInstance(o);
+        list.add(d);
         
         return list;
     }
