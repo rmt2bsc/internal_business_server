@@ -112,4 +112,24 @@ public class UserJmsTest extends BaseMockSingleConsumerMDBTest {
         }
     }
 
+    @Test
+    public void invokeHandelrSuccess_Delete() {
+        String request = RMT2File.getFileContentsAsString("xml/authentication/admin/UserDeleteRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.deleteUser(isA(Integer.class))).thenReturn(1);
+        } catch (UserApiException e) {
+            e.printStackTrace();
+            Assert.fail("User Group update test case failed");
+        }
+
+        try {
+            this.startTest();
+            Mockito.verify(this.mockApi).deleteUser(isA(Integer.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
+
 }
