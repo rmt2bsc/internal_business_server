@@ -2,7 +2,7 @@
     <header>
         <routing>JMS:rmt2.queue.authentication</routing>
         <application>authentication</application>
-        <module>admin</module>
+        <module>auth</module>
         <transaction>LOGIN_USER</transaction>
         <delivery_mode>XXXXXXX</delivery_mode>
         <message_mode>REQUEST</message_mode>
@@ -12,8 +12,8 @@
     <profile>
         <application_access_info>
             <user_info>
-                <user_name>test_username</user_name>
-                <password>kfd93939dk39</password>
+                <user_name>testuser</user_name>
+                <password>drum7777</password>
             </user_info>
         </application_access_info>
     </profile>
