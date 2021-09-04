@@ -75,7 +75,7 @@ public class UserLogoutJmsTest extends BaseMockSingleConsumerMDBTest {
 
 
     @Test
-    public void invokeHandelrSuccess_Login() {
+    public void invokeHandelrSuccess_Logout() {
         String request = RMT2File.getFileContentsAsString("xml/authentication/userauth/UserLogoutRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
