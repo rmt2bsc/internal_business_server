@@ -118,7 +118,7 @@ public class AbstractSingleConsumerJaxbMDB extends AbstractMessageDrivenBean {
         String msgRoutingDestinamtionName = null;
         List<String> routingTokens = RMT2String.getTokens(routing, ":");
         if (routingTokens != null && routingTokens.size() == 2) {
-            msgRoutingDestinamtionName = routingTokens.get(1);
+            msgRoutingDestinamtionName = routingTokens.get(1).trim();
             if (!msgRoutingDestinamtionName.equalsIgnoreCase(actualDestinationName)) {
                 String errMsg = "Message was sent the incorrect destination.  Actual destination [" + actualDestinationName
                         + "] Required destination [" + msgRoutingDestinamtionName + "]";
