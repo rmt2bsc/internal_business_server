@@ -1,0 +1,16 @@
+<AccountingGeneralLedgerRequest>
+    <header>
+        <routing>JMS:rmt2.queue.accounting</routing>
+        <application>accounting</application>
+        <module>generalledger</module>
+        <transaction>DELETE_GL_ACCOUNT_CATG</transaction>
+        <delivery_mode>XXXXXXX</delivery_mode>
+        <message_mode>REQUEST</message_mode>
+        <delivery_date>10/05/2021 15:30:55</delivery_date>
+    </header>
+    <profile>
+        <account_category>
+            <acct_catg_id>300</acct_catg_id>
+        </account_category>
+    </profile>
+</AccountingGeneralLedgerRequest>
