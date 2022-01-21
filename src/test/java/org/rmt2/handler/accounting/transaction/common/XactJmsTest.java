@@ -150,6 +150,27 @@ public class XactJmsTest extends BaseMockSingleConsumerMDBTest {
     }
     
     @Test
+    public void invokeHandlerSuccess_Delete() {
+        String request = RMT2File.getFileContentsAsString("xml/accounting/transaction/common/TransactionDeleteRequest.xml");
+        
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.deleteXact(isA(List.class))).thenReturn(3);
+        } catch (XactApiException e) {
+            Assert.fail("Unable to setup mock stub for deleting a transaction");
+        }
+        
+        try {
+            this.startTest();    
+            Mockito.verify(this.mockApi).deleteXact(isA(List.class));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
+    
+    @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
         String request = RMT2File
                 .getFileContentsAsString("xml/accounting/transaction/common/TransactionQueryInvalidTranCodeRequest.xml");
