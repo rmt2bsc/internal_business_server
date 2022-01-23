@@ -183,6 +183,27 @@ public class CashDisbursementJmsTest extends BaseMockSingleConsumerMDBTest {
             Assert.fail("An unexpected exception was thrown");
         }
     }
+    
+    @Test
+    public void invokeHandlerSuccess_ReverseForCreditor() {
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/cashdisbursement/CashDisbursementCreditorReverseRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockCashDisbApi.updateTrans(isA(XactDto.class), isA(List.class), isA(Integer.class))).thenReturn(AccountingMockData.NEW_XACT_ID);
+        } catch (XactApiException e) {
+            Assert.fail("Unable to setup mock stub for reversing a creditor cash disbursement transaction");
+        }
+
+        try {
+            this.startTest();
+            Mockito.verify(this.mockCashDisbApi).updateTrans(isA(XactDto.class), isA(List.class), isA(Integer.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
+    
 
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
