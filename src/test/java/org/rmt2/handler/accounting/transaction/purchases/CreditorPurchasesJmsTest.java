@@ -133,6 +133,26 @@ public class CreditorPurchasesJmsTest extends BaseMockSingleConsumerMDBTest {
             Assert.fail("An unexpected exception was thrown");
         }
     }
+    
+    @Test
+    public void invokeHandlerSuccess_Reverse() {
+        String request = RMT2File
+                .getFileContentsAsString("xml/accounting/transaction/purchases/CreditorPurchasesReverseRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.update(isA(XactCreditChargeDto.class), isA(List.class))).thenReturn(AccountingMockData.NEW_XACT_ID);
+        } catch (CreditorPurchasesApiException e) {
+            Assert.fail("Unable to setup mock stub for creating a creditor purchases transaction");
+        }
+
+        try {
+            this.startTest();
+            Mockito.verify(this.mockApi).update(isA(XactCreditChargeDto.class), isA(List.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
 
     @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {

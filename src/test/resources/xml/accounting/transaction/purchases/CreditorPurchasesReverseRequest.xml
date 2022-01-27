@@ -3,7 +3,7 @@
         <routing>JMS:rmt2.queue.accounting</routing>
         <application>accounting</application>
         <module>transaction</module>
-        <transaction>CREATE_CREDITOR_PURCHASES</transaction>
+        <transaction>REVERSE_CREDITOR_PURCHASES</transaction>
         <delivery_mode>XXXXXXX</delivery_mode>
         <message_mode>REQUEST</message_mode>
         <delivery_date>04/4/2020 02:21:08</delivery_date>
