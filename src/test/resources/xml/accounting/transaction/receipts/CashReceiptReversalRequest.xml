@@ -3,7 +3,7 @@
         <routing>JMS:rmt2.queue.accounting</routing>
         <application>accounting</application>
         <module>transaction</module>
-        <transaction>CREATE_CASH_RECEIPT</transaction>
+        <transaction>REVERSE_CASH_RECEIPT</transaction>
         <delivery_mode>XXXXXXX</delivery_mode>
         <message_mode>REQUEST</message_mode>
         <delivery_date>11/01/2019 14:47:36</delivery_date>

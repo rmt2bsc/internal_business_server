@@ -125,6 +125,25 @@ public class CashReceiptsJmsTest extends BaseMockSingleConsumerMDBTest {
     }
 
     @Test
+    public void invokeHandlerSuccess_Reverse() {
+        String request = RMT2File.getFileContentsAsString("xml/accounting/transaction/receipts/CashReceiptReversalRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.receivePayment(isA(XactDto.class), isA(Integer.class))).thenReturn(AccountingMockData.NEW_XACT_ID);
+        } catch (CashReceiptApiException e) {
+            Assert.fail("Unable to setup JMS mock stub for creating a cash receipt transactions");
+        }
+
+        try {
+            this.startTest();
+            Mockito.verify(this.mockApi).receivePayment(isA(XactDto.class), isA(Integer.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
+    
+    @Test
     public void invokeHandlerError_Fetch_Incorrect_Trans_Code() {
         String request = RMT2File
                 .getFileContentsAsString("xml/accounting/transaction/receipts/CashReceiptInvalidCodeQueryRequest.xml");
