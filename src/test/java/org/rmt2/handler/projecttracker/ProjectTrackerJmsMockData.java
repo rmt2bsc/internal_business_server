@@ -3,6 +3,7 @@ package org.rmt2.handler.projecttracker;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dao.mapping.orm.rmt2.Customer;
 import org.dao.mapping.orm.rmt2.ProjClient;
 import org.dao.mapping.orm.rmt2.ProjEmployee;
 import org.dao.mapping.orm.rmt2.ProjEmployeeTitle;
@@ -22,6 +23,7 @@ import org.dao.timesheet.TimesheetConst;
 import org.dto.BusinessContactDto;
 import org.dto.ClientDto;
 import org.dto.ContactDto;
+import org.dto.CustomerDto;
 import org.dto.EmployeeDto;
 import org.dto.EmployeeTitleDto;
 import org.dto.EmployeeTypeDto;
@@ -34,6 +36,7 @@ import org.dto.adapter.orm.EmployeeObjectFactory;
 import org.dto.adapter.orm.ProjectObjectFactory;
 import org.dto.adapter.orm.Rmt2AddressBookDtoFactory;
 import org.dto.adapter.orm.TimesheetObjectFactory;
+import org.dto.adapter.orm.account.subsidiary.Rmt2SubsidiaryDtoFactory;
 
 /**
  * Project Tracker Administration testing facility that is mainly responsible for
@@ -68,6 +71,15 @@ public class ProjectTrackerJmsMockData {
         return list;
     }
 
+    public static final List<CustomerDto> createMockCustomer() {
+        List<CustomerDto> list = new ArrayList<>();
+        Customer o = ProjectTrackerJmsOrmDataFactory.createMockOrmCustomer(100, 1456, 0, 333, "C1234580", "Customer 1");
+        CustomerDto d = Rmt2SubsidiaryDtoFactory.createCustomerInstance(o, null);
+        list.add(d);
+
+        return list;
+    }
+    
     public static final List<VwTimesheetProjectTask> createMockMultipleVwTimesheetProjectTask() {
         List<VwTimesheetProjectTask> list = new ArrayList<VwTimesheetProjectTask>();
         VwTimesheetProjectTask o = ProjectTrackerJmsOrmDataFactory.createMockOrmVwTimesheetProjectTask(444441, 111, 4440,
