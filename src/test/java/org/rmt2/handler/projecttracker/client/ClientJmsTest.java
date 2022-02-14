@@ -187,6 +187,50 @@ public class ClientJmsTest extends BaseMockSingleConsumerMDBTest {
     }
     
     @Test
+    public void invokeHandelrSuccess_Update() {
+        String request = RMT2File.getFileContentsAsString("xml/projecttracker/admin/ClientUpdateRequest.xml");
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.updateClientWithoutNotification(isA(ClientDto.class))).thenReturn(1);
+        } catch (ProjectAdminApiException e) {
+            e.printStackTrace();
+            Assert.fail("Client fetch test case failed");
+        }
+
+        ContactsApi contactApi = Mockito.mock(ContactsApi.class);
+        PowerMockito.mockStatic(ContactsApiFactory.class);
+        try {
+            when(ContactsApiFactory.createApi()).thenReturn(contactApi);
+        }
+        catch (Exception e) {
+            Assert.fail("Unable to setup mock stub for ContactsApi");
+        }
+        
+        List<ContactDto> mockContactData = ProjectTrackerJmsMockData.createMockSingleBusinessContactDto();
+        try {
+            when(contactApi.getContact(isA(BusinessContactDto.class))).thenReturn(mockContactData);
+        } catch (Exception e) {
+            Assert.fail("Unable to setup mock stub for fetching business contact records");
+        }
+        try {
+            when(contactApi.updateContact(isA(BusinessContactDto.class))).thenReturn(1);
+        } catch (Exception e) {
+            Assert.fail("Unable to setup mock stub for updating business contact records");
+        }
+        
+        try {
+            this.startTest();    
+            Mockito.verify(this.mockApi).updateClientWithoutNotification(isA(ClientDto.class));
+            Mockito.verify(contactApi).getContact(isA(BusinessContactDto.class));
+            Mockito.verify(contactApi).updateContact(isA(BusinessContactDto.class));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+    }
+    
+    @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
         String request = RMT2File
                 .getFileContentsAsString("xml/projecttracker/ProjectTrackerInvalidTransactionCodeRequest.xml");
