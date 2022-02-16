@@ -796,3 +796,29 @@ Mars Attacks!|Tim Burton|502|12|1996||106||0|Jack Nicholson, Glenn Close, Pam Gr
 My Super Ex-Girlfriend|Ivan Reitman|502|12|2006||95||0|Uma Thurman, Luke Wilson, Anna Faris, Eddie Izzard, Rainn Wilson, Wanda Sykes|1|1|My Super Ex-Girlfriend (2006).mp4
 New Jack City| Mario Van Peebles|500|12|1991||100||0|Wesley Snipes, Ice-T, Chris Rock, Mario Van Peebles, Judd Nelson|1|1|New Jack City (1991).mp4
 Savages|Oliver Stone|500|12|2012||130||0|Taylor Kitsch, Blake Lively, Aaron Johnson, Benicio del Toro, Salma Hayek, John Travolta|1|1|Savages (2012).mp4
+A Rage in Harlem|Bill Duke|500|12|1991||115||0|Forest Whitaker, Gregory Hines, Robin Givens, Zakes Mokae, Danny Glover|1|1|A Rage in Harlem (1991).mp4
+Abraham Lincoln Vampire Hunter|Timur Bekmambetov|506|12|2012||105||0|Benjamin Walker, Dominic Cooper, Anthony Mackie, Mary Elizabeth Winstead, Rufus Sewell, Marton Csokas|1|1|Abraham Lincoln Vampire Hunter (2012).mp4
+Black Knight|Gil Junger|502|12|2001||95||0|Martin Lawrence|1|1|Black Knight (2001).mp4
+Booty Call|Jeff Pollack|502|12|1997||79||0|Jamie Foxx, Tommy Davidson, Vivica A. Fox, Tamala Jones|1|1|Booty Call (1997).mp4
+Fatale|Deon Taylor|500|12|2020||102||0|Hilary Swank, Michael Ealy, Mike Colter, Danny Pino|1|1|Fatale (2020).mp4
+Femme Fatale|Brian De Palma|532|12|2002||110||0|Antonio Banderas, Rebecca Romijn-Stamos, Peter Coyote, Gregg Henry|1|1|Femme Fatale (2002).mp4
+How to Be a Player|Lionel C. Martin|502|12|1997||93||0|Bill Bellamy, Natalie Desselle, Bernie Mac|1|1|How to Be a Player (1997).mp4
+RoboCop 2|Irvin Kershner|500|12|1990||117||0|Peter Weller, Nancy Allen, Daniel O'Herlihy, Tom Noonan, Belinda Bauer, Gabriel Damon|1|1|RoboCop 2 (1990).mp4
+The Five Heartbeats|Robert Townsend|508|12|1991||122||0|Robert Townsend, Michael Wright, Leon, Harry J. Lennix, Tico Wells, Harold Nicholas, Diahann Carroll|1|1|The Five Heartbeats (1991).mp4
+Thirteen Ghosts|Steve Beck|506|12|2001||91||0|Tony Shalhoub, Embeth Davidtz, Matthew Lillard, Shannon Elizabeth, Rah Digga, F. Murray Abraham|1|1|Thirteen Ghosts.mp4
+Vanquish|George Gallo|500|12|2021||96||0|Morgan Freeman, Ruby Rose|1|1|Vanquish (2021).mp4
+Free Guy|Shawn Levy|502|12|2021||115||0|Ryan Reynolds, Jodie Comer, Lil Rel Howery, Utkarsh Ambudkar, Joe Keery, Taika Waititi|1|1|Free Guy.mp4
+Black Widow|Cate Shortland|508|12|2021||134||0|Scarlett Johansson, Florence Pugh, David Harbour, O-T Fagbenle, Olga Kurylenko, William Hurt, Ray Winstone, Rachel Weisz|1|1|Black Widow (2021).mp4
+Hitman's Wife's Bodyguard|Patrick Hughes|502|12|2021||100||0|Ryan Reynolds, Samuel L. Jackson, Salma Hayek, Frank Grillo, Richard E. Grant, Antonio Banderas, Morgan Freeman|1|1|Hitman's Wife's Bodyguard (2021).mp4
+Night Teeth|Adam Randall|508|12|2021||108||0|Jorge Lendeborg Jr., Debby Ryan, Lucy Fry, Raul Castillo, Megan Fox, Alfie Allen|1|1|Night Teeth (2021).mp4
+No Time to Die|Cary Joji Fukunaga|523|12|2021||163||0|Daniel Craig, Rami Malek, Léa Seydoux, Lashana Lynch, Ben Whishaw, Naomie Harris, Jeffrey Wright, Christoph Waltz, Ralph Fiennes|1|1|No Time To Die (2021).mp4
+Pretty in Pink|Howard Deutch|500|12|1986||96||0|Molly Ringwald, Harry Dean Stanton, Jon Cryer, Annie Potts, James Spader, Andrew McCarthy|1|1|Pretty in Pink (1986).mp4
+Red Notice|Rawson Marshall Thurber|502|12|2021||118||0|Dwayne Johnson, Ryan Reynolds, Gal Gadot, Ritu Arya, Chris Diamantopoulo|1|1|Red Notice (2021).mp4
+The Firm|Sydney Pollack|504|12|1993||154||0|Tom Cruise, Jeanne Tripplehorn, Gene Hackman, Ed Harris, Holly Hunter, Hal Holbrook, David Strathairn|1|1|The Firm (1993).mp4
+The Protégé|Martin Campbell|500|12|2021||109||0|Maggie Q, Samuel L. Jackson, Michael Keaton|1|1|The Protégé (2021).mp4
+Undisputed |Walter Hill|500|12|2002||93||0|Wesley Snipes, Ving Rhames, Peter Falk, Michael Rooker, Jon Seda, Wes Studi, Fisher Stevens, Master P|1|1|Undisputed (2002).mp4
+Venom: Let There Be Carnage|Andy Serkis|508|12|2021||97||0|Tom Hardy, Michelle Williams, Naomie Harris, Reid Scott, Stephen Graham, Woody Harrelson|1|1|Venom Let There Be Carnage (2021).mkv
+White House Down|Roland Emmerich|500|12|2013||131||0|Channing Tatum, Jamie Foxx, Maggie Gyllenhaal, Jason Clarke, Richard Jenkins, James Woods|1|1|White House Down (2013).mp4
+Zone 414|Andrew Baird|500|12|2021||98||0|Guy Pearce, Matilda Lutz, Jonathan Aris, Travis Fimmel|1|1|Zone 414 (2021).mp4
+Eternals |Chloé Zhao|508|12|2021||156||0|Gemma Chan, Richard Madden, Kumail Nanjiani, Lia McHugh, Brian Tyree Henry, Lauren Ridloff, Barry Keoghan, Don Lee, Harish Patel, Kit Harington, Salma Hayek, Angelina Jolie|1|1|Eternals (2021).mp4
+Apex|Edward Drake|500|12|2021||94||0|Neal McDonough, Bruce Willis, Corey Large, Alexia Fast|1|1|Apex (2021).mp4
