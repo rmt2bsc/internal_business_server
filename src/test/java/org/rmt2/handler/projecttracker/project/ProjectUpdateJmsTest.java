@@ -4,7 +4,10 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
+
 import org.dto.Project2Dto;
+import org.dto.ProjectClientDto;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,6 +23,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.rmt2.api.handlers.admin.project.ProjectUpdateApiHandler;
 import org.rmt2.handler.BaseMockSingleConsumerMDBTest;
+import org.rmt2.handler.projecttracker.ProjectTrackerJmsMockData;
 
 import com.api.messaging.jms.JmsClientManager;
 import com.api.util.RMT2File;
@@ -82,6 +86,15 @@ public class ProjectUpdateJmsTest extends BaseMockSingleConsumerMDBTest {
         } catch (ProjectAdminApiException e) {
             e.printStackTrace();
             Assert.fail("Project update test case failed");
+        }
+        
+        List<ProjectClientDto> mockListData = ProjectTrackerJmsMockData.createMockProjectClientDto();
+        mockListData.get(0).setProjId(39);
+        mockListData.get(0).setProjectDescription("Test Project for Business Server");
+        try {
+            when(this.mockApi.getProjectExt(isA(ProjectClientDto.class))).thenReturn(mockListData);
+        } catch (ProjectAdminApiException e) {
+            Assert.fail("Unable to setup mock stub for fetching project/client records");
         }
 
         try {
