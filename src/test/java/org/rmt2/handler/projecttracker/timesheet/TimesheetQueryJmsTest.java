@@ -4,9 +4,17 @@ import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.dao.mapping.orm.rmt2.ProjEvent;
+import org.dao.mapping.orm.rmt2.VwTimesheetProjectTask;
+import org.dto.EventDto;
+import org.dto.ProjectTaskDto;
 import org.dto.TimesheetDto;
+import org.dto.adapter.orm.ProjectObjectFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -101,6 +109,32 @@ public class TimesheetQueryJmsTest extends BaseMockSingleConsumerMDBTest {
     }
     
     @Test
+    public void invokeHandelrSuccess_FullObjectGraph() {
+        String request = RMT2File.getFileContentsAsString("xml/projecttracker/timesheet/TimesheetFullObjectGraphQueryRequest.xml");
+        
+        // Mocking only half of the API call just to ensure that the API is
+        // reached via the mocked JMS logic.
+        Map<ProjectTaskDto, List<EventDto>> mockWorkLog = this.buildTimesheetHoursDtoMap();
+        this.setupMocks(DESTINATION, request);
+        try {
+            when(this.mockApi.load(isA(Integer.class))).thenReturn(mockWorkLog);
+        } catch (TimesheetApiException e) {
+            e.printStackTrace();
+            Assert.fail("Timesheet fetch test case failed");
+        }
+
+        try {
+            this.startTest();    
+            Mockito.verify(this.mockApi).load(isA(Integer.class));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("An unexpected exception was thrown");
+        }
+        
+    }
+    
+    @Test
     public void invokeHandelrError_Fetch_Incorrect_Trans_Code() {
         String request = RMT2File
                 .getFileContentsAsString("xml/projecttracker/ProjectTrackerInvalidTransactionCodeRequest.xml");
@@ -112,6 +146,26 @@ public class TimesheetQueryJmsTest extends BaseMockSingleConsumerMDBTest {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
         }
-        
+    }
+    
+    
+    private Map<ProjectTaskDto, List<EventDto>> buildTimesheetHoursDtoMap() {
+        Map<ProjectTaskDto, List<EventDto>> hours = new HashMap<>();
+        for (VwTimesheetProjectTask pt : ProjectTrackerJmsMockData.createMockMultipleVwTimesheetProjectTask()) {
+            ProjectTaskDto ptDto = ProjectObjectFactory.createProjectTaskExtendedDtoInstance(pt);
+            List<EventDto> eventsDto = this.buildTimesheetEventDtoList(pt.getProjectTaskId());
+            hours.put(ptDto, eventsDto);
+        }
+        return hours;
+    }
+    
+    private List<EventDto> buildTimesheetEventDtoList(int projectTaskId) {
+        List<ProjEvent> projEvents = ProjectTrackerJmsMockData.createMockMultiple_Day_Task_Events(projectTaskId);
+        List<EventDto> eventsDto = new ArrayList<>();
+        for (ProjEvent evt : projEvents) {
+            EventDto evtDto = ProjectObjectFactory.createEventDtoInstance(evt);
+            eventsDto.add(evtDto);
+        }
+        return eventsDto;
     }
 }
