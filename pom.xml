@@ -83,6 +83,7 @@
 	</dependency>
 </dependencies>
 	<build>
+	  <finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -100,6 +101,7 @@
 			    <version>2.6</version>
 			    <configuration>
 			        <failOnMissingWebXml>true</failOnMissingWebXml>
+			        <warName>${artifactId}</warName>
 			        <webResources>
 			            <resource>
 			               <directory>${basedir}/${SystemDependencyPath}</directory>
