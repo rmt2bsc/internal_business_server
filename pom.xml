@@ -82,26 +82,6 @@
 		<scope>test</scope>
 	</dependency>
 </dependencies>
-
-<profiles>
-  <profile>
-    <id>deploy</id>
-    <activation>
-      <activeByDefault>true</activeByDefault>
-    </activation>
-    <properties>
-      <my-tomee-maven-plugin-path>${project.basedir}/target/${project.artifactId}</my-tomee-maven-plugin-path>
-    </properties>
-  </profile>
-  <profile>
-    <id>undeploy</id>
-    <properties>
-      <my-tomee-maven-plugin-path>${project.artifactId}</my-tomee-maven-plugin-path>
-    </properties>
-  </profile>
-</profiles>
-
-
 	<build>
 	  <finalName>${project.artifactId}</finalName>
 		<plugins>
@@ -130,27 +110,6 @@
 			        </webResources>
 			    </configuration>
 			</plugin>
-			
-	    <!-- Getting access denied error when goal tries to access path -->
-			<plugin>
-	      <groupId>org.apache.openejb.maven</groupId>
-	      <artifactId>tomee-maven-plugin</artifactId>
-	      <version>1.7.1</version>
-	      <configuration>
-	        <tomeeVersion>1.7.3</tomeeVersion>
-	        <tomeeClassifier>plus</tomeeClassifier>
-	        
-          <context>${project.artifactId}</context>
- 	        <tomeeHost>192.168.0.122</tomeeHost>
-	        <debugPort>8000</debugPort>
-	        <tomeeAjpPort>8009</tomeeAjpPort>
-	        <tomeeHttpPort>8080</tomeeHttpPort>
-	        <tomeeShutdownPort>8005</tomeeShutdownPort>
-	        <path>${my-tomee-maven-plugin-path}</path>
-	        <warFile>${project.build.directory}/${project.build.finalName}.war</warFile>
-	      </configuration>
-	    </plugin>
-	    
 		</plugins>
 		<extensions>
       <!-- Enabling the use of FTP -->
