@@ -83,7 +83,7 @@
 	</dependency>
 </dependencies>
 	<build>
-	  <finalName>${project.artifactId}</finalName>
+	  <!-- <finalName>${project.artifactId}</finalName> -->
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -101,6 +101,7 @@
 			    <version>2.6</version>
 			    <configuration>
 			        <failOnMissingWebXml>true</failOnMissingWebXml>
+			        <context>${project.artifactId}</context>
 			        <warName>${project.artifactId}</warName>
 			        <webResources>
 			            <resource>
