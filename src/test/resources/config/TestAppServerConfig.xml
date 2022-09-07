@@ -5,8 +5,9 @@
 	<!-- Application Properties          -->
 	<!-- ******************************* -->
 	<LoggerConfigPath>src/test/resources/config/log4j.properties</LoggerConfigPath>
+	<AppConfigContextPath>/</AppConfigContextPath>
 	<ContainerManagedPool>true</ContainerManagedPool>
-        <PageLinkMax>10</PageLinkMax>
+  <PageLinkMax>10</PageLinkMax>
 	<PaginationPageSize>20</PaginationPageSize>
 	<PollingPage>/polling_wait_page.jsp</PollingPage>
 	<ProtocolInformation>http</ProtocolInformation>
