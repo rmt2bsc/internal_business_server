@@ -78,18 +78,6 @@ public class MediaJmsMockDtoFactory {
         d = Rmt2MediaDtoFactory.getAvProjectTypeInstance(o);
         list.add(d);
 
-        o = MediaJmsMockOrmFactory.createOrmAvProjectType(++ndx, "ProjectType" + ndx);
-        d = Rmt2MediaDtoFactory.getAvProjectTypeInstance(o);
-        list.add(d);
-
-        o = MediaJmsMockOrmFactory.createOrmAvProjectType(++ndx, "ProjectType" + ndx);
-        d = Rmt2MediaDtoFactory.getAvProjectTypeInstance(o);
-        list.add(d);
-
-        o = MediaJmsMockOrmFactory.createOrmAvProjectType(++ndx, "ProjectType" + ndx);
-        d = Rmt2MediaDtoFactory.getAvProjectTypeInstance(o);
-        list.add(d);
-        
         return list;
     }
     
