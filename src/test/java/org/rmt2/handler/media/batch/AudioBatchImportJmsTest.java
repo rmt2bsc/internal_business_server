@@ -56,7 +56,7 @@ public class AudioBatchImportJmsTest extends BaseMockSingleConsumerMDBTest {
         super.setUp();
         this.mockApi = Mockito.mock(AvBatchFileProcessorApi.class);
         PowerMockito.mockStatic(AvBatchFileFactory.class);
-        when(AvBatchFileFactory.createRemoteAudioBatchImportApiInstance(isA(AvBatchImportParameters.class))).thenReturn(
+        when(AvBatchFileFactory.createFtpAudioBatchImportApiProcessorInstance(isA(AvBatchImportParameters.class))).thenReturn(
                 this.mockApi);
         return;
     }
