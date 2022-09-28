@@ -177,7 +177,15 @@ public class AbstractSingleConsumerJaxbMDB extends AbstractMessageDrivenBean {
         try {
             apiHandler = this.getApiHandlerInstance(commandKey, handlerMapping);
         } catch (Exception e) {
-            String errMsg = "Unable to determine the API that would be responsible for processing the message.  Check the header's application, module, and transaction values for possible corrections.";
+            // UI-11: Made changes to reveal more incident specific error
+            // messages to the client
+            String errMsg = null;
+            if (e.getMessage() == null || e.getMessage().length() <= 0) {
+                errMsg = "Unable to determine the API that would be responsible for processing the message.  Check the header's application, module, and transaction values for possible corrections.";
+            }
+            else {
+                errMsg = "A messaging system error: " + e.getMessage();
+            }
 
             MessageHandlerCommonReplyStatus errorDetails = new MessageHandlerCommonReplyStatus(); 
             errorDetails.setApplication(app);   
@@ -277,9 +285,15 @@ public class AbstractSingleConsumerJaxbMDB extends AbstractMessageDrivenBean {
             // Instantiate Handler class
             handler = (MessageHandlerCommand) RMT2Utility.getClassInstance(handlerClassName);
         } catch (Exception e) {
-            throw new SystemException("Failed to create handler, " + commandKey + ".handler"
-                    + ".  Check handler mapping configuration",
-                    e);
+            String errMsg = "Failed to create handler, " + commandKey + ".handler.  ";
+            if (e.getMessage() != null || e.getMessage().length() > 0) {
+                errMsg += "Error message:  " + e.getMessage();
+            }
+            else {
+                errMsg += "Check handler mapping configuration.";
+            }
+            logger.error(errMsg);
+            throw new SystemException(errMsg, e);
         }
 
         return handler;
