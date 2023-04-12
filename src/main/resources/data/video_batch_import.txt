@@ -794,7 +794,7 @@ Godzilla vs. Kong|Adam Wingard|508|12|2021||113||0|Alexander Skarsgård, Millie B
 Legally Blonde|Robert Luketic|502|12|2001||96||0|Reese Witherspoon, Luke Wilson, Selma Blair, Matthew Davis, Victor Garber, Jennifer Coolidge|1|1|Legally Blonde (2001).mp4
 Mars Attacks!|Tim Burton|502|12|1996||106||0|Jack Nicholson, Glenn Close, Pam Grier, Annette Bening, Pierce Brosnan, Danny DeVito, Martin Short, Sarah Jessica Parker, Michael J. Fox, Rod Steiger, Tom Jones, Lukas Haas, Natalie Portman, Jim Brown, Lisa Marie, Sylvia Sidney, Jack Black|1|1|Mars Attacks (1996).mp4
 My Super Ex-Girlfriend|Ivan Reitman|502|12|2006||95||0|Uma Thurman, Luke Wilson, Anna Faris, Eddie Izzard, Rainn Wilson, Wanda Sykes|1|1|My Super Ex-Girlfriend (2006).mp4
-New Jack City| Mario Van Peebles|500|12|1991||100||0|Wesley Snipes, Ice-T, Chris Rock, Mario Van Peebles, Judd Nelson|1|1|New Jack City (1991).mp4
+New Jack City|Mario Van Peebles|500|12|1991||100||0|Wesley Snipes, Ice-T, Chris Rock, Mario Van Peebles, Judd Nelson|1|1|New Jack City (1991).mp4
 Savages|Oliver Stone|500|12|2012||130||0|Taylor Kitsch, Blake Lively, Aaron Johnson, Benicio del Toro, Salma Hayek, John Travolta|1|1|Savages (2012).mp4
 A Rage in Harlem|Bill Duke|500|12|1991||115||0|Forest Whitaker, Gregory Hines, Robin Givens, Zakes Mokae, Danny Glover|1|1|A Rage in Harlem (1991).mp4
 Abraham Lincoln Vampire Hunter|Timur Bekmambetov|506|12|2012||105||0|Benjamin Walker, Dominic Cooper, Anthony Mackie, Mary Elizabeth Winstead, Rufus Sewell, Marton Csokas|1|1|Abraham Lincoln Vampire Hunter (2012).mp4
@@ -812,7 +812,7 @@ Black Widow|Cate Shortland|508|12|2021||134||0|Scarlett Johansson, Florence Pugh
 Hitman's Wife's Bodyguard|Patrick Hughes|502|12|2021||100||0|Ryan Reynolds, Samuel L. Jackson, Salma Hayek, Frank Grillo, Richard E. Grant, Antonio Banderas, Morgan Freeman|1|1|Hitman's Wife's Bodyguard (2021).mp4
 Night Teeth|Adam Randall|508|12|2021||108||0|Jorge Lendeborg Jr., Debby Ryan, Lucy Fry, Raul Castillo, Megan Fox, Alfie Allen|1|1|Night Teeth (2021).mp4
 No Time to Die|Cary Joji Fukunaga|523|12|2021||163||0|Daniel Craig, Rami Malek, Léa Seydoux, Lashana Lynch, Ben Whishaw, Naomie Harris, Jeffrey Wright, Christoph Waltz, Ralph Fiennes|1|1|No Time To Die (2021).mp4
-Pretty in Pink|Howard Deutch|500|12|1986||96||0|Molly Ringwald, Harry Dean Stanton, Jon Cryer, Annie Potts, James Spader, Andrew McCarthy|1|1|Pretty in Pink (1986).mp4
+Pretty in Pink|Howard Deutch|502|12|1986||96||0|Molly Ringwald, Harry Dean Stanton, Jon Cryer, Annie Potts, James Spader, Andrew McCarthy|1|1|Pretty in Pink (1986).mp4
 Red Notice|Rawson Marshall Thurber|502|12|2021||118||0|Dwayne Johnson, Ryan Reynolds, Gal Gadot, Ritu Arya, Chris Diamantopoulo|1|1|Red Notice (2021).mp4
 The Firm|Sydney Pollack|504|12|1993||154||0|Tom Cruise, Jeanne Tripplehorn, Gene Hackman, Ed Harris, Holly Hunter, Hal Holbrook, David Strathairn|1|1|The Firm (1993).mp4
 The Protégé|Martin Campbell|500|12|2021||109||0|Maggie Q, Samuel L. Jackson, Michael Keaton|1|1|The Protégé (2021).mp4
@@ -822,3 +822,21 @@ White House Down|Roland Emmerich|500|12|2013||131||0|Channing Tatum, Jamie Foxx,
 Zone 414|Andrew Baird|500|12|2021||98||0|Guy Pearce, Matilda Lutz, Jonathan Aris, Travis Fimmel|1|1|Zone 414 (2021).mp4
 Eternals |Chloé Zhao|508|12|2021||156||0|Gemma Chan, Richard Madden, Kumail Nanjiani, Lia McHugh, Brian Tyree Henry, Lauren Ridloff, Barry Keoghan, Don Lee, Harish Patel, Kit Harington, Salma Hayek, Angelina Jolie|1|1|Eternals (2021).mp4
 Apex|Edward Drake|500|12|2021||94||0|Neal McDonough, Bruce Willis, Corey Large, Alexia Fast|1|1|Apex (2021).mp4
+Carlito's Way| Brian De Palma|500|12|1993||144||0| Al Pacino,  Sean Penn,  Penelope Ann Miller|1|1|Carlito's Way (1993).mp4
+Chloe|Atom Egoyan|504|12|2010||96||0| Julianne Moore, Liam Neeson, Amanda Seyfried, Max Thieriot|1|1|Chloe (2010).mp4
+Fifty Shades of Black|Michael Tiddes|502|12|2016||92||0|Marlon Wayans, Kali Hawk, Jane Seymour, Andrew Bachelor, Florence Henderson, Jenny Zigrino, Fred Willard, Mike Epps|1|1|Fifty Shades of Black (2016).mp4
+For Love or Money|Barry Sonnenfeld|502|12|1993||96||0|Michael J. Fox, Gabrielle Anwar, Anthony Higgins, Bob Balaban, Michael Tucker|1|1|For Love or Money (1993).mp4
+Hard to Kill|Bruce Malmuth|500|12|1990||95||0|Steven Seagal, Kelly LeBrock, Bill Sadler, Frederick Coffin|1|1|Hard to Kill (1990).mp4
+Moonfall|Roland Emmerich|508|12|2022||130||0|Halle Berry, Patrick Wilson, John Bradley, Michael Peña, Charlie Plummer, Kelly Yu, Donald Sutherland|1|1|Moonfall (2022).mp4
+Mr. Deeds|Steven Brill|502|12|2002||96||0|Adam Sandler, Winona Ryder, Peter Gallagher, Jared Harris, Allen Covert, Erick Avari, John Turturro|1|1|Mr. Deeds (2002).mp4
+O Brother Where Art Thou|Joel Coen|502|12|2000||107||0|George Clooney, John Turturro, Tim Blake Nelson, Charles Durning, Michael Badalucco, John Goodman, Holly Hunter|1|1|O Brother Where Art Thou (2000).mp4
+Spider-Man No Way Home|Jon Watts|508|12|2021||148||0|Tom Holland, Zendaya, Benedict Cumberbatch, Jacob Batalon, Jon Favreau, Jamie Foxx, Willem Dafoe, Alfred Molina, Benedict Wong, Tony Revolori, Marisa Tomei, Andrew Garfield, Tobey Maguire|1|1|Spider-Man No Way Home (2021).mp4
+The 355|Simon Kinberg|500|12|2022||123||0|Jessica Chastain, Penélope Cruz, Fan Bingbing, Diane Kruger, Lupita Nyong, Édgar Ramírez, Sebastian Stan|1|1|The 355 (2022).mp4
+The Batman|Matt Reeves|508|12|2022||176||0|Robert Pattinson, Zoë Kravitz, Paul Dano, Jeffrey Wright, John Turturro, Peter Sarsgaard, Andy Serkis, Colin Farrell|1|1|The Batman (2022).mp4
+The Incredible Burt Wonderstone|Don Scardino|502|12|2013||100||0|Steve Carell, Steve Buscemi, Olivia Wilde, Alan Arkin, James Gandolfini, Jim Carrey|1|1|The Incredible Burt Wonderstone (2013).mp4
+The Patriot|Roland Emmerich|500|12|2000||165||0|Mel Gibson, Heath Ledger, Joely Richardson, Jason Isaacs, Chris Cooper, Tchéky Karyo, René Auberjonois, Tom Wilkinson|1|1|The Patriot (2000).mp4
+The Transporter Refueled|Camille Delamarre|500|12|2015||96||0|Ed Skrein, Ray Stevenson, Loan Chabanol, Gabriella Wright, Tatjana Pajkovic, Wenxia Yu, Radivoje Bukvic, Lenn Kudrjawizki, Anatole Taubman, Noémie Lenoir|1|1|The Transporter Refueled 2015.mkv
+This Is Where I Leave You|Shawn Levy|502|12|2014||103||0|Jason Bateman, Tina Fey, Adam Driver, Rose Byrne, Corey Stoll, Kathryn Hahn, Jane Fonda|1|1|This Is Where I Leave You (2014).mp4
+Uncharted|Ruben Fleischer|500|12|2022||116||0|Tom Holland, Mark Wahlberg, Sophia Ali, Tati Gabrielle, Antonio Banderas|1|1|Uncharted (2022).mp4
+Black Adam|Jaume Collet-Serra|508|12|2022||125||0|Dwayne Johnson, Aldis Hodge, Noah Centineo, Sarah Shahi, Marwan Kenzari, Quintessa Swindell, Pierce Brosnan|1|1|Black Adam (2022).mp4
+The Cabin in the Woods|Drew Goddard|506|12|2012||95||0|Kristen Connolly, Chris Hemsworth, Anna Hutchison, Fran Kranz, Jesse Williams, Richard Jenkins, Bradley Whitford|1|1|The Cabin in the Woods (2012).mp4
