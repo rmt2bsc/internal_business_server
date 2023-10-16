@@ -97,7 +97,7 @@ public class ResourceSubTypeJmsTest extends BaseMockSingleConsumerMDBTest {
         String request = RMT2File.getFileContentsAsString("xml/authentication/admin/ResourceSubTypeQueryRequest.xml");
         this.setupMocks(DESTINATION, request);
         try {
-            when(this.mockApi.getResourceSubType(isA(ResourceDto.class))).thenReturn(
+            when(this.mockApi.getResourceSubTypeExt(isA(ResourceDto.class))).thenReturn(
                     SecurityMockJmsDtoData.createUserResourceSubtypeMockData());
         } catch (ResourceRegistryApiException e) {
             e.printStackTrace();
@@ -106,7 +106,7 @@ public class ResourceSubTypeJmsTest extends BaseMockSingleConsumerMDBTest {
 
         try {
             this.startTest();
-            Mockito.verify(this.mockApi).getResourceSubType(isA(ResourceDto.class));
+            Mockito.verify(this.mockApi).getResourceSubTypeExt(isA(ResourceDto.class));
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("An unexpected exception was thrown");
