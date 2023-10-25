@@ -211,8 +211,8 @@ public class AbstractSingleConsumerJaxbMDB extends AbstractMessageDrivenBean {
                 responsePayload = response.getPayload().toString();
                 try {
                     String printXml = RMT2XmlUtility.prettyPrint(responsePayload);
-                    logger.info("MDB response message: ");
-                    logger.info(printXml);
+                    logger.debug("MDB response message: ");
+                    logger.debug(printXml);
                 } catch (TransformerException e1) {
                     logger.info(responsePayload);
                     logger.warn("Unable to print response XML in pretty format", e1);
