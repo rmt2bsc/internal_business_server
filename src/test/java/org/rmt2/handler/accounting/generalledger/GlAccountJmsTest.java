@@ -7,6 +7,7 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 import java.util.List;
 
 import org.dto.AccountDto;
+import org.dto.AccountExtDto;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -91,7 +92,9 @@ public class GlAccountJmsTest extends BaseMockSingleConsumerMDBTest {
 
         try {
             this.startTest();    
-            Mockito.verify(this.mockApi).getAccount(isA(AccountDto.class));
+            // UI-28: Changed code to pass an instance of AccoutExtDto to
+            // getAccount call
+            Mockito.verify(this.mockApi).getAccount(isA(AccountExtDto.class));
         }
         catch (Exception e) {
             e.printStackTrace();
