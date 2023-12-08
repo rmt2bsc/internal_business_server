@@ -84,14 +84,14 @@ public class InventoryItemJmsTest extends BaseMockSingleConsumerMDBTest {
         List<ItemMasterDto> mockDtoDataResponse = AccountingMockData.createMockItemMasterList();
         this.setupMocks(DESTINATION, request);
         try {
-            when(this.mockApi.getItem(isA(ItemMasterDto.class))).thenReturn(mockDtoDataResponse);
+            when(this.mockApi.getItemExt(isA(ItemMasterDto.class))).thenReturn(mockDtoDataResponse);
         } catch (InventoryApiException e) {
             e.printStackTrace();
         }
 
         try {
             this.startTest();   
-            Mockito.verify(this.mockApi).getItem(isA(ItemMasterDto.class));
+            Mockito.verify(this.mockApi).getItemExt(isA(ItemMasterDto.class));
         }
         catch (Exception e) {
             e.printStackTrace();
